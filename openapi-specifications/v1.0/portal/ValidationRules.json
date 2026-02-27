@@ -1,0 +1,309 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "ValidationRules",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/validationRules" : {
+      "get" : {
+        "tags" : [ "ValidationRules" ],
+        "summary" : "Get Layout Validation Rules",
+        "description" : "This API lists all validation rules configured for a layout.",
+        "operationId" : "listValidationRules",
+        "parameters" : [ {
+          "name" : "departmentId",
+          "in" : "query",
+          "description" : "the Id of the department whose validation rules are fetched",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "the Id of the department whose validation rules are fetched",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "name" : "activeRulesOnly",
+          "in" : "query",
+          "description" : "Get the active rules of the layout validation rules",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "Get the active rules of the layout validation rules"
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/validationRuleListArray"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 30,
+                  "hip" : false
+                }, {
+                  "duration" : 3600000,
+                  "lock-period" : 1200000,
+                  "threshold" : 200,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.FieldService.getLayoutValidationRuleList"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "validationrulejsonPayload" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "modifiedTime" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+          },
+          "fieldConditions" : {
+            "type" : [ "null", "object" ],
+            "additionalProperties" : false,
+            "maxProperties" : 4,
+            "minProperties" : 4,
+            "properties" : {
+              "pattern" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 100,
+                "minLength" : 0
+              },
+              "name" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 100,
+                "minLength" : 0
+              },
+              "conditions" : {
+                "type" : [ "null", "array" ],
+                "items" : {
+                  "type" : [ "null", "object" ],
+                  "additionalProperties" : false
+                },
+                "uniqueItems" : false
+              },
+              "actions" : {
+                "type" : [ "null", "array" ],
+                "items" : {
+                  "type" : [ "null", "object" ],
+                  "additionalProperties" : false
+                },
+                "uniqueItems" : false
+              }
+            },
+            "required" : [ "actions", "conditions", "name", "pattern" ]
+          },
+          "fieldName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "createdBy" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "createdTime" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65535,
+            "minLength" : 0
+          },
+          "modifiedBy" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "layoutId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "the Id of the layout whose validation rules are fetched",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          },
+          "status" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "active", "deactive" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "createdBy", "createdTime", "description", "fieldConditions", "fieldName", "layoutId", "modifiedBy", "modifiedTime", "name", "status" ]
+      },
+      "validationrulejson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./ValidationRules.json#/components/schemas/validationrulejsonPayload"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "id" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            }
+          },
+          "required" : [ "id" ]
+        } ]
+      },
+      "data" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./ValidationRules.json#/components/schemas/validationrulejson"
+        }
+      }
+    },
+    "responses" : {
+      "validationRuleListArray" : {
+        "description" : "validationRuleListArray template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./ValidationRules.json#/components/schemas/data"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "fieldConditions" : [ {
+                      "name" : "condition 2",
+                      "pattern" : "(1or2)",
+                      "conditions" : [ {
+                        "condition" : "is",
+                        "fieldName" : "Email",
+                        "value" : [ "carol@zylker.com" ]
+                      }, {
+                        "condition" : "is",
+                        "fieldName" : "Phone",
+                        "value" : [ "9994259718" ]
+                      } ],
+                      "actions" : {
+                        "alert" : "Sample Alert"
+                      }
+                    } ],
+                    "modifiedTime" : "2018-09-14T01:08:42.000Z",
+                    "fieldName" : "Email",
+                    "createdBy" : "4000000015963",
+                    "createdTime" : "2018-09-13T01:16:46.000Z",
+                    "modifiedBy" : "4000000015963",
+                    "id" : "4000000017001",
+                    "layoutId" : "4000000013564"
+                  }, {
+                    "fieldConditions" : [ {
+                      "name" : "condition 1",
+                      "pattern" : "(1and2)",
+                      "conditions" : [ {
+                        "condition" : "is",
+                        "fieldName" : "Email",
+                        "value" : [ "carol@zylker.com" ]
+                      }, {
+                        "condition" : "is",
+                        "fieldName" : "Phone",
+                        "value" : [ "9994259718" ]
+                      } ],
+                      "actions" : {
+                        "alert" : "Sample Alert"
+                      }
+                    } ],
+                    "modifiedTime" : "2018-09-14T01:08:42.000Z",
+                    "fieldName" : "Phone",
+                    "createdBy" : "4000000015963",
+                    "createdTime" : "2018-09-13T01:49:03.000Z",
+                    "modifiedBy" : "4000000015963",
+                    "id" : "4000000018001",
+                    "layoutId" : "4000000013564",
+                    "status" : "activated"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "ValidationRules"
+}

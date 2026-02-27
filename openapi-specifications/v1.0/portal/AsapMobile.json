@@ -1,0 +1,712 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "AsapMobile",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/web/mobileapp" : {
+      "get" : {
+        "tags" : [ "AsapMobile" ],
+        "operationId" : "getAsapMobileSDK",
+        "parameters" : [ {
+          "name" : "appId",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : {
+              "decrypt" : true
+            }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getAsapMobileSDKResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 600000,
+                  "lock-period" : 600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.channel.asapmobile.portal.AsapMobileAppService.getAppInfo"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "preferences" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isHelpCenterPublic" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isForumsVisible" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "searchScope" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "category", "global", "section" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "articleFeedbackFormOnDislike" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "show", "hide", "anonymous" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isSelfSignUpEnabled" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isAccountTicketsVisible" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isTagsVisible" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "showFeedbackFormOnDislike" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isKBVisible" : {
+            "type" : [ "boolean", "null" ]
+          }
+        },
+        "required" : [ "articleFeedbackFormOnDislike", "isAccountTicketsVisible", "isForumsVisible", "isHelpCenterPublic", "isKBVisible", "isSelfSignUpEnabled", "isTagsVisible", "searchScope", "showFeedbackFormOnDislike" ]
+      },
+      "asapPreferences" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isPushNotificationEnabled" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isAgentPhotoEnabled" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isLiveChatEnabled" : {
+            "type" : [ "boolean", "null" ]
+          }
+        },
+        "required" : [ "isAgentPhotoEnabled", "isLiveChatEnabled", "isPushNotificationEnabled" ]
+      },
+      "appBasedPreference" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isAgentPhotoEnabled" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "isPushNotificationEnabled" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "isChatEnabled" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "isAgentPhotoEnabled", "isChatEnabled", "isPushNotificationEnabled" ]
+      },
+      "androidChatPreferences" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "android" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/appBasedPreference"
+          }
+        },
+        "required" : [ "android" ]
+      },
+      "chatPreferences" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./AsapMobile.json#/components/schemas/androidChatPreferences"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "ios" : {
+              "$ref" : "./AsapMobile.json#/components/schemas/appBasedPreference"
+            }
+          },
+          "required" : [ "ios" ]
+        } ]
+      },
+      "localeObject" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "locale" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+          },
+          "i18nFileName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "i18nFileName", "locale", "name" ]
+      },
+      "localeObjectArray" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./AsapMobile.json#/components/schemas/localeObject"
+        }
+      },
+      "featureFlags" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "multilanguage" : {
+            "type" : [ "boolean", "null" ]
+          }
+        },
+        "required" : [ "multilanguage" ]
+      },
+      "iosChatPreferences" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "ios" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/appBasedPreference"
+          }
+        },
+        "required" : [ "ios" ]
+      },
+      "asapMobileSdkBasicInitProps" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "modifiedTime" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01]) ([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9])([/.][\\d]{0,3})"
+          },
+          "preferences" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/preferences"
+          },
+          "communityRootCategoryIds" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "uniqueItems" : false
+          },
+          "forumCategoryId" : {
+            "type" : [ "null", "integer" ],
+            "format" : "int64"
+          },
+          "departmentId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "language" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "[a-zA-Z_]*"
+          },
+          "asapPreferences" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/asapPreferences"
+          },
+          "primaryLocaleObj" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/localeObject"
+          },
+          "locales" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/localeObjectArray"
+          },
+          "portalName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "kbCategoryId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "portalId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "staticVersion" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z0-9]+)"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "[a-zA-Z0-9\\_\\-\\+\\?\\!\\.\\P{InBasicLatin}\\(\\)\\s]+"
+          },
+          "appSecretId" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z0-9]+)"
+          },
+          "chatPreferences" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/iosChatPreferences"
+          },
+          "primaryLocale" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+          },
+          "featureFlags" : {
+            "$ref" : "./AsapMobile.json#/components/schemas/featureFlags"
+          }
+        },
+        "required" : [ "appSecretId", "asapPreferences", "chatPreferences", "communityRootCategoryIds", "departmentId", "featureFlags", "forumCategoryId", "kbCategoryId", "language", "locales", "modifiedTime", "name", "portalId", "portalName", "preferences", "primaryLocale", "primaryLocaleObj", "staticVersion" ]
+      }
+    },
+    "responses" : {
+      "getAsapMobileSDKResponse" : {
+        "description" : "getAsapMobileSDKResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "oneOf" : [ {
+                "type" : [ "object", "null" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "modifiedTime" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01]) ([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9])([/.][\\d]{0,3})"
+                  },
+                  "preferences" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/preferences"
+                  },
+                  "communityRootCategoryIds" : {
+                    "type" : [ "null", "array" ],
+                    "items" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "uniqueItems" : false
+                  },
+                  "forumCategoryId" : {
+                    "type" : [ "null", "integer" ],
+                    "format" : "int64"
+                  },
+                  "departmentId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)"
+                  },
+                  "language" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-zA-Z_]*"
+                  },
+                  "asapPreferences" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/asapPreferences"
+                  },
+                  "primaryLocaleObj" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/localeObject"
+                  },
+                  "locales" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/localeObjectArray"
+                  },
+                  "portalName" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                  },
+                  "kbCategoryId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)"
+                  },
+                  "portalId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)"
+                  },
+                  "staticVersion" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([a-zA-Z0-9]+)"
+                  },
+                  "name" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-zA-Z0-9\\_\\-\\+\\?\\!\\.\\P{InBasicLatin}\\(\\)\\s]+"
+                  },
+                  "appSecretId" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([a-zA-Z0-9]+)"
+                  },
+                  "chatPreferences" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/chatPreferences"
+                  },
+                  "primaryLocale" : {
+                    "type" : [ "string", "null" ],
+                    "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+                  },
+                  "featureFlags" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/featureFlags"
+                  }
+                },
+                "required" : [ "appSecretId", "asapPreferences", "chatPreferences", "communityRootCategoryIds", "departmentId", "featureFlags", "forumCategoryId", "kbCategoryId", "language", "locales", "modifiedTime", "name", "portalId", "portalName", "preferences", "primaryLocale", "primaryLocaleObj", "staticVersion" ]
+              }, {
+                "additionalProperties" : false,
+                "allOf" : [ {
+                  "$ref" : "./AsapMobile.json#/components/schemas/asapMobileSdkBasicInitProps"
+                }, {
+                  "type" : [ "object", "null" ],
+                  "properties" : {
+                    "modifiedTime" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01]) ([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9])([/.][\\d]{0,3})"
+                    },
+                    "preferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/preferences"
+                    },
+                    "communityRootCategoryIds" : {
+                      "type" : [ "null", "array" ],
+                      "items" : {
+                        "type" : [ "string", "null", "integer" ],
+                        "format" : "int64",
+                        "pattern" : "([0-9]+)"
+                      },
+                      "uniqueItems" : false
+                    },
+                    "forumCategoryId" : {
+                      "type" : [ "null", "integer" ],
+                      "format" : "int64"
+                    },
+                    "departmentId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "language" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "[a-zA-Z_]*"
+                    },
+                    "asapPreferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/asapPreferences"
+                    },
+                    "primaryLocaleObj" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/localeObject"
+                    },
+                    "locales" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/localeObjectArray"
+                    },
+                    "portalName" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                    },
+                    "kbCategoryId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "portalId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "staticVersion" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z0-9]+)"
+                    },
+                    "name" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "[a-zA-Z0-9\\_\\-\\+\\?\\!\\.\\P{InBasicLatin}\\(\\)\\s]+"
+                    },
+                    "appSecretId" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z0-9]+)"
+                    },
+                    "chatPreferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/iosChatPreferences"
+                    },
+                    "primaryLocale" : {
+                      "type" : [ "string", "null" ],
+                      "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+                    },
+                    "featureFlags" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/featureFlags"
+                    }
+                  },
+                  "required" : [ "appSecretId", "asapPreferences", "chatPreferences", "communityRootCategoryIds", "departmentId", "featureFlags", "forumCategoryId", "kbCategoryId", "language", "locales", "modifiedTime", "name", "portalId", "portalName", "preferences", "primaryLocale", "primaryLocaleObj", "staticVersion" ]
+                } ]
+              }, {
+                "additionalProperties" : false,
+                "allOf" : [ {
+                  "$ref" : "./AsapMobile.json#/components/schemas/asapMobileSdkBasicInitProps"
+                }, {
+                  "type" : [ "object", "null" ],
+                  "properties" : {
+                    "modifiedTime" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01]) ([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9])([/.][\\d]{0,3})"
+                    },
+                    "preferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/preferences"
+                    },
+                    "communityRootCategoryIds" : {
+                      "type" : [ "null", "array" ],
+                      "items" : {
+                        "type" : [ "string", "null", "integer" ],
+                        "format" : "int64",
+                        "pattern" : "([0-9]+)"
+                      },
+                      "uniqueItems" : false
+                    },
+                    "forumCategoryId" : {
+                      "type" : [ "null", "integer" ],
+                      "format" : "int64"
+                    },
+                    "departmentId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "language" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "[a-zA-Z_]*"
+                    },
+                    "asapPreferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/asapPreferences"
+                    },
+                    "primaryLocaleObj" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/localeObject"
+                    },
+                    "locales" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/localeObjectArray"
+                    },
+                    "portalName" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                    },
+                    "kbCategoryId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "portalId" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)"
+                    },
+                    "staticVersion" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z0-9]+)"
+                    },
+                    "name" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "[a-zA-Z0-9\\_\\-\\+\\?\\!\\.\\P{InBasicLatin}\\(\\)\\s]+"
+                    },
+                    "appSecretId" : {
+                      "type" : [ "string", "null" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z0-9]+)"
+                    },
+                    "chatPreferences" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/androidChatPreferences"
+                    },
+                    "primaryLocale" : {
+                      "type" : [ "string", "null" ],
+                      "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+                    },
+                    "featureFlags" : {
+                      "$ref" : "./AsapMobile.json#/components/schemas/featureFlags"
+                    }
+                  },
+                  "required" : [ "appSecretId", "asapPreferences", "chatPreferences", "communityRootCategoryIds", "departmentId", "featureFlags", "forumCategoryId", "kbCategoryId", "language", "locales", "modifiedTime", "name", "portalId", "portalName", "preferences", "primaryLocale", "primaryLocaleObj", "staticVersion" ]
+                } ]
+              }, {
+                "type" : [ "object", "null" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "asapMobileSdkBasicInitProps" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/asapMobileSdkBasicInitProps"
+                  },
+                  "ziaPortalId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)"
+                  },
+                  "ziaSkillSetInfo" : {
+                    "type" : [ "null", "object" ],
+                    "additionalProperties" : false,
+                    "patternProperties" : {
+                      "([0-9]+)" : {
+                        "type" : [ "string", "null" ],
+                        "maxLength" : 200,
+                        "minLength" : 0,
+                        "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                      }
+                    }
+                  }
+                },
+                "required" : [ "asapMobileSdkBasicInitProps", "ziaPortalId", "ziaSkillSetInfo" ]
+              }, {
+                "type" : [ "object", "null" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "clientId" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0
+                  },
+                  "clientSecret" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0
+                  },
+                  "asapMobileSdkBasicInitProps" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/asapMobileSdkBasicInitProps"
+                  }
+                },
+                "required" : [ "asapMobileSdkBasicInitProps", "clientId", "clientSecret" ]
+              }, {
+                "type" : [ "object", "null" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "chatSDKAppKey" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0
+                  },
+                  "chatSDKAccessKey" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0
+                  },
+                  "asapMobileSdkBasicInitProps" : {
+                    "$ref" : "./AsapMobile.json#/components/schemas/asapMobileSdkBasicInitProps"
+                  }
+                },
+                "required" : [ "asapMobileSdkBasicInitProps", "chatSDKAccessKey", "chatSDKAppKey" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "AsapMobile"
+}

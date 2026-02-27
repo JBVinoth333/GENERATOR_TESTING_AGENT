@@ -1,0 +1,334 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Captcha",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/generateImageCaptcha" : {
+      "get" : {
+        "tags" : [ "Captcha" ],
+        "summary" : "Generate Image Captcha",
+        "description" : "This API generates random images, and the user must examine the image and select the correct option from a given list.",
+        "operationId" : "generateImageCaptcha",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/langCode"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/responseJsonObject"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.captcha.CaptchaService.getImageCaptcha"
+        }
+      }
+    },
+    "/portal/api/generateAudioCaptcha" : {
+      "get" : {
+        "tags" : [ "Captcha" ],
+        "summary" : "Generate Audio Captcha",
+        "description" : "This API generates audio with arithmetic problems, and the user needs to listen and enter the answer for the given arithmetic operation",
+        "operationId" : "generateAudioCaptcha",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/langCode"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/audioResponseJSONObject"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.captcha.CaptchaService.getAudioCaptcha"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "data" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "background" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65000,
+            "minLength" : 0
+          },
+          "options" : {
+            "type" : [ "null", "object" ],
+            "additionalProperties" : false,
+            "patternProperties" : {
+              "^([0-9A-Za-z_\\-\\.\\$@\\?,:'\\/!\\s\\u00A0-\\uFFFF])+$" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 100,
+                "minLength" : 0,
+                "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                "x-custom-parameters-attributes" : {
+                  "base64EncodedParams" : {
+                    "removeExif" : false,
+                    "replacementString" : "",
+                    "filterMatchedContent" : false,
+                    "antivirus" : false,
+                    "allowInvalid" : false,
+                    "secret" : false,
+                    "preserveCharsLimit" : 10,
+                    "split" : ",",
+                    "trim" : false,
+                    "internalParam" : false,
+                    "preserveChars" : "0,5",
+                    "importUrl" : false,
+                    "decrypt" : false
+                  },
+                  "langCode" : {
+                    "removeExif" : false,
+                    "replacementString" : "",
+                    "filterMatchedContent" : false,
+                    "antivirus" : false,
+                    "allowInvalid" : false,
+                    "descrption" : "helpcenter language",
+                    "secret" : false,
+                    "preserveCharsLimit" : 10,
+                    "trim" : false,
+                    "internalParam" : false,
+                    "preserveChars" : "0,5",
+                    "importUrl" : false,
+                    "decrypt" : false
+                  },
+                  "zdp_redir" : {
+                    "removeExif" : false,
+                    "replacementString" : "",
+                    "filterMatchedContent" : false,
+                    "antivirus" : false,
+                    "allowInvalid" : false,
+                    "descrption" : "used for Incremental Update",
+                    "secret" : false,
+                    "preserveCharsLimit" : 10,
+                    "trim" : false,
+                    "internalParam" : false,
+                    "preserveChars" : "0,5",
+                    "importUrl" : false,
+                    "decrypt" : false
+                  },
+                  "_" : {
+                    "removeExif" : false,
+                    "trim" : false,
+                    "replacementString" : "",
+                    "filterMatchedContent" : false,
+                    "antivirus" : false,
+                    "internalParam" : false,
+                    "preserveChars" : "0,5",
+                    "allowInvalid" : false,
+                    "secret" : false,
+                    "importUrl" : false,
+                    "decrypt" : false,
+                    "preserveCharsLimit" : 10
+                  }
+                }
+              }
+            }
+          },
+          "id" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "background", "id", "options" ]
+      },
+      "audioData" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "base64" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 1400000,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "base64", "id" ]
+      }
+    },
+    "responses" : {
+      "responseJsonObject" : {
+        "description" : "responseJsonObject template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Captcha.json#/components/schemas/data"
+                },
+                "message" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                },
+                "status" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "pattern" : "([0-9]+)"
+                }
+              },
+              "required" : [ "data", "message", "status" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : {
+                    "background" : "<captcha image as base 64 string>",
+                    "options" : {
+                      "gorilla" : "bc91a683-aca5-48ef-80e0-2497b9c7995b",
+                      "apple" : "4bd2a407-32c6-47ff-81d2-a8c48c47a7bf",
+                      "books" : "e7cfab60-7226-40b8-800e-a4f0b5ab6737",
+                      "spectacles" : "667ce0e0-6b48-47af-a1da-f6b1bfd064e5"
+                    },
+                    "id" : "df6d8a1d-f6fd-437a-b648-12529570354a"
+                  },
+                  "message" : "OK",
+                  "status" : 200
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "audioResponseJSONObject" : {
+        "description" : "audioResponseJSONObject template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Captcha.json#/components/schemas/audioData"
+                },
+                "message" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                },
+                "status" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "pattern" : "([0-9]+)"
+                }
+              },
+              "required" : [ "data", "message", "status" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : {
+                    "base64" : "<captcha audio as base 64 string>",
+                    "id" : "df6d8a1d-f6fd-437a-b648-12529570354a"
+                  },
+                  "message" : "OK",
+                  "status" : 200
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : {
+      "langCode" : {
+        "name" : "langCode",
+        "in" : "query",
+        "description" : "helpcenter language",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "description" : "helpcenter language",
+          "enum" : [ "en", "en-gp", "jp", "zh", "zh-tw", "es", "de", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "sk", "hr", "sl", "ca", "ka", "kk", "km", "mv", "pt" ],
+          "maxLength" : 100,
+          "minLength" : 0
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Captcha"
+}

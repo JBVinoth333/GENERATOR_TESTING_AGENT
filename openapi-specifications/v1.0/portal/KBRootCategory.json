@@ -1,0 +1,1310 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "KBRootCategory",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/kbRootCategories" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "listAllRootCategory",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "visibility",
+          "in" : "query",
+          "description" : "Search value to be searched in name",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "ALL_USERS", "GROUP_USERS", "PRIVATE_IP", "NONE" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "departmentId",
+          "in" : "query",
+          "description" : "Department Id",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "the limit index",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "",
+            "maximum" : 500,
+            "minimum" : 1,
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "The from index. from starts with 1, not 0.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "",
+            "minimum" : 1,
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "name" : "searchValue",
+          "in" : "query",
+          "description" : "Search value",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/rootCategoryListResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbRootCategories/categoryTreeByPermalink" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getACategoryTreeByPermalink",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "$ref" : "#/components/parameters/permalink"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/treeRootResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbRootCategories/{rootCategoryId}/categoryTree" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getATree",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "$ref" : "#/components/parameters/rootCategoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/treeRootResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbRootCategories/{rootCategoryId}" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getARootCategory",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/rootCategoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/rootCategorySingleObjectJson"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbCategories/{rootCategoryId}/categoryTreeOfRootCategory" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getARootCategoryTreeByCategoryId",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "$ref" : "#/components/parameters/rootCategoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/treeRootResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbCategories/{rootCategoryId}/categoryTree" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getATreeByCategoryId",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "$ref" : "#/components/parameters/rootCategoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/treeRootResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/kbCategories/categoryTreeByPermalink" : {
+      "get" : {
+        "tags" : [ "KBRootCategory" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getACategoryTreeByPermalinkPath",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "The allowed values are allArticleCount, sectionsCount, articlesCount, and followersCount.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "articlesCount", "sectionsCount", "allArticleCount", "followersCount" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/hasArticles"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "Sort order of the categories. Allowed values : name, order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "name", "order" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "locale",
+          "in" : "query",
+          "description" : "Locale of the article",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { },
+            "x-audience" : [ "company-internal" ]
+          }
+        }, {
+          "$ref" : "#/components/parameters/permalink"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/treeRootResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "rootCategoryJson" : {
+        "type" : [ "null", "object" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isFollowing" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "",
+            "x-custom-parameters-attributes" : { }
+          },
+          "articleViewType" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "LISTVIEW", "OVERVIEW" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "visibility" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "ALL_USERS", "GROUP_USERS", "PRIVATE_IP", "NONE" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "translatedDescription" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "translatedName" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "locale" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "logoUrl" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 255,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "associatedDepartmentIds" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "description" : "",
+              "pattern" : "([0-9]+)",
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          },
+          "webUrl" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 255,
+            "minLength" : 3,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "primaryDepartmentId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "permalink" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "articleViewType", "associatedDepartmentIds", "description", "id", "isFollowing", "locale", "logoUrl", "name", "permalink", "primaryDepartmentId", "translatedDescription", "translatedName", "visibility", "webUrl" ]
+      },
+      "rootCategoryListDataArray" : {
+        "type" : [ "null", "array" ],
+        "items" : {
+          "$ref" : "./KBRootCategory.json#/components/schemas/rootCategoryJson"
+        }
+      },
+      "childTreeResponse" : {
+        "type" : [ "null", "object" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isFollowing" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "",
+            "x-custom-parameters-attributes" : { }
+          },
+          "visibility" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "ALL_USERS", "GROUP_USERS", "PRIVATE_IP", "NONE" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "level" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "translatedDescription" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "translatedName" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "locale" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "logoUrl" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 255,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "rootCategoryId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "webUrl" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 255,
+            "minLength" : 3,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "parentCategoryId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "permalink" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "child" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "description" : "",
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : false,
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "child", "description", "id", "isFollowing", "level", "locale", "logoUrl", "name", "parentCategoryId", "permalink", "rootCategoryId", "translatedDescription", "translatedName", "visibility", "webUrl" ]
+      },
+      "childArray" : {
+        "type" : [ "null", "array" ],
+        "items" : {
+          "$ref" : "./KBRootCategory.json#/components/schemas/childTreeResponse"
+        }
+      }
+    },
+    "responses" : {
+      "rootCategoryListResponse" : {
+        "description" : "rootCategoryListResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "allArticleCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "followersCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "articlesCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "sectionsCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        }
+                      }
+                    }
+                  }
+                }
+              }, {
+                "type" : [ "null", "object" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "data" : {
+                    "$ref" : "./KBRootCategory.json#/components/schemas/rootCategoryListDataArray"
+                  }
+                },
+                "required" : [ "data" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      },
+      "treeRootResponse" : {
+        "description" : "treeRootResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "allArticleCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "followersCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "articlesCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "sectionsCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "child" : {
+                    "type" : [ "array", "null" ],
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "allArticleCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "followersCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "articlesCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        },
+                        "sectionsCount" : {
+                          "type" : [ "string", "null", "integer" ],
+                          "format" : "int32",
+                          "description" : "",
+                          "pattern" : "([0-9]+)",
+                          "x-custom-parameters-attributes" : { }
+                        }
+                      }
+                    }
+                  }
+                }
+              }, {
+                "type" : [ "null", "object" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "isFollowing" : {
+                    "type" : [ "boolean", "null" ],
+                    "description" : "",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "articleViewType" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "enum" : [ "LISTVIEW", "OVERVIEW" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "visibility" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "enum" : [ "ALL_USERS", "GROUP_USERS", "PRIVATE_IP", "NONE" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "level" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "description" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "translatedDescription" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "translatedName" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "locale" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "logoUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 255,
+                    "minLength" : 0,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "associatedDepartmentIds" : {
+                    "type" : [ "null", "array" ],
+                    "description" : "",
+                    "items" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "description" : "",
+                      "pattern" : "([0-9]+)",
+                      "x-custom-parameters-attributes" : { }
+                    },
+                    "uniqueItems" : true,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "rootCategoryId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "webUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 255,
+                    "minLength" : 3,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "name" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "parentCategoryId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "id" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "primaryDepartmentId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "permalink" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "child" : {
+                    "$ref" : "./KBRootCategory.json#/components/schemas/childArray"
+                  }
+                },
+                "required" : [ "articleViewType", "associatedDepartmentIds", "child", "description", "id", "isFollowing", "level", "locale", "logoUrl", "name", "parentCategoryId", "permalink", "primaryDepartmentId", "rootCategoryId", "translatedDescription", "translatedName", "visibility", "webUrl" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      },
+      "rootCategorySingleObjectJson" : {
+        "description" : "rootCategorySingleObjectJson template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "isFollowing" : {
+                  "type" : [ "boolean", "null" ],
+                  "description" : "",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "articleViewType" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "LISTVIEW", "OVERVIEW" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "visibility" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "ALL_USERS", "GROUP_USERS", "PRIVATE_IP", "NONE" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "description" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "locale" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "logoUrl" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 255,
+                  "minLength" : 0,
+                  "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "associatedDepartmentIds" : {
+                  "type" : [ "null", "array" ],
+                  "description" : "",
+                  "items" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "uniqueItems" : true,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "webUrl" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 255,
+                  "minLength" : 3,
+                  "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "translations" : {
+                  "$ref" : "./KbSection.json#/components/schemas/categoryTranslationList"
+                },
+                "name" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "id" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int64",
+                  "description" : "",
+                  "pattern" : "([0-9]+)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "followersCount" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "description" : "",
+                  "pattern" : "([0-9]+)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "primaryDepartmentId" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int64",
+                  "description" : "",
+                  "pattern" : "([0-9]+)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "permalink" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+                  "x-custom-parameters-attributes" : { }
+                }
+              },
+              "required" : [ "articleViewType", "associatedDepartmentIds", "description", "followersCount", "id", "isFollowing", "locale", "logoUrl", "name", "permalink", "primaryDepartmentId", "translations", "visibility", "webUrl" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    },
+    "parameters" : {
+      "hasArticles" : {
+        "name" : "hasArticles",
+        "in" : "query",
+        "description" : "This flag when set to true fetches only categories with articles",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "boolean", "null" ],
+          "description" : "",
+          "x-custom-parameters-attributes" : { }
+        }
+      },
+      "locale" : {
+        "name" : "locale",
+        "in" : "query",
+        "description" : "Locale of the article",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "description" : "",
+          "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+          "maxLength" : 100,
+          "minLength" : 0,
+          "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+          "x-custom-parameters-attributes" : { }
+        }
+      },
+      "permalink" : {
+        "name" : "permalink",
+        "in" : "query",
+        "description" : "String to get Category id",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "description" : "",
+          "maxLength" : 100,
+          "minLength" : 0,
+          "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+          "x-custom-parameters-attributes" : { }
+        }
+      },
+      "rootCategoryId" : {
+        "name" : "rootCategoryId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int64",
+          "description" : "",
+          "pattern" : "([0-9]+)",
+          "x-custom-parameters-attributes" : { }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      }
+    }
+  },
+  "x-entity" : "KBRootCategory"
+}

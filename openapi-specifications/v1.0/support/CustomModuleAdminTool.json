@@ -1,0 +1,81 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Module",
+    "version" : "1.0.0",
+    "x-clan-group" : "layouts",
+    "x-module-group" : "customModule"
+  },
+  "paths" : {
+    "/api/admin/modules/{moduleId}" : {
+      "delete" : {
+        "tags" : [ "customModule" ],
+        "summary": "To delete the custom module",
+				"description": "Deletes the custom module with the given ID.",
+        "operationId" : "deleteModule",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/moduleId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/orgId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/successResponse"
+          },
+          "500" : {
+            "$ref" : "../common/Common.json#/components/responses/internalErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "successResponse": {
+         "description" : "Module Delete Success Response",
+          "content" : {
+          "application/json" : {
+            "schema" : {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            "examples" : {
+              "Success Response" : {
+                "value" : {
+                  "status": "success",
+                  "message":"Module cm_pokemon has been deleted"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "moduleId" : {
+        "name" : "moduleId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      }
+    }
+  },
+  "x-entity" : "Custom Module"
+}

@@ -1,0 +1,148 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "HelpCenterUserPreference",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/myPreferences" : {
+      "get" : {
+        "tags" : [ "HelpCenterUserPreference" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getHelpCenterUserPreferences",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/helpCenterUserPreference"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      },
+      "patch" : {
+        "tags" : [ "HelpCenterUserPreference" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "updateHelpCenterUserPreference",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/helpCenterUserPreference"
+        },
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/helpCenterUserPreference"
+          },
+          "404" : {
+            "$ref" : "../common/Common.json#/components/responses/urlNotFoundErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "dateTimePreferences" : {
+        "type" : [ "null", "object" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "dateFormat" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 30,
+            "minLength" : 0,
+            "pattern" : "(MM dd yyyy|yyyy MM dd|dd MM yyyy|dd MMM yyyy|MMM dd yyyy|yyyy MMM dd|dd MM yy|MM dd yy|yy MM dd|dd MMMM yyyy|yyyy MMMM dd|MMMM dd yyyy|dd MMM yy|yy MMM dd|MMM dd yy|dd MMMM yy|yy MMMM dd|MMMM dd yy)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "timeFormat" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 7,
+            "minLength" : 0,
+            "pattern" : "(12-hour|24-hour)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "dateFormatSeparator" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 5,
+            "minLength" : 0,
+            "pattern" : "(.|/|-|space)",
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "dateFormat", "dateFormatSeparator", "timeFormat" ]
+      }
+    },
+    "responses" : {
+      "helpCenterUserPreference" : {
+        "description" : "helpCenterUserPreference template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "dateTimePreferences" : {
+                  "$ref" : "./HelpCenterUserPreference.json#/components/schemas/dateTimePreferences"
+                }
+              },
+              "required" : [ "dateTimePreferences" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    },
+    "parameters" : { },
+    "requestBodies" : {
+      "helpCenterUserPreference" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "dateTimePreferences" : {
+                  "$ref" : "./HelpCenterUserPreference.json#/components/schemas/dateTimePreferences"
+                }
+              },
+              "required" : [ "dateTimePreferences" ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : { }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      }
+    }
+  },
+  "x-entity" : "HelpCenterUserPreference"
+}

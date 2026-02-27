@@ -1,0 +1,358 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "TicketField",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/ticketsFields" : {
+      "get" : {
+        "tags" : [ "TicketField" ],
+        "summary" : "List all ticketFields",
+        "description" : "To obtain a list of Fields for Module Ticket (UnAuthenticated URL) the type of field Text|Number|Percent|Decimal|Currency|Date|DateTime|Email|Phone|Picklist |Website|Textarea|Checkbox|Multiselect|Boolean|AutoNumber",
+        "operationId" : "getRequestFields",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/data"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.FieldService.getRequestFields"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "commonFieldResponse" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "displayLabel" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "apiName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "isCustomField" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isReadOnly" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "i18NLabel" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "isEncryptedField" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "isVisible" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "Text", "URL", "Textarea", "Email", "Phone", "Multiselect", "Date", "DateTime", "Number", "Checkbox", "Percent", "Decimal", "Currency", "Picklist", "LookUp", "Lookup", "AutoNumber", "Boolean", "Fax" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isMandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "maxLength" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "apiName", "displayLabel", "i18NLabel", "id", "isCustomField", "isEncryptedField", "isMandatory", "isReadOnly", "isVisible", "maxLength", "name", "type" ]
+      },
+      "pickListFieldJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./TicketField.json#/components/schemas/commonFieldResponse"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "allowedValues" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 120,
+                "minLength" : 0,
+                "pattern" : "[0-9a-zA-Z_\\-\\.\\$@\\?\\:\\/\\!\\P{InBasicLatin}\\s()]+"
+              },
+              "uniqueItems" : false
+            },
+            "defaultValue" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "isNested" : {
+              "type" : [ "boolean", "null" ]
+            },
+            "sortBy" : {
+              "type" : [ "string", "null" ],
+              "enum" : [ "userDefined", "systemDefined" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            }
+          },
+          "required" : [ "allowedValues", "defaultValue", "isNested", "sortBy" ]
+        } ]
+      },
+      "secondaryContactPickListFieldJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./TicketField.json#/components/schemas/commonFieldResponse"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "allowedValues" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 120,
+                "minLength" : 0,
+                "pattern" : "[0-9a-zA-Z_\\-\\.\\$@\\?\\:\\/\\!\\P{InBasicLatin}\\s()]+"
+              },
+              "uniqueItems" : false
+            },
+            "isNested" : {
+              "type" : [ "boolean", "null" ]
+            }
+          },
+          "required" : [ "allowedValues", "isNested" ]
+        } ]
+      },
+      "secondaryContactJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "displayLabel" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isCustomField" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isReadOnly" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "isVisible" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "Text", "URL", "Textarea", "Email", "Phone", "Multiselect", "Date", "DateTime", "Number", "Checkbox", "Percent", "Decimal", "Currency", "Picklist", "LookUp", "Lookup", "AutoNumber", "Boolean", "Fax" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isMandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "maxLength" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "displayLabel", "id", "isCustomField", "isMandatory", "isReadOnly", "isVisible", "maxLength", "name", "type" ]
+      },
+      "contactPickListFieldJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./TicketField.json#/components/schemas/pickListFieldJson"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "restoreOnReplyValues" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 120,
+                "minLength" : 0,
+                "pattern" : "[0-9a-zA-Z_\\-\\.\\$@\\?\\:\\/\\!\\P{InBasicLatin}\\s()]+"
+              },
+              "uniqueItems" : false
+            }
+          }
+        } ]
+      },
+      "statusMappingPickListFieldJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./TicketField.json#/components/schemas/pickListFieldJson"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "statusMapping" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "null", "object" ],
+                "additionalProperties" : false,
+                "maxProperties" : 2,
+                "minProperties" : 2,
+                "properties" : {
+                  "mappingValue" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 120,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                  },
+                  "name" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 120,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                  }
+                },
+                "required" : [ "mappingValue", "name" ]
+              },
+              "uniqueItems" : false
+            },
+            "restoreOnReplyValues" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 120,
+                "minLength" : 0,
+                "pattern" : "[0-9a-zA-Z_\\-\\.\\$@\\?\\:\\/\\!\\P{InBasicLatin}\\s()]+"
+              },
+              "uniqueItems" : false
+            }
+          }
+        } ]
+      },
+      "fieldsData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "anyOf" : [ {
+            "$ref" : "./TicketField.json#/components/schemas/commonFieldResponse"
+          }, {
+            "$ref" : "./TicketField.json#/components/schemas/pickListFieldJson"
+          }, {
+            "$ref" : "./TicketField.json#/components/schemas/secondaryContactPickListFieldJson"
+          }, {
+            "$ref" : "./TicketField.json#/components/schemas/secondaryContactJson"
+          }, {
+            "$ref" : "./TicketField.json#/components/schemas/contactPickListFieldJson"
+          }, {
+            "$ref" : "./TicketField.json#/components/schemas/statusMappingPickListFieldJson"
+          } ]
+        }
+      }
+    },
+    "responses" : {
+      "data" : {
+        "description" : "data template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./TicketField.json#/components/schemas/fieldsData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "displayLabel" : "Department",
+                    "apiName" : "departmentId",
+                    "isCustomField" : false,
+                    "id" : "5000000000273",
+                    "type" : "LookUp",
+                    "maxLength" : 50,
+                    "isMandatory" : true
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "TicketField"
+}

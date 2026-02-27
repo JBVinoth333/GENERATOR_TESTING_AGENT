@@ -1,0 +1,1834 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Client Action",
+        "version": "1.0.0",
+        "description": "Streamlined OpenAPI specification for Client Action creation API only. This configuration is optimized for automation and reusability.",
+        "x-clan-group": "clientAction",
+        "x-module-group": "clientAction"
+    },
+    "paths": {
+        "/api/v1/clientActions": {
+            "post": {
+                "tags": [
+                    "ClientAction"
+                ],
+                "summary": "Create a client action",
+                "description": "Creates a new client action in the portal with specified component, UI mapping, conditions, and module associations.",
+                "operationId": "createClientAction",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/createClientActionPayload"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/clientActionResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.CREATE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "bea1b8064f927342df8a90d77c3e35c4",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.createClientAction"
+                }
+            },
+            "get": {
+                "tags": [
+                    "ClientAction"
+                ],
+                "summary": "Get all client actions",
+                "description": "With the help of this API, we can able to call get all client actions in a portal.",
+                "operationId": "getClientActions",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    },
+                    {
+                        "name": "components",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null"],
+                            "description": "The actual component names.",
+                            "maxLength": 100,
+                            "minLength": 0
+                        }
+                    },
+                    {
+                        "name": "names",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null"],
+                            "description": "The client action names.",
+                            "maxLength": 100,
+                            "minLength": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null", "integer"],
+                            "format": "int32",
+                            "description": "The number of custom buttons that need to be fetched.",
+                            "maximum": 100,
+                            "minimum": 1,
+                            "pattern": "([0-9]+)"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null", "integer"],
+                            "format": "int32",
+                            "description": "The starting index number from which the custom buttons should be fetched.",
+                            "pattern": "([0-9]+)"
+                        }
+                    },
+                    {
+                        "name": "locations",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null"],
+                            "description": "The locations where the components can be rendered or shown.",
+                            "enum": ["row_actions", "field_actions"],
+                            "maxLength": 100,
+                            "minLength": 0
+                        }
+                    },
+                    {
+                        "name": "modules",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": ["string", "null"],
+                            "description": "The modules where the actions can be performed.",
+                            "maxLength": 100,
+                            "minLength": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getClientActionsResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.READ"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "ReadAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "99949e3d71e5f99ea032a1fb87091da3",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.getClientActions"
+                }
+            }
+        },
+        "/api/v1/clientActions/{clientActionId}": {
+            "get": {
+                "tags": [
+                    "ClientAction"
+                ],
+                "summary": "Get a client action",
+                "description": "With the help of this API, we can able to get client action by its ID.",
+                "operationId": "getClientActionById",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/clientActionId"
+                    },
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getClientActionResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.READ"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "ReadAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "dad0431d65e5c80e8d708108096249be",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.getClientAction"
+                }
+            },
+            "patch": {
+                "tags": [
+                    "ClientAction"
+                ],
+                "summary": "Update a client action",
+                "description": "Updates an existing client action in the portal with specified component, UI mapping, conditions, and module associations.",
+                "operationId": "updateClientAction",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/clientActionId"
+                    },
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateClientActionRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/updateClientActionResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.UPDATE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "cd2f6b8e5f0161ed30335c9a6d91a34a",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.updateClientAction"
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ClientAction"
+                ],
+                "summary": "Delete a client action",
+                "description": "With the help of this API, we can delete a client action in a portal.",
+                "operationId": "deleteClientAction",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/clientActionId"
+                    },
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "../common/Common.json#/components/responses/emptyResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.DELETE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "c8af24e6dc5f046d482001b26ff8e2e5",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.deleteClientAction"
+                }
+            }
+        },
+        "/api/v1/componentDefinition": {
+            "get": {
+                "tags": [
+                    "ComponentDefinition"
+                ],
+                "summary": "Get component definitions",
+                "description": "With the help of this API, we can get all available component definitions with their properties, events, and locations.",
+                "operationId": "getComponentDefinitions",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/componentDefinitionsResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.READ"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "ReadAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "clientAction",
+                    "apihash": "dad0431d65e5c80e8d708108096249be",
+                    "module-group": "clientAction",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.getComponentDefinitions"
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "agentData": {
+                "type": "object",
+                "description": "Agent information including personal details and metadata",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the agent",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "description": "First name of the agent",
+                        "maxLength": 50
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "description": "Last name of the agent",
+                        "maxLength": 50
+                    },
+                    "photoURL": {
+                        "type": "string",
+                        "description": "Profile photo URL of the agent",
+                        "format": "uri"
+                    }
+                },
+                "required": ["id", "firstName", "lastName", "photoURL"]
+            },
+            "eventMappingPayload": {
+                "type": "object",
+                "description": "Defines event mapping configuration for UI components",
+                "additionalProperties": false,
+                "properties": {
+                    "sourceEvent": {
+                        "type": "string",
+                        "description": "The event triggered by the component or user interaction (e.g., ACTION_ICON#CLICKED)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "targetEvent": {
+                        "type": "string",
+                        "description": "The event that should be triggered in response to the source event (e.g., TARGET#EVENT)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "payloadValueMapping": {
+                        "type": "object",
+                        "description": "Data passed to the target event for execution. Must contain at least one key-value pair.",
+                        "additionalProperties": true,
+                        "minProperties": 1
+                    }
+                },
+                "required": ["sourceEvent", "targetEvent", "payloadValueMapping"]
+            },
+            "eventMappingResponse": {
+                "type": "object",
+                "description": "Event mapping response structure with metadata",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the event mapping",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "sourceEvent": {
+                        "type": "string",
+                        "description": "The event triggered by the component"
+                    },
+                    "targetEvent": {
+                        "type": "string",
+                        "description": "The target event to be triggered"
+                    },
+                    "payloadValueMapping": {
+                        "type": "object",
+                        "description": "Payload data mapping",
+                        "additionalProperties": true
+                    },
+                    "createdBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    },
+                    "modifiedBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    }
+                },
+                "required": ["id", "sourceEvent", "targetEvent", "payloadValueMapping", "createdBy", "modifiedBy"]
+            },
+            "conditionField": {
+                "type": "object",
+                "description": "Field-based condition configuration",
+                "additionalProperties": false,
+                "properties": {
+                    "fieldName": {
+                        "type": "string",
+                        "description": "Name of the field for the condition (e.g., record.email)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "condition": {
+                        "type": "string",
+                        "description": "Conditional operator to apply",
+                        "enum": ["is", "is not", "contains", "=", "does", "doesn't"]
+                    },
+                    "value": {
+                        "type": "array",
+                        "description": "Expected values for the condition",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 100
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": ["fieldName", "condition", "value"]
+            },
+            "conditionPayload": {
+                "anyOf": [
+                    {
+                        "type": "object",
+                        "description": "Full condition configuration with fields and pattern",
+                        "additionalProperties": false,
+                        "properties": {
+                            "fields": {
+                                "type": "array",
+                                "description": "Array of field-based conditions",
+                                "items": {
+                                    "$ref": "#/components/schemas/conditionField"
+                                },
+                                "minItems": 1
+                            },
+                            "pattern": {
+                                "type": "string",
+                                "description": "Logical pattern combining conditions (e.g., '1 and 2')",
+                                "maxLength": 100,
+                                "minLength": 1
+                            }
+                        },
+                        "required": ["fields", "pattern"]
+                    },
+                    {
+                        "type": "object",
+                        "description": "Empty condition object",
+                        "additionalProperties": false,
+                        "properties": {},
+                        "maxProperties": 0
+                    }
+                ]
+            },
+            "uiComponentMappingPayload": {
+                "type": "object",
+                "description": "UI component mapping configuration for client action",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the UI component",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Valid registered component name for UI rendering",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "propertiesValueMapping": {
+                        "type": "object",
+                        "description": "UI component properties like labels and icons. Must contain at least one property.",
+                        "additionalProperties": true,
+                        "minProperties": 1
+                    },
+                    "eventMappings": {
+                        "type": "array",
+                        "description": "Optional event mappings for component interactions",
+                        "items": {
+                            "$ref": "#/components/schemas/eventMappingPayload"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": ["name", "component", "propertiesValueMapping"]
+            },
+            "uiComponentMappingResponse": {
+                "type": "object",
+                "description": "UI component mapping response with metadata",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the UI component mapping",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the UI component"
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Component name"
+                    },
+                    "propertiesValueMapping": {
+                        "type": "object",
+                        "description": "UI component properties",
+                        "additionalProperties": true
+                    },
+                    "eventMappings": {
+                        "type": "array",
+                        "description": "Event mappings configuration",
+                        "items": {
+                            "$ref": "#/components/schemas/eventMappingResponse"
+                        }
+                    },
+                    "createdBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    },
+                    "modifiedBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    }
+                },
+                "required": ["id", "name", "component", "propertiesValueMapping", "eventMappings", "createdBy", "modifiedBy"]
+            },
+            "createClientActionPayload": {
+                "type": "object",
+                "description": "Payload structure for creating a new client action",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client action (mandatory)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Valid registered component name (mandatory)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location where the component can be rendered",
+                        "enum": ["row_actions", "header_actions", "field_actions"]
+                    },
+                    "modules": {
+                        "type": "array",
+                        "description": "Desk modules where this action is applicable",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": ["accounts", "contacts", "tasks", "tickets", "contracts", "products", "timeEntry", "agents", "events", "calls"]
+                                }
+                            ]
+                        }
+                    },
+                    "uiComponentMapping": {
+                        "$ref": "#/components/schemas/uiComponentMappingPayload"
+                    },
+                    "conditions": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/conditionPayload"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "required": ["name", "component", "uiComponentMapping"]
+            },
+            "clientActionResponse": {
+                "type": "object",
+                "description": "Response structure for client action operations",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the client action (response only)",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client action"
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Component name"
+                    },
+                    "location": {
+                        "type": ["string", "null"],
+                        "description": "Location of the component",
+                        "enum": ["row_actions", "header_actions", "field_actions", null]
+                    },
+                    "modules": {
+                        "type": "array",
+                        "description": "Associated modules (can be empty array)",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": ["accounts", "contacts", "tasks", "tickets", "contracts", "products", "timeEntry", "agents", "events", "calls"]
+                                }
+                            ]
+                        }
+                    },
+                    "uiComponentMapping": {
+                        "$ref": "#/components/schemas/uiComponentMappingResponse"
+                    },
+                    "conditions": {
+                        "type": ["object", "null"],
+                        "description": "Condition configuration (required field, can be null or valid condition object)"
+                    },
+                    "conditionId": {
+                        "type": ["string", "null"],
+                        "description": "Unique identifier for the condition (required field, can be null)"
+                    },
+                    "createdTime": {
+                        "type": "string",
+                        "description": "Creation timestamp (response only)",
+                        "format": "date-time"
+                    },
+                    "modifiedTime": {
+                        "type": "string",
+                        "description": "Last modification timestamp (response only)",
+                        "format": "date-time"
+                    },
+                    "createdBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    },
+                    "modifiedBy": {
+                        "$ref": "#/components/schemas/agentData"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name", 
+                    "component",
+                    "modules",
+                    "uiComponentMapping",
+                    "conditions",
+                    "conditionId",
+                    "createdTime",
+                    "modifiedTime",
+                    "createdBy",
+                    "modifiedBy"
+                ]
+            },
+            "updateUiComponentMappingPayload": {
+                "type": "object",
+                "description": "UI component mapping payload for update operations. The 'id' field is MANDATORY and must be provided to identify the existing UI component mapping to update.",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the UI component mapping (MANDATORY for updates - cannot be null or empty)",
+                        "pattern": "^[0-9]+$",
+                        "minLength": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the UI component",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Valid registered component name for UI rendering",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "propertiesValueMapping": {
+                        "type": "object",
+                        "description": "UI component properties like labels and icons. Must contain at least one property.",
+                        "additionalProperties": true,
+                        "minProperties": 1
+                    },
+                    "eventMappings": {
+                        "type": "array",
+                        "description": "Optional event mappings for component interactions",
+                        "items": {
+                            "$ref": "#/components/schemas/eventMappingPayload"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": ["id", "name", "component", "propertiesValueMapping"]
+            },
+            "updateClientActionPayload": {
+                "type": "object",
+                "description": "Payload structure for updating an existing client action. The uiComponentMapping.id field is MANDATORY and must match an existing UI component mapping.",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client action",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "Valid registered component name",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Location where the component can be rendered",
+                        "enum": ["row_actions", "header_actions", "field_actions"]
+                    },
+                    "modules": {
+                        "type": "array",
+                        "description": "Desk modules where this action is applicable",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": ["accounts", "contacts", "tasks", "tickets", "contracts", "products", "timeEntry", "agents", "events", "calls"]
+                                }
+                            ]
+                        }
+                    },
+                    "uiComponentMapping": {
+                        "$ref": "#/components/schemas/updateUiComponentMappingPayload"
+                    },
+                    "conditions": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/conditionPayload"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "required": ["name", "component", "uiComponentMapping"]
+            },
+            "componentEvent": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "displayLabel": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Display label for the event",
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Name of the event",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "payload": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "Payload data for the event",
+                        "items": {
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "additionalProperties": true,
+                            "x-custom-parameters-attributes": {}
+                        },
+                        "x-custom-parameters-attributes": {}
+                    }
+                },
+                "required": [
+                    "displayLabel",
+                    "name",
+                    "payload"
+                ]
+            },
+            "componentProperty": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "displayLabel": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Display label for the property",
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "type": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Type of the property",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Name of the property",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "maxLength": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Maximum length allowed for the property",
+                        "format": "int32",
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "isMandatory": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ],
+                        "description": "Whether the property is mandatory",
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "defaultValue": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Default value of the property",
+                        "x-custom-parameters-attributes": {}
+                    }
+                },
+                "required": [
+                    "displayLabel",
+                    "type",
+                    "name",
+                    "isMandatory",
+                    "defaultValue"
+                ]
+            },
+            "componentLocation": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "displayLabel": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Display label for the location",
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Name of the location",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "allowedComponents": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "List of allowed components in this location",
+                        "items": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "maxLength": 100,
+                            "minLength": 0,
+                            "x-custom-parameters-attributes": {}
+                        },
+                        "x-custom-parameters-attributes": {}
+                    }
+                },
+                "required": [
+                    "displayLabel",
+                    "name",
+                    "allowedComponents"
+                ]
+            },
+            "componentDefinition": {
+                "type": [
+                    "object",
+                    "null"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "displayLabel": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Display label for the component",
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Name of the component",
+                        "maxLength": 100,
+                        "minLength": 0,
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "locations": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "Available locations for the component",
+                        "items": {
+                            "$ref": "#/components/schemas/componentLocation"
+                        },
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "properties": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "Properties of the component",
+                        "items": {
+                            "$ref": "#/components/schemas/componentProperty"
+                        },
+                        "x-custom-parameters-attributes": {}
+                    },
+                    "events": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "description": "Events supported by the component",
+                        "items": {
+                            "$ref": "#/components/schemas/componentEvent"
+                        },
+                        "x-custom-parameters-attributes": {}
+                    }
+                },
+                "required": [
+                    "displayLabel",
+                    "name",
+                    "locations",
+                    "properties",
+                    "events"
+                ]
+            },
+            "arrayOfComponentDefinitions": {
+                "type": [
+                    "array",
+                    "null"
+                ],
+                "items": {
+                    "$ref": "#/components/schemas/componentDefinition"
+                }
+            }
+        },
+        "parameters": {
+            "clientActionId": {
+                "name": "clientActionId",
+                "in": "path",
+                "description": "Unique ID of the client action",
+                "required": true,
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                    "type": ["string", "null", "integer"],
+                    "format": "int64",
+                    "description": "Unique identifier for the client action",
+                    "pattern": "([0-9]+)"
+                }
+            }
+        },
+        "requestBodies": {
+            "createClientActionPayload": {
+                "description": "Request body for creating a new client action",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/createClientActionPayload"
+                        },
+                        "examples": {
+                            "basicClientAction": {
+                                "summary": "Basic client action with required fields",
+                                "description": "Example of a minimal client action configuration",
+                                "value": {
+                                    "name": "Payload_250",
+                                    "component": "TableList",
+                                    "location": "field_actions",
+                                    "modules": ["tickets"],
+                                    "uiComponentMapping": {
+                                        "name": "Action_250",
+                                        "component": "CustomActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon-250",
+                                            "label": "Label_250"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "warning"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "conditions": {
+                                        "fields": [
+                                            {
+                                                "fieldName": "record.email",
+                                                "condition": "contains",
+                                                "value": ["support-spam@example.com"]
+                                            }
+                                        ],
+                                        "pattern": "1 and 2"
+                                    }
+                                }
+                            },
+                            "minimalClientAction": {
+                                "summary": "Minimal client action with mandatory fields only",
+                                "description": "Example with only required fields",
+                                "value": {
+                                    "name": "Simple_Action",
+                                    "component": "ActionButton",
+                                    "uiComponentMapping": {
+                                        "name": "Simple_UI_Action",
+                                        "component": "SimpleIcon",
+                                        "propertiesValueMapping": {
+                                            "label": "Click Me"
+                                        }
+                                    }
+                                }
+                            },
+                            "clientActionWithEmptyConditions": {
+                                "summary": "Client action with empty conditions object",
+                                "description": "Example showing empty conditions object results in conditionId: null and conditions: {}",
+                                "value": {
+                                    "name": "Action_With_Empty_Conditions",
+                                    "component": "TableList",
+                                    "conditions": {},
+                                    "uiComponentMapping": {
+                                        "name": "Simple_UI_Action",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon",
+                                            "label": "Empty Conditions Action"
+                                        }
+                                    }
+                                }
+                            },
+                            "clientActionWithNullConditions": {
+                                "summary": "Client action with null conditions",
+                                "description": "Example showing null conditions results in conditionId: null and conditions: null",
+                                "value": {
+                                    "name": "Action_With_Null_Conditions",
+                                    "component": "TableList",
+                                    "conditions": null,
+                                    "uiComponentMapping": {
+                                        "name": "Simple_UI_Action",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon",
+                                            "label": "Null Conditions Action"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "updateClientActionRequestBody": {
+                "description": "Request body for updating an existing client action",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/updateClientActionPayload"
+                        },
+                        "examples": {
+                            "updateClientActionExample": {
+                                "summary": "Update existing client action with mandatory ID",
+                                "description": "Example of updating a client action with MANDATORY uiComponentMapping.id field. The ID must reference an existing UI component mapping.",
+                                "value": {
+                                    "name": "Updated_Action_250",
+                                    "component": "TableList",
+                                    "location": "field_actions",
+                                    "modules": ["tickets"],
+                                    "uiComponentMapping": {
+                                        "id": "1000000092001",
+                                        "name": "Updated_Action_250",
+                                        "component": "CustomActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon-updated",
+                                            "label": "Updated_Label_250"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#UPDATED_EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "updated_warning"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "conditions": {
+                                        "fields": [
+                                            {
+                                                "fieldName": "record.email",
+                                                "condition": "contains",
+                                                "value": ["updated-support@example.com"]
+                                            }
+                                        ],
+                                        "pattern": "1 and 2"
+                                    }
+                                }
+                            },
+                            "updateCustomModuleExample": {
+                                "summary": "Update action with custom module",
+                                "description": "Example showing update. This matches error scenarios but with required ID field.",
+                                "value": {
+                                    "name": "b2db0cfd-94ed-45c5-a7ca-e2442e982fb2",
+                                    "component": "TableList",
+                                    "location": "row_actions", 
+                                    "modules": ["tickets"],
+                                    "uiComponentMapping": {
+                                        "id": "1000000094001",
+                                        "name": "c9c1cb97-5110-45d3-beda-a2ff4c2700c9",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "3c95aad0-065f-4f64-a00b-03ad25cb9cda"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "edf6fcbc-5145-4e1e-a392-75bdf1c3c640"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "clientActionResponse": {
+                "description": "Successful client action creation response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientActionResponse"
+                        },
+                        "examples": {
+                            "successfulCreation": {
+                                "summary": "Successful client action creation",
+                                "description": "Example response after creating a client action",
+                                "value": {
+                                    "id": "1000000092007",
+                                    "name": "Action in Row Action",
+                                    "component": "TableList",
+                                    "location": "row_actions",
+                                    "modules": [],
+                                    "conditionId": "1000000089021",
+                                    "createdTime": "2025-09-18T08:40:47.000Z",
+                                    "modifiedTime": "2025-09-18T08:40:47.000Z",
+                                    "uiComponentMapping": {
+                                        "id": "1000000092001",
+                                        "name": "Edit",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-GN-edit",
+                                            "label": "sample"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "id": "1000000092003",
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "26"
+                                                },
+                                                "createdBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                },
+                                                "modifiedBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                }
+                                            }
+                                        ],
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        }
+                                    },
+                                    "conditions": {
+                                        "fields": [
+                                            {
+                                                "fieldName": "record.email",
+                                                "condition": "contains",
+                                                "value": ["support-spam@example.com"]
+                                            }
+                                        ],
+                                        "pattern": "1 and 2"
+                                    },
+                                    "createdBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    },
+                                    "modifiedBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    }
+                                }
+                            },
+                            "emptyConditionsResponse": {
+                                "summary": "Response with empty conditions",
+                                "description": "Example response when conditions was sent as empty object {}",
+                                "value": {
+                                    "id": "1000000094101",
+                                    "name": "Action_With_Empty_Conditions",
+                                    "component": "TableList",
+                                    "location": null,
+                                    "modules": [],
+                                    "conditionId": null,
+                                    "conditions": {},
+                                    "createdTime": "2025-11-06T05:51:50.000Z",
+                                    "modifiedTime": "2025-11-06T05:51:50.000Z",
+                                    "uiComponentMapping": {
+                                        "id": "1000000094095",
+                                        "name": "Simple_UI_Action",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon"
+                                        },
+                                        "eventMappings": [],
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "TestFirst",
+                                            "lastName": "TestLast",
+                                            "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "TestFirst",
+                                            "lastName": "TestLast",
+                                            "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                        }
+                                    },
+                                    "createdBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "TestFirst",
+                                        "lastName": "TestLast",
+                                        "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                    },
+                                    "modifiedBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "TestFirst",
+                                        "lastName": "TestLast",
+                                        "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                    }
+                                }
+                            },
+                            "nullConditionsResponse": {
+                                "summary": "Response with null conditions",
+                                "description": "Example response when conditions was sent as null",
+                                "value": {
+                                    "id": "1000000094102",
+                                    "name": "Action_With_Null_Conditions",
+                                    "component": "TableList",
+                                    "location": null,
+                                    "modules": [],
+                                    "conditionId": null,
+                                    "conditions": null,
+                                    "createdTime": "2025-11-06T05:51:50.000Z",
+                                    "modifiedTime": "2025-11-06T05:51:50.000Z",
+                                    "uiComponentMapping": {
+                                        "id": "1000000094096",
+                                        "name": "Simple_UI_Action",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-icon"
+                                        },
+                                        "eventMappings": [],
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "TestFirst",
+                                            "lastName": "TestLast",
+                                            "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "TestFirst",
+                                            "lastName": "TestLast",
+                                            "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                        }
+                                    },
+                                    "createdBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "TestFirst",
+                                        "lastName": "TestLast",
+                                        "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                    },
+                                    "modifiedBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "TestFirst",
+                                        "lastName": "TestLast",
+                                        "photoURL": "/api/v1/agents/1000000000523/photo?orgId=43269111"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "updateClientActionResponse": {
+                "description": "Successful client action update response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientActionResponse"
+                        },
+                        "examples": {
+                            "successfulUpdate": {
+                                "summary": "Successful client action update",
+                                "description": "Example response after updating a client action",
+                                "value": {
+                                    "id": "1000000092007",
+                                    "name": "Updated Action in Row Action",
+                                    "component": "TableList",
+                                    "location": "row_actions",
+                                    "modules": [],
+                                    "conditionId": "1000000089021",
+                                    "createdTime": "2025-09-18T08:40:47.000Z",
+                                    "modifiedTime": "2025-09-18T09:15:32.000Z",
+                                    "uiComponentMapping": {
+                                        "id": "1000000092001",
+                                        "name": "Updated Edit",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-GN-edit-updated",
+                                            "label": "updated sample"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "id": "1000000092003",
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#UPDATED_EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "updated_value"
+                                                },
+                                                "createdBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                },
+                                                "modifiedBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                }
+                                            }
+                                        ],
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        }
+                                    },
+                                    "conditions": {
+                                        "fields": [
+                                            {
+                                                "fieldName": "record.email",
+                                                "condition": "contains",
+                                                "value": ["updated-support@example.com"]
+                                            }
+                                        ],
+                                        "pattern": "1 and 2"
+                                    },
+                                    "createdBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    },
+                                    "modifiedBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "getClientActionResponse": {
+                "description": "Successful get client action by ID response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientActionResponse"
+                        },
+                        "examples": {
+                            "successfulGet": {
+                                "summary": "Successful client action retrieval",
+                                "description": "Example response when getting a client action by ID",
+                                "value": {
+                                    "id": "1000000092007",
+                                    "name": "Action in Row Action",
+                                    "component": "TableList",
+                                    "location": "row_actions",
+                                    "modules": [],
+                                    "conditionId": "1000000089021",
+                                    "createdTime": "2025-09-18T08:40:47.000Z",
+                                    "modifiedTime": "2025-09-18T08:40:47.000Z",
+                                    "uiComponentMapping": {
+                                        "id": "1000000092001",
+                                        "name": "Edit",
+                                        "component": "ActionIcon",
+                                        "propertiesValueMapping": {
+                                            "icon": "ZD-GN-edit",
+                                            "label": "sample"
+                                        },
+                                        "eventMappings": [
+                                            {
+                                                "id": "1000000092003",
+                                                "sourceEvent": "ACTION_ICON#CLICKED",
+                                                "targetEvent": "TARGET#EVENT",
+                                                "payloadValueMapping": {
+                                                    "recordsIds": "26"
+                                                },
+                                                "createdBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                },
+                                                "modifiedBy": {
+                                                    "id": "1000000000523",
+                                                    "firstName": "{firstName}",
+                                                    "lastName": "{lastName}",
+                                                    "photoURL": "{photoURL}"
+                                                }
+                                            }
+                                        ],
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        }
+                                    },
+                                    "conditions": {
+                                        "fields": [
+                                            {
+                                                "fieldName": "record.email",
+                                                "condition": "contains",
+                                                "value": ["support-spam@example.com"]
+                                            }
+                                        ],
+                                        "pattern": "1 and 2"
+                                    },
+                                    "createdBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    },
+                                    "modifiedBy": {
+                                        "id": "1000000000523",
+                                        "firstName": "{firstName}",
+                                        "lastName": "{lastName}",
+                                        "photoURL": "{photoURL}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "getClientActionsResponse": {
+                "description": "Successful get all client actions response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "description": "Array of client actions. Returns empty array if no records match filtering parameters.",
+                            "items": {
+                                "$ref": "#/components/schemas/clientActionResponse"
+                            }
+                        },
+                        "examples": {
+                            "successfulGetAll": {
+                                "summary": "Multiple client actions found",
+                                "description": "Example response when multiple client actions are found",
+                                "value": [
+                                    {
+                                        "id": "1000000092007",
+                                        "name": "Action in Row Action",
+                                        "component": "TableList",
+                                        "location": "row_actions",
+                                        "modules": [],
+                                        "conditionId": "1000000089021",
+                                        "createdTime": "2025-09-18T08:40:47.000Z",
+                                        "modifiedTime": "2025-09-18T08:40:47.000Z",
+                                        "uiComponentMapping": {
+                                            "id": "1000000092001",
+                                            "name": "Edit",
+                                            "component": "ActionIcon",
+                                            "propertiesValueMapping": {
+                                                "icon": "ZD-GN-edit",
+                                                "label": "sample"
+                                            },
+                                            "eventMappings": [
+                                                {
+                                                    "id": "1000000092003",
+                                                    "sourceEvent": "ACTION_ICON#CLICKED",
+                                                    "targetEvent": "TARGET#EVENT",
+                                                    "payloadValueMapping": {
+                                                        "recordsIds": "26"
+                                                    },
+                                                    "createdBy": {
+                                                        "id": "1000000000523",
+                                                        "firstName": "{firstName}",
+                                                        "lastName": "{lastName}",
+                                                        "photoURL": "{photoURL}"
+                                                    },
+                                                    "modifiedBy": {
+                                                        "id": "1000000000523",
+                                                        "firstName": "{firstName}",
+                                                        "lastName": "{lastName}",
+                                                        "photoURL": "{photoURL}"
+                                                    }
+                                                }
+                                            ],
+                                            "createdBy": {
+                                                "id": "1000000000523",
+                                                "firstName": "{firstName}",
+                                                "lastName": "{lastName}",
+                                                "photoURL": "{photoURL}"
+                                            },
+                                            "modifiedBy": {
+                                                "id": "1000000000523",
+                                                "firstName": "{firstName}",
+                                                "lastName": "{lastName}",
+                                                "photoURL": "{photoURL}"
+                                            }
+                                        },
+                                        "conditions": {
+                                            "fields": [
+                                                {
+                                                    "fieldName": "record.email",
+                                                    "condition": "contains",
+                                                    "value": ["support-spam@example.com"]
+                                                }
+                                            ],
+                                            "pattern": "1 and 2"
+                                        },
+                                        "createdBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        },
+                                        "modifiedBy": {
+                                            "id": "1000000000523",
+                                            "firstName": "{firstName}",
+                                            "lastName": "{lastName}",
+                                            "photoURL": "{photoURL}"
+                                        }
+                                    }
+                                ]
+                            },
+                            "emptyResponse": {
+                                "summary": "No client actions found",
+                                "description": "Example response when no records match the filtering parameters",
+                                "value": []
+                            }
+                        }
+                    }
+                }
+            },
+            "componentDefinitionsResponse": {
+                "description": "Component Definitions Response Template Definition",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/arrayOfComponentDefinitions"
+                        },
+                        "examples": {
+                            "Valid responses Definitions": {
+                                "value": []
+                            }
+                        }
+                    }
+                },
+                "x-custom-response-attributes": {}
+            }
+        },
+        "securitySchemes": {
+            "org-oauth": {
+                "$ref": "../common/Common.json#/components/securitySchemes/org-oauth"
+            },
+            "iam-oauth2-schema": {
+                "$ref": "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+            }
+        }
+    },
+    "x-entity": "ClientAction"
+}

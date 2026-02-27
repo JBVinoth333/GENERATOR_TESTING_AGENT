@@ -1,0 +1,1525 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "KbCategory",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/portal/api/kbCategory/{topicId}/articles": {
+      "get": {
+        "tags": [
+          "KbCategory"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "articlesUnderCategory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/from"
+          },
+          {
+            "$ref": "#/components/parameters/articleCount"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "",
+              "enum": [
+                "mostliked",
+                "mostviewed",
+                "mostunliked",
+                "createdTime",
+                "modifiedTime"
+              ],
+              "maxLength": 100,
+              "minLength": 0,
+              "x-custom-parameters-attributes": {}
+            }
+          },
+          {
+            "$ref": "#/components/parameters/locale"
+          },
+          {
+            "name": "topicId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int64",
+              "description": "",
+              "pattern": "([0-9]+)",
+              "x-custom-parameters-attributes": {}
+            }
+          },
+          {
+            "$ref": "../common/Common.json#/components/parameters/portalId"
+          }
+        ],
+        "security": [
+          {
+            "jwt-oauth": [
+              "basic"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/articleCategoryData"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        }
+      }
+    },
+	"/portal/api/kbCategory/sectionsWithArticles" : {
+	      "get" : {
+	        "tags" : [ "KbCategory" ],
+	        "summary" : "",
+	        "description" : "",
+	        "operationId" : "articlesUnderASectionByPermalink",
+	        "parameters" : [ {
+	          "$ref" : "#/components/parameters/limit"
+	        }, {
+	          "$ref" : "#/components/parameters/from"
+	        }, {
+	          "$ref" : "#/components/parameters/articleCount"
+	        }, {
+	          "name" : "sortBy",
+	          "in" : "query",
+	          "required" : false,
+	          "schema" : {
+	            "type" : [ "string", "null" ],
+	            "description" : "",
+	            "enum" : [ "mostliked", "mostviewed", "mostunliked", "createdTime", "modifiedTime" ],
+	            "maxLength" : 100,
+	            "minLength" : 0,
+	            "x-custom-parameters-attributes" : { }
+	          }
+	        }, {
+	          "name" : "permalink",
+	          "in" : "query",
+	          "required" : true,
+	          "schema" : {
+	            "type" : [ "string", "null" ],
+	            "description" : "",
+	            "maxLength" : 500,
+	            "minLength" : 0,
+	            "pattern" : "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+	            "x-custom-parameters-attributes" : { }
+	          }
+	        }, {
+	          "$ref" : "#/components/parameters/localePermalink"
+	        }, {
+				"$ref": "../common/Common.json#/components/parameters/portalId"
+			} ],
+			"security": [
+				{
+					"jwt-oauth": [
+						"basic"
+					]
+				}
+			],
+	        "responses" : {
+	          "200" : {
+	            "$ref" : "#/components/responses/articleCategoryData"
+	          },
+	          "422" : {
+	            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+	          },
+			  "204": {
+				"$ref": "../common/Common.json#/components/responses/fileResponse"
+			  }
+	        }
+	      }
+	    },
+    "/portal/api/kbCategory/rootCategories": {
+      "get": {
+        "tags": [
+          "KbCategory"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "rootCategoriesOfHelpcenter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/from"
+          },
+          {
+            "$ref": "#/components/parameters/locale"
+          },
+          {
+            "$ref": "../common/Common.json#/components/parameters/portalId"
+          }
+        ],
+        "security": [
+          {
+            "jwt-oauth": [
+              "basic"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/rootCategoriesResponse"
+          }
+        }
+      }
+    },
+    "/portal/api/kbCategories/breadCrumbTree": {
+      "get": {
+        "tags": [
+          "KbCategory"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "getBreadCrumbTree",
+        "parameters": [
+          {
+            "name": "categoryIds",
+            "in": "query",
+            "required": true,
+            "style": "simple",
+            "explode": true,
+            "schema": {
+              "type": [
+                "null",
+                "array"
+              ],
+              "description": "",
+              "items": {
+                "type": [
+                  "string",
+                  "null",
+                  "integer"
+                ],
+                "format": "int64",
+                "description": "",
+                "pattern": "([0-9]+)",
+                "x-custom-parameters-attributes": {}
+              },
+              "maxItems": 20,
+              "minItems": 1,
+              "uniqueItems": false,
+              "x-custom-parameters-attributes": {}
+            }
+          },
+          {
+            "$ref": "#/components/parameters/locale"
+          },
+          {
+            "$ref": "../common/Common.json#/components/parameters/portalId"
+          }
+        ],
+        "security": [
+          {
+            "jwt-oauth": [
+              "basic"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/breadCrumbTreeResponse"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/unprocessableEntityErrorResponse"
+          }
+        }
+      }
+    },
+    "/portal/api/kbCategory": {
+      "get": {
+        "tags": [
+          "KbCategory"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "listAllCategory",
+        "parameters": [
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "",
+              "maxLength": 100,
+              "minLength": 0,
+              "pattern": "[+-]?(categoryname|sortorder)",
+              "x-custom-parameters-attributes": {}
+            }
+          },
+          {
+            "$ref": "#/components/parameters/locale"
+          },
+          {
+            "$ref": "#/components/parameters/categoryId"
+          },
+          {
+            "$ref": "../common/Common.json#/components/parameters/portalId"
+          }
+        ],
+        "security": [
+          {
+            "jwt-oauth": [
+              "basic"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/listAllTopicResponse"
+          }
+        }
+      }
+    },
+    "/portal/api/kbCategory/{categoryId}/logo/{logoId}": {
+      "get": {
+        "tags": [
+          "KbCategory"
+        ],
+        "summary": "",
+        "description": "",
+        "operationId": "categoryLogo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/categoryId"
+          },
+          {
+            "name": "logoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int64",
+              "description": "",
+              "pattern": "([0-9]+)",
+              "x-custom-parameters-attributes": {}
+            }
+          },
+          {
+            "$ref": "../common/Common.json#/components/parameters/portalId"
+          }
+        ],
+        "security": [
+          {
+            "jwt-oauth": [
+              "basic"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "../common/Common.json#/components/responses/fileResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "articleJson": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "./Solution.json#/components/schemas/solutionCommonResponseWithLocale"
+        }
+      },
+      "articleUnderCategory": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "webUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 3,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes": {}
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes": {}
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "permalink": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes": {}
+          },
+          "articles": {
+            "$ref": "#/components/schemas/articleJson"
+          },
+          "logoUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 0,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes": {}
+          }
+        },
+        "required": [
+          "webUrl",
+          "name",
+          "description",
+          "logoUrl",
+          "id",
+          "permalink",
+          "articles"
+        ]
+      },
+      "data": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/articleUnderCategory"
+        }
+      },
+      "rootCategoriesJson": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "hasArticles": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "",
+            "x-custom-parameters-attributes": {}
+          },
+          "articleViewType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "enum": [
+              "LISTVIEW",
+              "OVERVIEW"
+            ],
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "visibility": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "enum": [
+              "ALL_USERS",
+              "GROUP_USERS",
+              "PRIVATE_IP",
+              "NONE"
+            ],
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "level": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "departmentId": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes": {}
+          },
+          "smartViewArticle": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "logoUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 0,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes": {}
+          },
+          "associatedDepartments": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "description": "",
+            "items": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int64",
+              "description": "",
+              "pattern": "([0-9]+)",
+              "x-custom-parameters-attributes": {}
+            },
+            "uniqueItems": false,
+            "x-custom-parameters-attributes": {}
+          },
+          "helpcenterId": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "webUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 3,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes": {}
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "permalink": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes": {}
+          },
+          "articlesCount": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "order": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "child": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "description": "",
+            "items": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int64",
+              "description": "",
+              "pattern": "([0-9]+)",
+              "x-custom-parameters-attributes": {}
+            },
+            "uniqueItems": false,
+            "x-custom-parameters-attributes": {}
+          }
+        },
+        "required": [
+          "articleViewType",
+          "departmentId",
+          "description",
+          "id",
+          "level",
+          "logoUrl",
+          "name",
+          "order",
+          "permalink",
+          "visibility",
+          "hasArticles",
+          "webUrl",
+          "articlesCount",
+          "smartViewArticle",
+          "associatedDepartments",
+          "child",
+          "helpcenterId"
+        ]
+      },
+      "rootCategoriesData": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/rootCategoriesJson"
+        }
+      },
+      "categoryPathResponseJson": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          }
+        },
+        "required": [
+          "id",
+          "path"
+        ]
+      },
+      "categoryPathResponseJsonArr": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/categoryPathResponseJson"
+        }
+      },
+      "commonCategoryTreeResponse": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "breadCrumb": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes": {}
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "permalink": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes": {}
+          }
+        },
+        "required": [
+          "breadCrumb",
+          "description",
+          "id",
+          "name",
+          "permalink"
+        ]
+      },
+      "breadCrumbChildCategoryResponseData": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/commonCategoryTreeResponse"
+          },
+          {
+            "type": [
+              "null",
+              "object"
+            ],
+            "properties": {
+              "children": {
+                "type": [
+                  "null",
+                  "array"
+                ],
+                "description": "",
+                "items": {
+                  "type": [
+                    "null",
+                    "object"
+                  ],
+                  "additionalProperties": false,
+                  "description": "",
+                  "x-custom-parameters-attributes": {}
+                },
+                "uniqueItems": false,
+                "x-custom-parameters-attributes": {}
+              }
+            },
+            "required": [
+              "children"
+            ]
+          }
+        ]
+      },
+      "breadCrumbChildCategoryResponseArr": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/breadCrumbChildCategoryResponseData"
+        }
+      },
+      "categoryTreeResponseJson": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/commonCategoryTreeResponse"
+          },
+          {
+            "type": [
+              "null",
+              "object"
+            ],
+            "properties": {
+              "children": {
+                "$ref": "#/components/schemas/breadCrumbChildCategoryResponseArr"
+              }
+            },
+            "required": [
+              "children"
+            ]
+          }
+        ]
+      },
+      "categoryTreeResponseJsonArr": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/categoryTreeResponseJson"
+        }
+      },
+      "topicCommonJson": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "articleViewType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "enum": [
+              "LISTVIEW",
+              "OVERVIEW"
+            ],
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "visibility": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "enum": [
+              "ALL_USERS",
+              "GROUP_USERS",
+              "PRIVATE_IP",
+              "NONE"
+            ],
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "level": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "departmentId": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes": {}
+          },
+          "smartViewArticle": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "logoUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 255,
+            "minLength": 0,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes": {}
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "x-custom-parameters-attributes": {}
+          },
+          "parentCategoryId": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "permalink": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "",
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "[a-z0-9\\/%\\-\\P{InBasicLatin}]+",
+            "x-custom-parameters-attributes": {}
+          },
+          "articlesCount": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          },
+          "featuredCategory": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "",
+            "x-custom-parameters-attributes": {}
+          },
+          "order": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int32",
+            "description": "",
+            "pattern": "([0-9]+)",
+            "x-custom-parameters-attributes": {}
+          }
+        },
+        "required": [
+          "articleViewType",
+          "departmentId",
+          "description",
+          "id",
+          "level",
+          "logoUrl",
+          "name",
+          "order",
+          "permalink",
+          "visibility",
+          "featuredCategory",
+          "parentCategoryId",
+          "smartViewArticle",
+          "articlesCount"
+        ]
+      },
+      "topicChildResponseJson": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/topicCommonJson"
+          },
+          {
+            "type": [
+              "null",
+              "object"
+            ],
+            "properties": {
+              "child": {
+                "type": [
+                  "null",
+                  "array"
+                ],
+                "description": "",
+                "items": {
+                  "type": [
+                    "null",
+                    "object"
+                  ],
+                  "additionalProperties": false,
+                  "description": "",
+                  "x-custom-parameters-attributes": {}
+                },
+                "uniqueItems": false,
+                "x-custom-parameters-attributes": {}
+              },
+              "associatedDepartments": {
+                "type": [
+                  "null",
+                  "array"
+                ],
+                "description": "",
+                "items": {
+                  "type": [
+                    "string",
+                    "null",
+                    "integer"
+                  ],
+                  "format": "int64",
+                  "description": "",
+                  "pattern": "([0-9]+)",
+                  "x-custom-parameters-attributes": {}
+                },
+                "uniqueItems": false,
+                "x-custom-parameters-attributes": {}
+              }
+            },
+            "required": [
+              "child",
+              "associatedDepartments"
+            ]
+          }
+        ]
+      },
+      "childTopicResponseArr": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/topicChildResponseJson"
+        }
+      },
+      "topicParentResponseJson": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/topicCommonJson"
+          },
+          {
+            "type": [
+              "null",
+              "object"
+            ],
+            "properties": {
+              "child": {
+                "$ref": "#/components/schemas/childTopicResponseArr"
+              },
+              "associatedDepartments": {
+                "type": [
+                  "null",
+                  "array"
+                ],
+                "description": "",
+                "items": {
+                  "type": [
+                    "string",
+                    "null",
+                    "integer"
+                  ],
+                  "format": "int64",
+                  "description": "",
+                  "pattern": "([0-9]+)",
+                  "x-custom-parameters-attributes": {}
+                },
+                "uniqueItems": false,
+                "x-custom-parameters-attributes": {}
+              }
+            },
+            "required": [
+              "child",
+              "associatedDepartments"
+            ]
+          }
+        ]
+      },
+      "listAllTopicData": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/topicParentResponseJson"
+        }
+      }
+    },
+    "responses": {
+      "articleCategoryData": {
+        "description": "articleCategoryData template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/data"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {}
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {}
+      },
+      "rootCategoriesResponse": {
+        "description": "rootCategoriesResponse template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/rootCategoriesData"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {}
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {}
+      },
+      "breadCrumbTreeResponse": {
+        "description": "breadCrumbTreeResponse template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "categoryPath": {
+                  "$ref": "#/components/schemas/categoryPathResponseJsonArr"
+                },
+                "categoryTree": {
+                  "$ref": "#/components/schemas/categoryTreeResponseJsonArr"
+                }
+              },
+              "required": [
+                "categoryPath",
+                "categoryTree"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {}
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {}
+      },
+      "listAllTopicResponse": {
+        "description": "listAllTopicResponse template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/listAllTopicData"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {}
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {}
+      }
+    },
+    "parameters": {
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": [
+            "string",
+            "null",
+            "integer"
+          ],
+          "format": "int32",
+          "description": "",
+          "maximum": 10,
+          "minimum": 1,
+          "pattern": "([0-9]+)",
+          "x-custom-parameters-attributes": {}
+        }
+      },
+      "from": {
+        "name": "from",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": [
+            "string",
+            "null",
+            "integer"
+          ],
+          "format": "int32",
+          "description": "",
+          "pattern": "([0-9]+)",
+          "x-custom-parameters-attributes": {}
+        }
+      },
+      "articleCount": {
+        "name": "articleCount",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": [
+            "string",
+            "null",
+            "integer"
+          ],
+          "format": "int32",
+          "description": "",
+          "maximum": 10,
+          "minimum": 1,
+          "pattern": "([0-9]+)",
+          "x-custom-parameters-attributes": {}
+        }
+      },
+      "locale": {
+        "name": "locale",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "",
+          "enum": [
+            "en",
+            "ja",
+            "zh",
+            "es",
+            "de",
+            "fr",
+            "tr",
+            "ru",
+            "pt",
+            "it",
+            "nl",
+            "da",
+            "sv",
+            "pl",
+            "ar",
+            "he",
+            "af",
+            "cs",
+            "fr-ca",
+            "bg",
+            "fi",
+            "el",
+            "hu",
+            "id",
+            "nb",
+            "ro",
+            "th",
+            "uk",
+            "vi",
+            "ur",
+            "hi",
+            "te",
+            "kn",
+            "ta",
+            "mr",
+            "ko",
+            "fa",
+            "bn",
+            "gu",
+            "ms",
+            "ml",
+            "en-gb",
+            "sk",
+            "hr",
+            "sl",
+            "zh_TW",
+            "zh-tw",
+            "ca",
+            "ka",
+            "kk",
+            "my",
+            "km",
+            "pt-br"
+          ],
+          "maxLength": 100,
+          "minLength": 0,
+          "pattern": "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+          "x-custom-parameters-attributes": {}
+        }
+      },
+	  "localePermalink": {
+	          "name": "locale",
+	          "in": "query",
+	          "required": true,
+	          "schema": {
+	            "type": [
+	              "string",
+	              "null"
+	            ],
+	            "description": "",
+	            "enum": [
+	              "en",
+	              "ja",
+	              "zh",
+	              "es",
+	              "de",
+	              "fr",
+	              "tr",
+	              "ru",
+	              "pt",
+	              "it",
+	              "nl",
+	              "da",
+	              "sv",
+	              "pl",
+	              "ar",
+	              "he",
+	              "af",
+	              "cs",
+	              "fr-ca",
+	              "bg",
+	              "fi",
+	              "el",
+	              "hu",
+	              "id",
+	              "nb",
+	              "ro",
+	              "th",
+	              "uk",
+	              "vi",
+	              "ur",
+	              "hi",
+	              "te",
+	              "kn",
+	              "ta",
+	              "mr",
+	              "ko",
+	              "fa",
+	              "bn",
+	              "gu",
+	              "ms",
+	              "ml",
+	              "en-gb",
+	              "sk",
+	              "hr",
+	              "sl",
+	              "zh_TW",
+	              "zh-tw",
+	              "ca",
+	              "ka",
+	              "kk",
+	              "my",
+	              "km",
+	              "pt-br"
+	            ],
+	            "maxLength": 100,
+	            "minLength": 0,
+	            "pattern": "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+	            "x-custom-parameters-attributes": {}
+	          }
+	        },
+      "categoryId": {
+        "name": "categoryId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": [
+            "string",
+            "null",
+            "integer"
+          ],
+          "format": "int64",
+          "description": "",
+          "pattern": "([0-9]+)",
+          "x-custom-parameters-attributes": {}
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookie-auth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "jwt-oauth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      }
+    }
+  },
+  "x-entity": "KbCategory"
+}

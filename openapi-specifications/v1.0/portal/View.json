@@ -1,0 +1,353 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "View",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/lastAccessedView" : {
+      "get" : {
+        "tags" : [ "View" ],
+        "summary" : "Get Last Accessed View",
+        "description" : "This API fetches the view last accessed by the user",
+        "operationId" : "GetLastAccessedView",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/ViewTemplate"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 20,
+                  "hip" : false
+                }, {
+                  "duration" : 18000000,
+                  "lock-period" : 3600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.ViewService.getLastAccessedView"
+        }
+      },
+      "post" : {
+        "tags" : [ "View" ],
+        "summary" : "Update Last Accessed View",
+        "description" : "This API updates the view last accessed by the user",
+        "operationId" : "UpdateLastAccessedView",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/updateViewPayLoad"
+        },
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          },
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 20,
+                  "hip" : false
+                }, {
+                  "duration" : 18000000,
+                  "lock-period" : 3600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.ViewService.updateLastAccessedView"
+        }
+      }
+    },
+    "/portal/api/views" : {
+      "get" : {
+        "tags" : [ "View" ],
+        "summary" : "Get all views",
+        "description" : "This API lists the different views configured for ticket module in your helpcenter",
+        "operationId" : "GetAllViews",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/ViewListAPIResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 20,
+                  "hip" : false
+                }, {
+                  "duration" : 18000000,
+                  "lock-period" : 3600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.ViewService.getAllViews"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ViewTemplate" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isCustomView" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "id", "isCustomView", "name" ]
+      },
+      "ViewList" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./View.json#/components/schemas/ViewTemplate"
+        }
+      }
+    },
+    "responses" : {
+      "ViewTemplate" : {
+        "description" : "ViewTemplate template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "isCustomView" : {
+                  "type" : [ "boolean", "null" ]
+                },
+                "name" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                },
+                "id" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                }
+              },
+              "required" : [ "id", "isCustomView", "name" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "isCustomView" : false,
+                    "name" : "My Tickets Tickets",
+                    "id" : "12878000002010003"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "ViewListAPIResponse" : {
+        "description" : "ViewListAPIResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./View.json#/components/schemas/ViewList"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "isCustomView" : false,
+                    "name" : "My Tickets Tickets",
+                    "id" : "12878000002010003"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Open Tickets",
+                    "id" : "12878000002010006"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Closed Tickets",
+                    "id" : "12878000002010009"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My OnHold Tickets",
+                    "id" : "12878000002010012"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Team Tickets",
+                    "id" : "12878000002010015"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Open Team Tickets",
+                    "id" : "12878000002010018"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Closed Team Tickets",
+                    "id" : "12878000002010021"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My OnHold Team Tickets",
+                    "id" : "12878000002010024"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My CC Tickets",
+                    "id" : "12878000002010027"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Open CC Tickets",
+                    "id" : "12878000002010030"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My Closed CC Tickets",
+                    "id" : "12878000002010033"
+                  }, {
+                    "isCustomView" : false,
+                    "name" : "My OnHold CC Tickets",
+                    "id" : "12878000002010036"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "requestBodies" : {
+      "updateViewPayLoad" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "viewId" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "View Id that is accessed now",
+                  "maxLength" : 100,
+                  "minLength" : 0
+                }
+              },
+              "required" : [ "viewId" ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "viewId" : "12878000002010003"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "View"
+}
