@@ -1,0 +1,780 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Client Events",
+        "version": "1.0.0",
+        "description": "OpenAPI specification for Client Events API supporting CRUD operations for event management with payload configurations.",
+        "x-clan-group" : "clientEvent",
+    	"x-module-group" : "clientEvent"
+    },
+    "paths": {
+        "/api/v1/clientEvents": {
+            "post": {
+                "tags": [
+                    "ClientEvents"
+                ],
+                "summary": "Create a client event",
+                "description": "Creates a new client event with specified name, display label, and payload configuration.",
+                "operationId": "createClientEvent",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/createClientEventPayload"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/clientEventResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.CREATE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "integration",
+                    "apihash": "2cd31605fa9e42173a12031bc7119a6f",
+                    "module-group": "marketplace",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.createEvent"
+                }
+            },
+            "get": {
+                "tags": [
+                    "ClientEvents"
+                ],
+                "summary": "Get all client events",
+                "description": "Retrieves all client events in the portal with their configurations.",
+                "operationId": "getClientEvents",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of records to retrieve (default: 100, max: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100,
+                            "default": 100
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Starting index for pagination (default: 0)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getClientEventsResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.READ"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "ReadAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "integration",
+                    "apihash": "f873a9ca11f7440b72a4f894bc00ba12",
+                    "module-group": "marketplace",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.getEvents"
+                }
+            }
+        },
+        "/api/v1/clientEvents/{clientEventId}": {
+            "get": {
+                "tags": [
+                    "ClientEvents"
+                ],
+                "summary": "Get a client event by ID",
+                "description": "Retrieves a specific client event by its unique identifier.",
+                "operationId": "getClientEventById",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/clientEventId"
+                    },
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getClientEventResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.READ"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "ReadAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "integration",
+                    "apihash": "26245a08195dd99b5caaddb43ff584df",
+                    "module-group": "marketplace",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.getEvent"
+                }
+            },
+            "patch": {
+                "tags": [
+                    "ClientEvents"
+                ],
+                "summary": "Update a client event",
+                "description": "Updates an existing client event with new configuration including name, display label, and payload.",
+                "operationId": "updateClientEvent",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/clientEventId"
+                    },
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateClientEventPayload"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/updateClientEventResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.UPDATE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "integration",
+                    "apihash": "8316ab2cbe0070f2530f76a841d0df59",
+                    "module-group": "marketplace",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.updateEvent"
+                }
+            }
+        },
+        "/api/v1/clientEvents/deleteMany": {
+            "post": {
+                "tags": [
+                    "ClientEvents"
+                ],
+                "summary": "Delete multiple client events",
+                "description": "Deletes multiple client events by their IDs in a single operation.",
+                "operationId": "deleteMultipleClientEvents",
+                "x-audience": [
+                    "company-internal"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "../common/Common.json#/components/parameters/orgId"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/deleteMultipleClientEventsPayload"
+                },
+                "responses": {
+                    "204": {
+                        "$ref": "../common/Common.json#/components/responses/emptyResponse"
+                    },
+                    "403": {
+                        "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+                    },
+                    "422": {
+                        "$ref": "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+                    },
+                    "500": {
+                        "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "org-oauth": [
+                            "Desk.accessAll.ALL"
+                        ]
+                    },
+                    {
+                        "iam-oauth2-schema": [
+                            "Desk.settings.DELETE"
+                        ]
+                    }
+                ],
+                "x-custom-url-attribute": {
+                    "security": {
+                        "throttle": {
+                            "policy": "WriteAPI_Standard_UserPolicy"
+                        },
+                        "extraparams": {
+                            "disable": true,
+                            "ignore": false
+                        },
+                        "authentication": {}
+                    },
+                    "clan-group": "integration",
+                    "apihash": "3b6fa0526939142679c4f06490d6d2dc",
+                    "module-group": "marketplace",
+                    "apimethod": "com.zoho.desk.framework.clientaction.app.ClientActionService.deleteEvents"
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "eventPayloadField": {
+                "type": "object",
+                "description": "Individual field configuration in event payload",
+                "additionalProperties": false,
+                "properties": {
+                    "apiName": {
+                        "type": "string",
+                        "description": "API name of the payload field",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "displayLabel": {
+                        "type": "string",
+                        "description": "Display label for the payload field",
+                        "maxLength": 255,
+                        "minLength": 1
+                    },
+                    "readOnly": {
+                        "type": "boolean",
+                        "description": "Whether the field is read-only"
+                    },
+                    "isMandatory": {
+                        "type": "boolean",
+                        "description": "Whether the field is mandatory"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Data type of the field",
+                        "enum": ["Text", "Number", "Boolean", "Date", "DateTime"]
+                    },
+                    "maxLength": {
+                        "type": "string",
+                        "description": "Maximum length for the field value",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "defaultValue": {
+                        "type": "string",
+                        "description": "Default value for the field"
+                    },
+                    "showToHelpCenter": {
+                        "type": "boolean",
+                        "description": "Whether to show this field in help center"
+                    },
+                    "isEncryptedField": {
+                        "type": "boolean",
+                        "description": "Whether this field contains encrypted data"
+                    }
+                },
+                "required": ["apiName", "displayLabel", "readOnly", "isMandatory", "type", "maxLength", "defaultValue", "showToHelpCenter", "isEncryptedField"]
+            },
+            "createClientEventPayload": {
+                "type": "object",
+                "description": "Payload structure for creating a new client event",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client event (mandatory)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "displayLabel": {
+                        "type": "string",
+                        "description": "Display label for the client event (mandatory)",
+                        "maxLength": 255,
+                        "minLength": 1
+                    },
+                    "payload": {
+                        "type": "array",
+                        "description": "Array of payload field configurations (mandatory)",
+                        "items": {
+                            "$ref": "#/components/schemas/eventPayloadField"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": ["name", "displayLabel", "payload"]
+            },
+            "updateClientEventPayload": {
+                "type": "object",
+                "description": "Payload structure for updating an existing client event. All fields (name, displayLabel, payload) are mandatory for update operations.",
+                "additionalProperties": false,
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client event (mandatory for updates)",
+                        "maxLength": 100,
+                        "minLength": 1
+                    },
+                    "displayLabel": {
+                        "type": "string",
+                        "description": "Display label for the client event (mandatory for updates)",
+                        "maxLength": 255,
+                        "minLength": 1
+                    },
+                    "payload": {
+                        "type": "array",
+                        "description": "Array of payload field configurations (mandatory for updates)",
+                        "items": {
+                            "$ref": "#/components/schemas/eventPayloadField"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "required": ["name", "displayLabel", "payload"]
+            },
+            "clientEventResponse": {
+                "type": "object",
+                "description": "Response structure for client event operations",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the client event (response only)",
+                        "pattern": "^[0-9]+$"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the client event"
+                    },
+                    "displayLabel": {
+                        "type": "string",
+                        "description": "Display label for the client event"
+                    },
+                    "payload": {
+                        "type": "string",
+                        "description": "JSON string containing the payload configuration"
+                    },
+                    "createdTime": {
+                        "type": "string",
+                        "description": "Creation timestamp (response only)",
+                        "format": "date-time"
+                    },
+                    "modifiedTime": {
+                        "type": "string",
+                        "description": "Last modification timestamp (response only)",
+                        "format": "date-time"
+                    }
+                },
+                "required": ["id", "name", "displayLabel", "payload", "createdTime", "modifiedTime"]
+            },
+            "deleteMultipleClientEventsPayload": {
+                "type": "object",
+                "description": "Payload for deleting multiple client events",
+                "additionalProperties": false,
+                "properties": {
+                    "eventIds": {
+                        "type": "array",
+                        "description": "Array of client event IDs to delete",
+                        "items": {
+                            "type": "string",
+                            "pattern": "^[0-9]+$"
+                        },
+                        "minItems": 1,
+                        "maxItems": 100
+                    }
+                },
+                "required": ["eventIds"]
+            }
+        },
+        "parameters": {
+            "clientEventId": {
+                "name": "clientEventId",
+                "in": "path",
+                "description": "Unique ID of the client event",
+                "required": true,
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                    "type": ["string", "null", "integer"],
+                    "format": "int64",
+                    "description": "Unique identifier for the client event",
+                    "pattern": "([0-9]+)"
+                }
+            }
+        },
+        "requestBodies": {
+            "createClientEventPayload": {
+                "description": "Request body for creating a new client event",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/createClientEventPayload"
+                        },
+                        "examples": {
+                            "basicClientEvent": {
+                                "summary": "Basic client event creation",
+                                "description": "Example of creating a client event with payload configuration",
+                                "value": {
+                                    "name": "TARGET#EVENT",
+                                    "displayLabel": "TARGET_EVENT",
+                                    "payload": [
+                                        {
+                                            "apiName": "recordsIds",
+                                            "displayLabel": "recordsIds",
+                                            "readOnly": false,
+                                            "isMandatory": false,
+                                            "type": "Text",
+                                            "maxLength": "255",
+                                            "defaultValue": "recordsIds",
+                                            "showToHelpCenter": true,
+                                            "isEncryptedField": true
+                                        }
+                                    ]
+                                }
+                            },
+                            "multipleFieldsEvent": {
+                                "summary": "Client event with multiple payload fields",
+                                "description": "Example showing an event with multiple payload field configurations",
+                                "value": {
+                                    "name": "SHOW#ALERT",
+                                    "displayLabel": "SHOW_ALERT",
+                                    "payload": [
+                                        {
+                                            "apiName": "mode",
+                                            "displayLabel": "mode",
+                                            "readOnly": false,
+                                            "isMandatory": false,
+                                            "type": "Text",
+                                            "maxLength": "255",
+                                            "defaultValue": "mode",
+                                            "showToHelpCenter": true,
+                                            "isEncryptedField": true
+                                        },
+                                        {
+                                            "apiName": "message",
+                                            "displayLabel": "Alert Message",
+                                            "readOnly": false,
+                                            "isMandatory": true,
+                                            "type": "Text",
+                                            "maxLength": "500",
+                                            "defaultValue": "",
+                                            "showToHelpCenter": false,
+                                            "isEncryptedField": false
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "updateClientEventPayload": {
+                "description": "Request body for updating an existing client event",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/updateClientEventPayload"
+                        },
+                        "examples": {
+                            "updateClientEvent": {
+                                "summary": "Update existing client event",
+                                "description": "Example of updating a client event configuration",
+                                "value": {
+                                    "name": "UPDATED#EVENT",
+                                    "displayLabel": "UPDATED_EVENT",
+                                    "payload": [
+                                        {
+                                            "apiName": "recordsIds",
+                                            "displayLabel": "Updated Records IDs",
+                                            "readOnly": false,
+                                            "isMandatory": true,
+                                            "type": "Text",
+                                            "maxLength": "500",
+                                            "defaultValue": "updated_default",
+                                            "showToHelpCenter": false,
+                                            "isEncryptedField": false
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deleteMultipleClientEventsPayload": {
+                "description": "Request body for deleting multiple client events",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/deleteMultipleClientEventsPayload"
+                        },
+                        "examples": {
+                            "deleteMultipleEvents": {
+                                "summary": "Delete multiple client events",
+                                "description": "Example of deleting multiple client events by their IDs",
+                                "value": {
+                                    "eventIds": ["12345", "6789"]
+                                }
+                            },
+                            "deleteSingleEvent": {
+                                "summary": "Delete single client event",
+                                "description": "Example of deleting a single client event",
+                                "value": {
+                                    "eventIds": ["1000000067001"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "clientEventResponse": {
+                "description": "Successful client event creation response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientEventResponse"
+                        },
+                        "examples": {
+                            "successfulCreation": {
+                                "summary": "Successful client event creation",
+                                "description": "Example response after creating a client event",
+                                "value": {
+                                    "displayLabel": "SHOW_ALERT",
+                                    "modifiedTime": "2025-09-12T05:38:25.000Z",
+                                    "payload": "[{\"displayLabel\":\"mode\",\"apiName\":\"mode\",\"defaultValue\":\"mode\",\"showToHelpCenter\":\"true\",\"isEncryptedField\":\"true\",\"readOnly\":\"false\",\"type\":\"Text\",\"isMandatory\":\"false\",\"maxLength\":\"255\"}]",
+                                    "name": "SHOW#ALERT",
+                                    "createdTime": "2025-09-12T05:38:25.000Z",
+                                    "id": "1000000067001"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "updateClientEventResponse": {
+                "description": "Successful client event update response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientEventResponse"
+                        },
+                        "examples": {
+                            "successfulUpdate": {
+                                "summary": "Successful client event update",
+                                "description": "Example response after updating a client event",
+                                "value": {
+                                    "displayLabel": "UPDATED_ALERT",
+                                    "modifiedTime": "2025-11-10T10:30:15.000Z",
+                                    "payload": "[{\"displayLabel\":\"Updated Mode\",\"apiName\":\"mode\",\"defaultValue\":\"updated_mode\",\"showToHelpCenter\":\"false\",\"isEncryptedField\":\"false\",\"readOnly\":\"false\",\"type\":\"Text\",\"isMandatory\":\"true\",\"maxLength\":\"500\"}]",
+                                    "name": "UPDATED#ALERT",
+                                    "createdTime": "2025-09-12T05:38:25.000Z",
+                                    "id": "1000000067001"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "getClientEventResponse": {
+                "description": "Successful get client event by ID response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/clientEventResponse"
+                        },
+                        "examples": {
+                            "successfulGet": {
+                                "summary": "Successful client event retrieval",
+                                "description": "Example response when getting a client event by ID",
+                                "value": {
+                                    "displayLabel": "SHOW_ALERT",
+                                    "modifiedTime": "2025-09-12T05:38:25.000Z",
+                                    "payload": "[{\"displayLabel\":\"mode\",\"apiName\":\"mode\",\"defaultValue\":\"mode\",\"showToHelpCenter\":\"true\",\"isEncryptedField\":\"true\",\"readOnly\":\"false\",\"type\":\"Text\",\"isMandatory\":\"false\",\"maxLength\":\"255\"}]",
+                                    "name": "SHOW#ALERT",
+                                    "createdTime": "2025-09-12T05:38:25.000Z",
+                                    "id": "1000000067001"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "getClientEventsResponse": {
+                "description": "Successful get all client events response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "description": "Array of client events. Returns empty array if no records found.",
+                            "items": {
+                                "$ref": "#/components/schemas/clientEventResponse"
+                            }
+                        },
+                        "examples": {
+                            "successfulGetAll": {
+                                "summary": "Multiple client events found",
+                                "description": "Example response when multiple client events are found",
+                                "value": [
+                                    {
+                                        "displayLabel": "SHOW_ALERT",
+                                        "modifiedTime": "2025-09-12T05:38:25.000Z",
+                                        "payload": "[{\"displayLabel\":\"mode\",\"apiName\":\"mode\",\"defaultValue\":\"mode\",\"showToHelpCenter\":\"true\",\"isEncryptedField\":\"true\",\"readOnly\":\"false\",\"type\":\"Text\",\"isMandatory\":\"false\",\"maxLength\":\"255\"}]",
+                                        "name": "SHOW#ALERT",
+                                        "createdTime": "2025-09-12T05:38:25.000Z",
+                                        "id": "1000000067001"
+                                    },
+                                    {
+                                        "displayLabel": "TARGET_EVENT",
+                                        "modifiedTime": "2025-09-12T06:15:30.000Z",
+                                        "payload": "[{\"displayLabel\":\"recordsIds\",\"apiName\":\"recordsIds\",\"defaultValue\":\"recordsIds\",\"showToHelpCenter\":\"true\",\"isEncryptedField\":\"true\",\"readOnly\":\"false\",\"type\":\"Text\",\"isMandatory\":\"false\",\"maxLength\":\"255\"}]",
+                                        "name": "TARGET#EVENT",
+                                        "createdTime": "2025-09-12T06:15:30.000Z",
+                                        "id": "1000000067002"
+                                    }
+                                ]
+                            },
+                            "emptyResponse": {
+                                "summary": "No client events found",
+                                "description": "Example response when no records are found",
+                                "value": []
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "org-oauth": {
+                "$ref": "../common/Common.json#/components/securitySchemes/org-oauth"
+            },
+            "iam-oauth2-schema": {
+                "$ref": "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+            }
+        }
+    },
+    "x-entity": "ClientEvent"
+}

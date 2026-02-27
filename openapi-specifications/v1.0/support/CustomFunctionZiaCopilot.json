@@ -1,0 +1,390 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Custom Function Zia Copilot API",
+    "description" : "API for Zia Copilot to generate Deluge code and provide assistance for custom functions.",
+    "version" : "1.0.0",
+    "x-clan-group" : "automation",
+    "x-module-group" : "automation"
+  },
+  "paths" : {
+    "/api/v1/customFunctions/zia/codegen" : {
+      "post" : {
+        "tags" : [ "CustomFunctionsZiaCopilot" ],
+        "summary" : "Generate Deluge Code with Zia Copilot",
+        "description" : "Uses Zia AI to generate or assist with Deluge code based on user queries and context.",
+        "operationId" : "customFunctionZiaCopilot",
+        "parameters" : [ ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/ZiaCopilotRequest"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/ZiaCopilotResponse"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          },
+          "401" : {
+            "$ref" : "../common/Common.json#/components/responses/unauthorizedErrorResponse"
+          }
+        },
+        "security" : [ {
+          "org-oauth" : [ "Desk.accessAll.ALL" ]
+        }, {
+          "iam-oauth2-schema" : [ "Desk.settings.All" ]
+        } ],
+        "x-audience" : [ "company-internal" ],
+        "x-custom-url-attributes" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : "1m",
+                  "lock-period" : 20,
+                  "threshold" : 30
+                }, {
+                  "duration" : "1h",
+                  "lock-period" : 30,
+                  "threshold" : 200
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true
+            },
+            "authentication" : { }
+          },
+          "clan-group" : "automation",
+          "apihash" : "",
+          "module-group" : "automation",
+          "apimethod" : "com.zoho.support.restapi.CustomFunctionCopilotService.generateCode"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ZiaCopilotRequestBody" : {
+        "type" : "object",
+        "properties" : {
+          "mode" : {
+            "type" : "string",
+            "description" : "The mode of operation for Zia Copilot.",
+            "enum" : [ "CODE_GENERATION" ]
+          },
+          "query" : {
+            "type" : "string",
+            "description" : "User query or prompt for code generation or assistance.",
+            "maxLength" : 5000
+          },
+          "context" : {
+            "$ref" : "#/components/schemas/CopilotContext"
+          },
+          "departmentId" : {
+            "type" : "integer",
+            "format" : "int64",
+            "description" : "Department ID for field filtering"
+          },
+          "module" : {
+            "type" : "string",
+            "description" : "Module for which fields should be considered Values allowed are tickets, contacts, accounts, tasks, timeEntry, products, calls, events, customModule",
+            "enum" : [ "tickets", "contacts", "accounts", "tasks", "timeEntry", "products", "calls", "events" ]
+          }
+        },
+        "required" : [ "mode", "query", "context" ]
+      },
+      "CopilotContext" : {
+        "type" : "object",
+        "description" : "Context information for code generation",
+        "properties" : {
+          "function_schema" : {
+            "$ref" : "#/components/schemas/FunctionSchema"
+          },
+          "context_string" : {
+            "type" : "string",
+            "description" : "Additional context information as string.",
+            "maxLength" : 10000
+          },
+          "editor_script" : {
+            "type" : "string",
+            "description" : "Existing script in the editor.",
+            "maxLength" : 50000
+          }
+        },
+        "required" : [ "function_schema" ]
+      },
+      "FunctionSchema" : {
+        "type" : "object",
+        "description" : "Schema definition for the custom function",
+        "properties" : {
+          "return_type" : {
+            "type" : "string",
+            "description" : "Return type of the function.",
+            "enum" : [ "void", "string" ]
+          },
+          "function_name" : {
+            "type" : "string",
+            "description" : "Name of the custom function.",
+            "maxLength" : 255
+          },
+          "arguments" : {
+            "type" : "array",
+            "description" : "List of function arguments.",
+            "items" : {
+              "$ref" : "#/components/schemas/FunctionArgument"
+            },
+            "maxItems" : 50
+          }
+        },
+        "required" : [ "return_type", "function_name" ]
+      },
+      "FunctionArgument" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Argument name.",
+            "maxLength" : 255
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Argument data type.",
+            "enum" : [ "string", "number", "boolean", "map", "list", "date", "datetime" ]
+          }
+        },
+        "required" : [ "name", "type" ]
+      },
+      "ZiaCopilotResponseBody" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/CopilotData"
+          }
+        }
+      },
+      "CopilotData" : {
+        "type" : "object",
+        "properties" : {
+          "meta" : {
+            "$ref" : "#/components/schemas/CopilotMeta"
+          },
+          "id" : {
+            "type" : "string",
+            "description" : "Unique identifier for this generation."
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type of response.",
+            "enum" : [ "code" ]
+          },
+          "script" : {
+            "type" : "array",
+            "description" : "Generated code script(s).",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "status" : {
+            "type" : "integer",
+            "description" : "HTTP status code."
+          }
+        }
+      },
+      "CopilotMeta" : {
+        "type" : "object",
+        "properties" : {
+          "total_api_tasks" : {
+            "type" : "integer",
+            "description" : "Total number of API tasks identified."
+          },
+          "execution_flow" : {
+            "type" : "string",
+            "description" : "Execution flow identifier."
+          },
+          "user_query" : {
+            "type" : "string",
+            "description" : "Original user query."
+          },
+          "query_type" : {
+            "type" : "string",
+            "description" : "Type of query processed.",
+            "enum" : [ "code_gen"]
+          },
+          "total_chunks" : {
+            "type" : "integer",
+            "description" : "Total chunks processed."
+          },
+          "time_taken" : {
+            "type" : "string",
+            "description" : "Time taken to process the request."
+          },
+          "used_task_ids" : {
+            "type" : "array",
+            "description" : "List of task IDs used.",
+            "items" : {
+              "type" : "integer"
+            }
+          },
+          "used_chunk_ids" : {
+            "type" : "array",
+            "description" : "List of chunk IDs and their scores.",
+            "items" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "number"
+              }
+            }
+          },
+          "vendor" : {
+            "$ref" : "#/components/schemas/VendorInfo"
+          },
+          "chat_responses" : {
+            "type" : "array",
+            "description" : "Raw chat responses from AI.",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "service_meta" : {
+            "$ref" : "#/components/schemas/ServiceMeta"
+          },
+          "chunk_threshold" : {
+            "type" : "integer",
+            "description" : "Threshold for chunk selection."
+          },
+          "validation" : {
+            "$ref" : "#/components/schemas/ValidationInfo"
+          }
+        }
+      },
+      "VendorInfo" : {
+        "type" : "object",
+        "properties" : {
+          "embeddingVendor" : {
+            "type" : "string",
+            "description" : "Embedding model vendor."
+          },
+          "llmVendor" : {
+            "type" : "string",
+            "description" : "LLM vendor used."
+          }
+        }
+      },
+      "ServiceMeta" : {
+        "type" : "object",
+        "properties" : {
+          "function_schema" : {
+            "type" : "object",
+            "description" : "Function schema used in processing.",
+            "additionalProperties" : true
+          },
+          "service_name" : {
+            "type" : "string",
+            "description" : "Service name."
+          }
+        }
+      },
+      "ValidationInfo" : {
+        "type" : "object",
+        "properties" : {
+          "line" : {
+            "type" : "string",
+            "description" : "Line number where validation error occurred (if any)."
+          },
+          "error" : {
+            "type" : "string",
+            "description" : "Validation error message (if any)."
+          },
+          "script" : {
+            "type" : "string",
+            "description" : "Validated script."
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Validation status.",
+            "enum" : [ "Validation_OK" ]
+          }
+        },
+        "required" : [ "status" ]
+      }
+    },
+    "responses" : {
+      "ZiaCopilotResponse" : {
+        "description" : "Zia Copilot generation response",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ZiaCopilotResponseBody"
+            },
+            "examples" : {
+              "Success" : {
+                "summary" : "Code Generation Success",
+                "value" : {
+                  "data" : {
+                    "meta" : {
+                      "total_api_tasks" : 0,
+                      "execution_flow" : "DRE",
+                      "user_query" : "write a deluge code",
+                      "query_type" : "code_gen",
+                      "total_chunks" : 13,
+                      "time_taken" : "5.88 s",
+                      "used_task_ids" : [ ],
+                      "used_chunk_ids" : [ {
+                        "help_Introduction_to_Deluge" : 110.943436
+                      } ],
+                      "vendor" : {
+                        "embeddingVendor" : "ZIA",
+                        "llmVendor" : "ZIA"
+                      },
+                      "chat_responses" : [ "{\"category\": \"code_gen\", \"reasoning\": [\"Generate a basic Deluge code structure\"]}" ],
+                      "service_meta" : {
+                        "function_schema" : { },
+                        "service_name" : "ZohoSupport"
+                      },
+                      "chunk_threshold" : 5,
+                      "validation" : {
+                        "status" : "Validation_OK"
+                      }
+                    },
+                    "id" : "b369db64-15dd-3d95-b05d-eb1cf4cfb731",
+                    "type" : "code",
+                    "script" : [ "```// Generated Deluge code\ninfo \"Hello World\";\n```", null ],
+                    "status" : 200
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "ZiaCopilotRequest" : {
+        "description" : "Input payload for Zia Copilot code generation",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ZiaCopilotRequestBody"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "CustomFunctionsZiaCopilot"
+}

@@ -1,0 +1,1061 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Category",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/me/followedCommunityCategories" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "My Followed Categories",
+        "description" : "List all Followed Category of the current User ",
+        "operationId" : "myFollowedCategories",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/myFollowedCategories"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 40,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getUserFollowedCategories"
+        }
+      }
+    },
+    "/portal/api/communityCategory/{categoryId}/logo/{logoId}" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "operationId" : "getCategoryLogo",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/categoryId"
+        }, {
+          "name" : "logoId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/fileResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 60,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getCategoryLogo"
+        }
+      }
+    },
+    "/portal/api/me/followedCommunityForums" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "My Followed Forums",
+        "description" : "List all Followed forums of the current User ",
+        "operationId" : "myFollowedForums",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/myFollowedForums"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 40,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getUserFollowedForums"
+        }
+      }
+    },
+    "/portal/api/communityCategory" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "List all category",
+        "description" : "API to get all helpcenter visible categories",
+        "operationId" : "listAllCategory",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/listAllCategory"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getCategories"
+        }
+      }
+    },
+    "/portal/api/communityCategory/{categoryId}/followers" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "List all community Category Followers",
+        "description" : "Get All Category Followers",
+        "operationId" : "listAllCommunityCategoryFollowers",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "$ref" : "#/components/parameters/categoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/listAllCommunityCategoryFollowers"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getCategoryFollowers"
+        }
+      }
+    },
+    "/portal/api/communityMyFollowedCategory" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "FollowedCategory",
+        "description" : "List all Followed Category of the current User ",
+        "operationId" : "followedCategory",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/followedCategory"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getUserFollowedCategoriesAndForums"
+        }
+      }
+    },
+    "/portal/api/communityCategory/{categoryId}" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getACategory",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/categoryId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/getCategory"
+          }
+        },
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.community.categories.CategoryPortalRestService.getCategoryById"
+        }
+      }
+    },
+    "/portal/api/communityCategoryByPermalink" : {
+      "get" : {
+        "tags" : [ "Category" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getCategoryByPermalink",
+        "parameters" : [ {
+          "name" : "permalink",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 250,
+            "minLength" : 0,
+            "pattern" : "[a-zA-Z0-9%\\-._/?\\P{InBasicLatin}]*",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/getCategoryByPermalink"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "myFollowedCategoriesKeys" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "description", "id", "name", "photoUrl" ]
+      },
+      "myFollowedCategoriesData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Category.json#/components/schemas/myFollowedCategoriesKeys"
+        }
+      },
+      "myFollowedForumsKeys" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "id", "name" ]
+      },
+      "myFollowedForumsData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Category.json#/components/schemas/myFollowedForumsKeys"
+        }
+      },
+      "getCategoryByPermalink" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isFollowing" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "visibility" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "ALL_USERS", "LOGGED_IN_USERS", "MODERATORS", "GROUPS" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "permissions" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "enum" : [ "POST", "RESPOND" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "isLocked" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "parentCategoryId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "permalink" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 250,
+            "minLength" : 0,
+            "pattern" : "[a-zA-Z0-9%\\-._/?\\P{InBasicLatin}]*"
+          },
+          "child" : {
+            "$ref" : "./Category.json#/components/schemas/childCategoryListByPermalink"
+          }
+        },
+        "required" : [ "child", "id", "isFollowing", "isLocked", "name", "parentCategoryId", "permalink", "permissions", "visibility" ]
+      },
+      "getChildCategoryByPermalink" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Category.json#/components/schemas/getCategoryByPermalink"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "isFollowing" : {
+              "type" : [ "boolean", "null" ]
+            },
+            "visibility" : {
+              "type" : [ "string", "null" ],
+              "enum" : [ "ALL_USERS", "LOGGED_IN_USERS", "MODERATORS", "GROUPS" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "permissions" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null" ],
+                "enum" : [ "POST", "RESPOND" ],
+                "maxLength" : 100,
+                "minLength" : 0
+              },
+              "uniqueItems" : false
+            },
+            "isLocked" : {
+              "type" : [ "boolean", "null" ]
+            },
+            "name" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 200,
+              "minLength" : 0,
+              "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+            },
+            "parentCategoryId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "id" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "permalink" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 250,
+              "minLength" : 0,
+              "pattern" : "[a-zA-Z0-9%\\-._/?\\P{InBasicLatin}]*"
+            },
+            "child" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "null", "object" ],
+                "additionalProperties" : false
+              },
+              "uniqueItems" : false
+            }
+          },
+          "required" : [ "child", "id", "isFollowing", "isLocked", "name", "parentCategoryId", "permalink", "permissions", "visibility" ]
+        } ]
+      },
+      "childCategoryListByPermalink" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Category.json#/components/schemas/getChildCategoryByPermalink"
+        }
+      },
+      "getCategory" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Category.json#/components/schemas/getCategoryByPermalink"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "photoUrl" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+            },
+            "description" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "postCount" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int32",
+              "minimum" : 0,
+              "pattern" : "([0-9]+)"
+            },
+            "position" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int32",
+              "pattern" : "([0-9]+)"
+            },
+            "followersCount" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int32",
+              "minimum" : 0,
+              "pattern" : "([0-9]+)"
+            },
+            "commentCount" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int32",
+              "minimum" : 0,
+              "pattern" : "([0-9]+)"
+            }
+          },
+          "required" : [ "commentCount", "description", "followersCount", "photoUrl", "position", "postCount" ]
+        } ]
+      },
+      "listAllCategoryData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Category.json#/components/schemas/getCategory"
+        }
+      },
+      "categoryFollowersDetails" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+          },
+          "contactId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "label" : {
+            "$ref" : "./Label.json#/components/schemas/labelMetaResponse"
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "ENDUSER", "SUPPORTREP" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "contactId", "id", "label", "name", "photoUrl", "type" ]
+      },
+      "categoryFollowersDetailsData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Category.json#/components/schemas/categoryFollowersDetails"
+        }
+      },
+      "followedCategoryDetails" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "id", "name" ]
+      }
+    },
+    "responses" : {
+      "myFollowedCategories" : {
+        "description" : "myFollowedCategories template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Category.json#/components/schemas/myFollowedCategoriesData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "photoUrl" : "https://help.zoho.com/portal/api/departments/400060733244/logo",
+                    "name" : "Crm",
+                    "description" : "topics related  to CRM",
+                    "id" : "400060733233"
+                  }, {
+                    "photoUrl" : "https://help.zoho.com/portal/api/departments/400060731244/logo",
+                    "name" : "Desk",
+                    "description" : "topics related  to Desk",
+                    "id" : "400060733234"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "myFollowedForums" : {
+        "description" : "myFollowedForums template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Category.json#/components/schemas/myFollowedForumsData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "name" : "Crm",
+                    "id" : "400060733233"
+                  }, {
+                    "name" : "Desk",
+                    "id" : "400060733234"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "listAllCategory" : {
+        "description" : "listAllCategory template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Category.json#/components/schemas/listAllCategoryData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "isFollowing" : true,
+                    "visibility" : "GROUPS",
+                    "description" : "Get your questions answered here!",
+                    "commentCount" : "2",
+                    "photoUrl" : null,
+                    "permissions" : [ "POST", "RESPOND" ],
+                    "isLocked" : false,
+                    "name" : "samsungs7",
+                    "postCount" : "3",
+                    "parentCategoryId" : null,
+                    "id" : "3000000000017",
+                    "followersCount" : "2",
+                    "position" : "1",
+                    "permalink" : "samsungs7",
+                    "child" : [ {
+                      "isFollowing" : true,
+                      "visibility" : "GROUPS",
+                      "description" : null,
+                      "commentCount" : "2",
+                      "photoUrl" : null,
+                      "permissions" : [ "POST", "RESPOND" ],
+                      "isLocked" : false,
+                      "name" : "Subforum1",
+                      "postCount" : "3",
+                      "parentCategoryId" : "3000000000017",
+                      "id" : "3000000000033",
+                      "followersCount" : "2",
+                      "position" : "1",
+                      "permalink" : "subForum1",
+                      "child" : [ ]
+                    } ]
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "listAllCommunityCategoryFollowers" : {
+        "description" : "listAllCommunityCategoryFollowers template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Category.json#/components/schemas/categoryFollowersDetailsData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "photoUrl" : null,
+                    "isFollowing" : false,
+                    "name" : "User - 1",
+                    "topicTypeWiseCount" : {
+                      "problem" : "3",
+                      "question" : "2",
+                      "idea" : "1",
+                      "announcement" : "4"
+                    },
+                    "id" : "200000001",
+                    "label" : {
+                      "preferences" : {
+                        "shape" : "RECTANGLE",
+                        "bgColor" : "#23F123",
+                        "textColor" : "#2CA123"
+                      },
+                      "name" : "Admin",
+                      "id" : "6000000158001",
+                      "logoUrl" : "https://desk.zoho.com/portal/api/publicImages/6000000158231?orgId=14132"
+                    },
+                    "type" : "ENDUSER"
+                  }, {
+                    "photoUrl" : null,
+                    "isFollowing" : false,
+                    "name" : "User - 3",
+                    "topicTypeWiseCount" : {
+                      "problem" : "3",
+                      "question" : "2",
+                      "idea" : "1",
+                      "announcement" : "4"
+                    },
+                    "id" : "20000002",
+                    "label" : null,
+                    "type" : "ENDUSER"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "followedCategory" : {
+        "description" : "followedCategory template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "array", "null" ],
+              "items" : {
+                "$ref" : "./Category.json#/components/schemas/followedCategoryDetails"
+              }
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "name" : "Crm",
+                    "id" : "101"
+                  }, {
+                    "name" : "Desk",
+                    "id" : "102"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "getCategory" : {
+        "description" : "getCategory template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/getCategoryByPermalink"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "photoUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "description" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "postCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "minimum" : 0,
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "position" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "followersCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "minimum" : 0,
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "commentCount" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int32",
+                    "description" : "",
+                    "minimum" : 0,
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  }
+                },
+                "required" : [ "description", "photoUrl", "position", "postCount", "commentCount", "followersCount" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      },
+      "getCategoryByPermalink":{
+        "description" : "getCategoryByPermalink template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/getCategoryByPermalink"
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "isFollowing" : true,
+                  "visibility" : "GROUPS",
+                  "description" : "Get your questions answered here!",
+                  "permissions" : [ "POST", "RESPOND" ],
+                  "isLocked" : false,
+                  "name" : "samsungs7",
+                  "parentCategoryId" : null,
+                  "id" : "3000000000017",
+                  "permalink" : "samsungs7",
+                  "child" : [ {
+                    "isFollowing" : true,
+                    "visibility" : "GROUPS",
+                    "description" : null,
+                    "permissions" : [ "POST", "RESPOND" ],
+                    "isLocked" : false,
+                    "name" : "Subforum1",
+                    "parentCategoryId" : "3000000000017",
+                    "id" : "3000000000033",
+                    "permalink" : "subForum1",
+                    "child" : [ ]
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    
+    },
+    "parameters" : {
+      "limit" : {
+        "name" : "limit",
+        "in" : "query",
+        "description" : "limit",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int32",
+          "description" : "limit",
+          "maximum" : 100,
+          "minimum" : 1,
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "from" : {
+        "name" : "from",
+        "in" : "query",
+        "description" : "Index from which list is retrieved and it starts from 1",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int32",
+          "description" : "Index from which list is retrieved and it starts from 1",
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "categoryId" : {
+        "name" : "categoryId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int64",
+          "pattern" : "([0-9]+)"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Category"
+}

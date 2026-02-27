@@ -1,0 +1,118 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "HelpcenterGroups",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/groups/{groupId}" : {
+      "get" : {
+        "tags" : [ "HelpcenterGroups" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getGroup",
+        "parameters" : [ {
+          "name" : "groupId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/groupResponse"
+          },
+          "500" : {
+            "$ref" : "../common/Common.json#/components/responses/internalErrorResponse"
+          },
+          "403" : {
+            "$ref" : "../common/Common.json#/components/responses/forbiddenErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "groupResponse" : {
+        "description" : "groupResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "name" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "[0-9a-zA-Z_\\-\\&\\.\\$\\@\\^\\(\\)\\{\\}\\~\\=\\-\\|\\*\\+\\?\\[\\]\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "count" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "description" : "",
+                  "pattern" : "([0-9]+)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "description" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "id" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int64",
+                  "description" : "",
+                  "pattern" : "([0-9]+)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "logoUrl" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 200,
+                  "minLength" : 0,
+                  "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                  "x-custom-parameters-attributes" : { }
+                }
+              },
+              "required" : [ "count", "description", "id", "logoUrl", "name" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      }
+    }
+  },
+  "x-entity" : "HelpcenterGroups"
+}

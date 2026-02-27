@@ -1,0 +1,133 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "ArticleFeedback",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/kbArticles/{articleId}/locale/{locale}/feedbacks" : {
+      "post" : {
+        "tags" : [ "ArticleFeedback" ],
+        "summary" : "Create article feedback",
+        "description" : "This API adds a feedback to an article.",
+        "operationId" : "addFeedback",
+        "parameters" : [ {
+          "name" : "articleId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "name" : "locale",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)"
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/addFeedbackJson"
+        },
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          },
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "policy" : "SubEntityCreate_Policy"
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.articles.rest.portal.PortalArticleService.addAFeedback"
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : { },
+    "requestBodies" : {
+      "addFeedbackJson" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "feedback" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "Content of the feedback",
+                  "maxLength" : 255,
+                  "minLength" : 0
+                },
+                "email" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "Email ID in the feedback",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+                }
+              },
+              "required" : [ "feedback" ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "feedback" : "The Article is considering these constraints 1. 2. 3 . 4 ",
+                  "email" : "example@zylker.com"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "ArticleFeedback"
+}

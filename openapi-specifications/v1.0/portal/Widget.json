@@ -1,0 +1,218 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Widget",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/customTheme/{customThemeId}/widgets" : {
+      "get" : {
+        "tags" : [ "Widget" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getMappedWidgetFromCustomTheme",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "HOMEPAGE", "COMMUNITY_HOMEPAGE", "COMMUNITY_DETAILVIEWPAGE", "SOLUTION_LISTPAGE", "SOLUTION_DETAILVIEWPAGE", "SOLUTION_HOMEPAGE", "COMMUNITY_LISTPAGE" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "customThemeId",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getAllWidgetResponse"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "widgetsJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "view" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "LEFT", "RIGHT", "defaultView" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "showName" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "",
+            "x-custom-parameters-attributes" : { }
+          },
+          "extensionDetails" : {
+            "type" : [ "null", "object" ],
+            "additionalProperties" : false,
+            "description" : "",
+            "maxProperties" : 2,
+            "minProperties" : 2,
+            "properties" : {
+              "extensionWidgetId" : {
+                "type" : [ "string", "null", "integer" ],
+                "format" : "int64",
+                "description" : "",
+                "pattern" : "([0-9]+)",
+                "x-custom-parameters-attributes" : { }
+              },
+              "installationId" : {
+                "type" : [ "string", "null", "integer" ],
+                "format" : "int64",
+                "description" : "",
+                "pattern" : "([0-9]+)",
+                "x-custom-parameters-attributes" : { }
+              }
+            },
+            "required" : [ "extensionWidgetId", "installationId" ],
+            "x-custom-parameters-attributes" : { }
+          },
+          "departmentId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "section" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "page" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "HOMEPAGE", "COMMUNITY_HOMEPAGE", "COMMUNITY_DETAILVIEWPAGE", "SOLUTION_LISTPAGE", "SOLUTION_DETAILVIEWPAGE", "SOLUTION_HOMEPAGE", "COMMUNITY_LISTPAGE" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "NEW_SEARCH", "WIDGET", "SOLUTION_AND_FORUMS", "NEW_EMBED_CHAT_BUTTON", "NEW_EMBED_CHAT_FLOAT_BUTTON", "NEW_CONTACT_INFO", "CUSTOMER_PORTAL_COMPONENTS", "CATEGORIES", "RECENT_ACTIVITIES", "ANNOUNCEMENTS", "ACTION", "NEW_TEXT", "NEW_ENABLE_SURVEY_WIDGET", "COMMUNITY_ANNOUNCEMENTS", "STICKY_POSTS", "RELATED_TOPICS", "RECENT_TOPICS", "POPULAR_TOPICS", "MOST_DISCUSSED_TOPICS", "ACTIVITY_CHART", "PARTICIPANTS", "TOP_CONTRIBUTORS", "RELATED_ARTICLES_IN_THIS_SECTION", "MOST_LIKED_ARTICLES", "MOST_VIEWED_ARTICLES", "RELATED_ARTICLES", "RECENT_ARTICLES", "MODULES", "CUSTOM_WIDGETS", "KB_CATEGORIES", "COMMUNITY_CATEGORIES", "CATEGORY", "MARKET_PLACE_WIDGETS", "MY_TICKETS", "MY_TEAM_TICKETS", "CC_TICKETS" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "content" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "order" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "content", "departmentId", "description", "extensionDetails", "id", "name", "order", "page", "section", "showName", "type", "view" ]
+      },
+      "mappedWidgets" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Widget.json#/components/schemas/widgetsJson"
+        }
+      }
+    },
+    "responses" : {
+      "getAllWidgetResponse" : {
+        "description" : "getAllWidgetResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Widget.json#/components/schemas/mappedWidgets"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Widget"
+}

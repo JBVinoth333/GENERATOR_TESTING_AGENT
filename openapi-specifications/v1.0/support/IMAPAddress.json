@@ -1,0 +1,1091 @@
+{
+  "openapi": "3.1.0",
+  "x-entity": "IMAPAddress",
+  "info": {
+    "title": "IMAPAddress",
+    "version": "1.0.0",
+    "x-clan-group": "mail",
+    "x-module-group": "mail"
+  },
+  "paths": {
+    "/api/v1/imap": {
+      "post": {
+        "tags": [
+          "IMAPAddress"
+        ],
+        "summary": "Add IMAP address",
+        "description": "This API used for adding support email address as support email address and from address",
+        "operationId": "addIMAPAddress",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/addIMAPAddressJSON"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/IMAPAddressResponse"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": [
+              "Desk.accessAll.ALL"
+            ]
+          },
+          {
+            "iam-oauth2-schema": [
+              "Desk.settings.CREATE"
+            ]
+          }
+        ],
+        "x-audience": [
+          "external-public"
+        ],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "inline": [
+                {
+                  "scope": "APPSERVER",
+                  "rules": [
+                    {
+                      "duration": 60000,
+                      "lock-period": 300000,
+                      "threshold": 5,
+                      "hip": false
+                    },
+                    {
+                      "duration": 3600000,
+                      "lock-period": 900000,
+                      "threshold": 10,
+                      "hip": false
+                    }
+                  ],
+                  "window": "ROLLING",
+                  "key": "url.path+user.zuid"
+                }
+              ]
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {
+              "system-auth": "optional",
+              "scoped-services": [
+                "ZohoSupport"
+              ]
+            }
+          },
+          "clan-group": "mail",
+          "apihash": "",
+          "module-group": "mail",
+          "apimethod": "com.zoho.desk.mail.accounts.restapi.MailIMAPAccountService.addMailAccount"
+        }
+      },
+      "get": {
+        "tags": [
+          "IMAPAddress"
+        ],
+        "summary": "Get IMAP addresses",
+        "description": "This API is used to fetch the list of IMAP addresses configured in the organization.",
+        "operationId": "getAllIMAPAddresses",
+        "parameters": [
+          {
+            "name": "departmentId",
+            "in": "query",
+            "description": "ID of the Department from which the addresses need to be queried.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int64",
+              "description": "ID of the Department from which the addresses need to be queried.",
+              "pattern": "([0-9]+)"
+            },
+            "x-custom-parameters-attributes": {
+              "entity": "Department"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of mail addresses to fetch",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int32",
+              "description": "Number of mail addresses to fetch",
+              "pattern": "([0-9]+)"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Index number, starting from which the mail addresses must be fetched",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": [
+                "string",
+                "null",
+                "integer"
+              ],
+              "format": "int32",
+              "description": "Index number, starting from which the mail addresses must be fetched",
+              "pattern": "([0-9]+)"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "description": "Key that returns if the mailReplyAddress is active or not",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "Key that returns if the mailReplyAddress is active or not"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/getAllIMAPAddressesResponse"
+          },
+          "204": {
+            "$ref": "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/badRequestErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": [
+              "Desk.accessAll.ALL"
+            ]
+          },
+          {
+            "iam-oauth2-schema": [
+              "Desk.settings.VIEW"
+            ]
+          }
+        ],
+        "x-audience": [
+          "external-public"
+        ],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "policy": "ReadAPI_Standard_UserPolicy,IscSignatureCalls_OrgPolicy"
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {
+              "system-auth": "optional",
+              "scoped-services": [
+                "ZohoSupport"
+              ]
+            }
+          },
+          "clan-group": "mail",
+          "apihash": "",
+          "module-group": "mail",
+          "apimethod": "com.zoho.desk.mail.accounts.restapi.MailIMAPAccountService.getMailAccounts"
+        }
+      }
+    },
+    "/api/v1/imap/{imapAddressId}": {
+      "get": {
+        "tags": [
+          "IMAPAddress"
+        ],
+        "summary": "Get IMAP address by ID",
+        "description": "This API is used to fetch the IMAP address details using the IMAP address ID.",
+        "operationId": "getIMAPAddressById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/imapAddressId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/IMAPAddressResponse"
+          },
+          "404": {
+            "$ref": "../common/Common.json#/components/responses/urlNotFoundErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": [
+              "Desk.accessAll.ALL"
+            ]
+          },
+          {
+            "iam-oauth2-schema": [
+              "Desk.settings.CREATE"
+            ]
+          }
+        ],
+        "x-audience": [
+          "external-public"
+        ],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "policy": "ReadAPI_Standard_UserPolicy,IscSignatureCalls_OrgPolicy"
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {
+              "system-auth": "optional",
+              "scoped-services": [
+                "ZohoSupport"
+              ]
+            }
+          },
+          "clan-group": "mail",
+          "apihash": "",
+          "module-group": "mail",
+          "apimethod": "com.zoho.desk.mail.accounts.restapi.MailIMAPAccountService.getMailAccount"
+        }
+      },
+      "patch": {
+        "tags": [
+          "IMAPAddress"
+        ],
+        "summary": "Update IMAP address by ID",
+        "description": "This API is used to update the IMAP address details using the IMAP address ID.",
+        "operationId": "updateIMAPAddressById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/imapAddressId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/updateIMAPAddressJSON"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/IMAPAddressResponse"
+          },
+          "400": {
+            "$ref": "../common/Common.json#/components/responses/badRequestErrorResponse"
+          },
+          "404": {
+            "$ref": "../common/Common.json#/components/responses/urlNotFoundErrorResponse"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": [
+              "Desk.accessAll.ALL"
+            ]
+          },
+          {
+            "iam-oauth2-schema": [
+              "Desk.settings.CREATE"
+            ]
+          }
+        ],
+        "x-audience": [
+          "external-public"
+        ],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "inline": [
+                {
+                  "scope": "APPSERVER",
+                  "rules": [
+                    {
+                      "duration": 60000,
+                      "lock-period": 300000,
+                      "threshold": 5,
+                      "hip": false
+                    },
+                    {
+                      "duration": 3600000,
+                      "lock-period": 900000,
+                      "threshold": 10,
+                      "hip": false
+                    }
+                  ],
+                  "window": "ROLLING",
+                  "key": "url.path+user.zuid"
+                }
+              ]
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {
+              "system-auth": "optional",
+              "scoped-services": [
+                "ZohoSupport"
+              ]
+            }
+          },
+          "clan-group": "mail",
+          "apihash": "",
+          "module-group": "mail",
+          "apimethod": "com.zoho.desk.mail.accounts.restapi.MailIMAPAccountService.updateMailAccount"
+        }
+      },
+      "delete": {
+        "tags": [
+          "IMAPAddress"
+        ],
+        "summary": "Delete IMAP address by ID",
+        "description": "This API is used to delete the IMAP address using the IMAP address ID.",
+        "operationId": "deleteIMAPAddressById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/imapAddressId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "404": {
+            "$ref": "../common/Common.json#/components/responses/urlNotFoundErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": [
+              "Desk.accessAll.ALL"
+            ]
+          },
+          {
+            "iam-oauth2-schema": [
+              "Desk.settings.DELETE"
+            ]
+          }
+        ],
+        "x-audience": [
+          "external-public"
+        ],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "inline": [
+                {
+                  "scope": "APPSERVER",
+                  "rules": [
+                    {
+                      "duration": 60000,
+                      "lock-period": 300000,
+                      "threshold": 5,
+                      "hip": false
+                    },
+                    {
+                      "duration": 3600000,
+                      "lock-period": 900000,
+                      "threshold": 10,
+                      "hip": false
+                    }
+                  ],
+                  "window": "ROLLING",
+                  "key": "url.path+user.zuid"
+                }
+              ]
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {
+              "system-auth": "optional",
+              "scoped-services": [
+                "ZohoSupport"
+              ]
+            }
+          },
+          "clan-group": "mail",
+          "apihash": "",
+          "module-group": "mail",
+          "apimethod": "com.zoho.desk.mail.accounts.restapi.MailIMAPAccountService.deleteMailAccount"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "id": {
+        "type": [
+          "string",
+          "null",
+          "integer"
+        ],
+        "format": "int64",
+        "pattern": "([0-9]+)"
+      },
+      "syncDeleteToServer": {
+        "type": "boolean"
+      },
+      "syncMailsFromLastNDays": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "maxLength": 10,
+        "minLength": 0,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "connectionType": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "PLAIN",
+          "SSL",
+          "TLS"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": ""
+      },
+      "serverPassword": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0
+      },
+      "address": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+      },
+      "displayName": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0
+      },
+      "serviceProviderType": {
+        "type": [
+          "string"
+        ],
+        "enum": [
+          "CustomSMTP"
+        ]
+      },
+      "timeType": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+      },
+      "isActive": {
+        "type": [
+          "boolean",
+          "null"
+        ],
+        "description": "Key that returns if the mailReplyAddress is active or not"
+      },
+      "departmentId": {
+        "type": [
+          "string",
+          "null",
+          "integer"
+        ],
+        "format": "int64",
+        "description": "ID of the Department from which the addresses need to be queried.",
+        "pattern": "([0-9]+)"
+      },
+      "syncFromDate": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+      },
+      "serverName": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": "[0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+"
+      },
+      "serverPort": {
+        "type": [
+          "string",
+          "integer",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0
+      },
+      "author": {
+        "type": [
+          "null",
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "photoURL": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 200,
+            "minLength": 0,
+            "pattern": "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+          },
+          "firstName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "lastName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "id": {
+            "type": [
+              "string",
+              "null",
+              "integer"
+            ],
+            "format": "int64",
+            "pattern": "([0-9]+)"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100,
+            "minLength": 0,
+            "pattern": "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "id",
+          "lastName",
+          "photoURL"
+        ]
+      },
+      "serverUserName": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 100,
+        "minLength": 0,
+        "pattern": "[a-zA-Z0-9\\s:.,!'\\[\\]*$()\\-_#\\\\/@%+=|{}]+"
+      },
+      "IMAPAddressDetails": {
+        "type": [
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "modifiedTime": {
+            "$ref": "#/components/schemas/timeType"
+          },
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "displayName": {
+            "$ref": "#/components/schemas/displayName"
+          },
+          "imapDetails": {
+            "$ref": "#/components/schemas/serverDetailsWithoutPasswordSchema"
+          },
+          "smtpDetails": {
+            "$ref": "#/components/schemas/serverDetailsWithoutPasswordSchema"
+          },
+          "syncFromDate": {
+            "$ref": "#/components/schemas/syncFromDate"
+          },
+          "departmentId": {
+            "$ref": "#/components/schemas/departmentId"
+          },
+          "isActive": {
+            "$ref": "#/components/schemas/isActive"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/author"
+          },
+          "createdTime": {
+            "$ref": "#/components/schemas/timeType"
+          },
+          "modifiedBy": {
+            "$ref": "#/components/schemas/author"
+          },
+          "id": {
+            "$ref": "#/components/schemas/id"
+          },
+          "serviceProviderType": {
+            "$ref": "#/components/schemas/serviceProviderType"
+          },
+          "syncDeleteToServer": {
+            "$ref": "#/components/schemas/syncDeleteToServer"
+          }
+        },
+        "required": [
+          "address",
+          "createdBy",
+          "createdTime",
+          "departmentId",
+          "displayName",
+          "id",
+          "isActive",
+          "modifiedBy",
+          "modifiedTime",
+          "serviceProviderType",
+          "syncFromDate",
+          "imapDetails",
+          "syncDeleteToServer"
+        ]
+      },
+      "AddIMAPAddressWithFromAddressSchema": {
+        "type": [
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "departmentId": {
+            "$ref": "#/components/schemas/departmentId"
+          },
+          "displayName": {
+            "$ref": "#/components/schemas/displayName"
+          },
+          "imapDetails": {
+            "$ref": "#/components/schemas/serverDetailsSchema"
+          },
+          "needFromAddress": {
+            "type": "string",
+            "enum": [
+              "true"
+            ]
+          },
+          "smtpDetails": {
+            "$ref": "#/components/schemas/serverDetailsSchema"
+          },
+          "syncMailsFromLastNDays": {
+            "$ref": "#/components/schemas/syncMailsFromLastNDays"
+          },
+          "serviceProviderType": {
+            "$ref": "#/components/schemas/serviceProviderType"
+          },
+          "syncDeleteToServer": {
+            "$ref": "#/components/schemas/syncDeleteToServer"
+          }
+        },
+        "required": [
+          "address",
+          "departmentId",
+          "displayName",
+          "serviceProviderType",
+          "imapDetails",
+          "needFromAddress",
+          "smtpDetails"
+        ]
+      },
+      "AddIMAPAddressWithOutFromAddressSchema": {
+        "type": [
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/address"
+          },
+          "displayName": {
+            "$ref": "#/components/schemas/displayName"
+          },
+          "imapDetails": {
+            "$ref": "#/components/schemas/serverDetailsSchema"
+          },
+          "needFromAddress": {
+            "type": "string",
+            "enum": [
+              "false"
+            ]
+          },
+          "syncMailsFromLastNDays": {
+            "$ref": "#/components/schemas/syncMailsFromLastNDays"
+          },
+          "departmentId": {
+            "$ref": "#/components/schemas/departmentId"
+          },
+          "serviceProviderType": {
+            "$ref": "#/components/schemas/serviceProviderType"
+          },
+          "syncDeleteToServer": {
+            "$ref": "#/components/schemas/syncDeleteToServer"
+          }
+        },
+        "required": [
+          "address",
+          "departmentId",
+          "displayName",
+          "serviceProviderType",
+          "imapDetails",
+          "needFromAddress"
+        ]
+      },
+      "AddIMAPAddressDetailsSchema": {
+        "type": [
+          "object"
+        ],
+        "required": [
+          "needFromAddress"
+        ],
+        "properties": {
+          "needFromAddress": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false"
+            ]
+          }
+        },
+        "discriminator": {
+          "propertyName": "needFromAddress",
+          "mapping": {
+            "true": "#/components/schemas/AddIMAPAddressWithFromAddressSchema",
+            "false": "#/components/schemas/AddIMAPAddressWithOutFromAddressSchema"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AddIMAPAddressWithFromAddressSchema"
+          },
+          {
+            "$ref": "#/components/schemas/AddIMAPAddressWithOutFromAddressSchema"
+          }
+        ]
+      },
+      "serverDetailsSchema": {
+        "type": [
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "host": {
+            "$ref": "#/components/schemas/serverName"
+          },
+          "port": {
+            "$ref": "#/components/schemas/serverPort"
+          },
+          "userName": {
+            "$ref": "#/components/schemas/serverUserName"
+          },
+          "password": {
+            "$ref": "#/components/schemas/serverPassword"
+          },
+          "connectionType": {
+            "$ref": "#/components/schemas/connectionType"
+          }
+        },
+        "required": [
+          "host",
+          "port",
+          "userName",
+          "password"
+        ]
+      },
+      "serverDetailsWithoutPasswordSchema": {
+        "type": [
+          "object"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "host": {
+            "$ref": "#/components/schemas/serverName"
+          },
+          "port": {
+            "$ref": "#/components/schemas/serverPort"
+          },
+          "userName": {
+            "$ref": "#/components/schemas/serverUserName"
+          },
+          "connectionType": {
+            "$ref": "#/components/schemas/connectionType"
+          }
+        },
+        "required": [
+          "host",
+          "port",
+          "userName",
+          "connectionType"
+        ]
+      },
+      "UpdateIMAPAddressSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "displayName": {
+            "$ref": "#/components/schemas/displayName"
+          },
+          "departmentId": {
+            "$ref": "#/components/schemas/departmentId"
+          },
+          "serviceProviderType": {
+            "$ref": "#/components/schemas/serviceProviderType"
+          },
+          "imapDetails": {
+            "$ref": "#/components/schemas/serverDetailsSchema"
+          },
+          "syncDeleteToServer": {
+            "$ref": "#/components/schemas/syncDeleteToServer"
+          },
+          "isActive": {
+            "$ref": "#/components/schemas/isActive"
+          }
+        }
+      },
+      "data": {
+        "type": [
+          "null",
+          "array"
+        ],
+        "items": {
+          "$ref": "#/components/schemas/IMAPAddressDetails"
+        }
+      }
+    },
+    "responses": {
+      "IMAPAddressResponse": {
+        "description": "IMAPAddressResponse template definition",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/IMAPAddressDetails"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {
+                  "data": {
+                    "imapDetails": {
+                      "host": "imap.example.com",
+                      "port": "993",
+                      "userName": "support@zylker.com",
+                      "connectionType": "SSL"
+                    },
+                    "syncFromDate": "2025-11-01T06:00:38.000Z",
+                    "active": true,
+                    "friendlyName": "Support",
+                    "address": "support@zylker.com",
+                    "departmentId": "277774000000006907",
+                    "createdBy": {
+                      "id": "1000000000524",
+                      "email": "phoebe@zylker.com",
+                      "photoURL": "https://desk.zoho.com/api/v1/agents/1000000000524/photo?orgId=123456",
+                      "firstName": "phoebe",
+                      "lastName": "diaz"
+                    },
+                    "modifiedBy": {
+                      "id": "1000000000523",
+                      "email": "mike@zylker.com",
+                      "photoURL": "https://desk.zoho.com/api/v1/agents/1000000000524/photo?orgId=123456",
+                      "firstName": "mike",
+                      "lastName": "norman"
+                    },
+                    "createdTime": "2025-12-01T06:00:37.756Z",
+                    "modifiedTime": "2025-12-01T06:00:37.756Z",
+                    "id": "277774000000570001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {
+          "disable-safe-headers": "[]"
+        }
+      },
+      "getAllIMAPAddressesResponse": {
+        "description": "getAllIMAPAddressesResponse template definition",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": [
+                "null",
+                "object"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/data"
+                }
+              },
+              "required": [
+                "data"
+              ]
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {
+                  "data": [
+                    {
+                      "imapDetails": {
+                        "host": "imap.example.com",
+                        "port": "993",
+                        "userName": "support@zylker.com",
+                        "connectionType": "SSL"
+                      },
+                      "smtpDetails": {
+                        "host": "smtp.example.com",
+                        "port": "465",
+                        "userName": "support@zylker.com",
+                        "connectionType": "SSL"
+                      },
+                      "syncFromDate": "2025-11-01T06:00:38.000Z",
+                      "isActive": true,
+                      "displayName": "Support",
+                      "address": "support@zylker.com",
+                      "departmentId": "277774000000006907",
+                      "createdBy": {
+                        "id": "1000000000524",
+                        "email": "phoebe@zylker.com",
+                        "photoURL": "https://desk.zoho.com/api/v1/agents/1000000000524/photo?orgId=123456",
+                        "firstName": "phoebe",
+                        "lastName": "diaz"
+                      },
+                      "modifiedBy": {
+                        "id": "1000000000523",
+                        "email": "mike@zylker.com",
+                        "photoURL": "https://desk.zoho.com/api/v1/agents/1000000000524/photo?orgId=123456",
+                        "firstName": "mike",
+                        "lastName": "norman"
+                      },
+                      "createdTime": "2025-12-01T06:00:37.756Z",
+                      "modifiedTime": "2025-12-01T06:00:37.756Z",
+                      "id": "277774000000570001"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "imapAddressId": {
+        "name": "imapAddressId",
+        "in": "path",
+        "description": "IMAP address ID",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": [
+            "string",
+            "null",
+            "integer"
+          ],
+          "format": "int64",
+          "pattern": "([0-9]+)"
+        },
+        "x-custom-parameters-attributes": {
+          "entity": "IMAPAddress"
+        }
+      }
+    },
+    "requestBodies": {
+      "addIMAPAddressJSON": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AddIMAPAddressDetailsSchema"
+            }
+          }
+        }
+      },
+      "updateIMAPAddressJSON": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/UpdateIMAPAddressSchema"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookie-auth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "iam-oauth2-schema": {
+        "$ref": "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  }
+}

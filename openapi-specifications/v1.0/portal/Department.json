@@ -1,0 +1,246 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Department",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/departments" : {
+      "get" : {
+        "tags" : [ "Department" ],
+        "summary" : "List all departments",
+        "description" : "List Departments(Only customer Portal visible Departments) (UnAuthenticated URL)",
+        "operationId" : "listAllDepartment",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/listAllDepartments"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 25,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.DepartmentService.getDepartments"
+        }
+      }
+    },
+    "/portal/api/departments/{departmentId}" : {
+      "get" : {
+        "tags" : [ "Department" ],
+        "summary" : "Get Department",
+        "description" : "Get Single Department(Only customer Portal visible Department) (UnAuthenticated URL)",
+        "operationId" : "getDepartment",
+        "parameters" : [ {
+          "name" : "departmentId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getDepartmentResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 25,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.DepartmentService.getDepartment"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "getDepartmentResponse" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoURL" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "layoutCount" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "nameInCustomerPortal" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          }
+        },
+        "required" : [ "description", "id", "layoutCount", "name", "nameInCustomerPortal", "photoURL" ]
+      },
+      "data" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Department.json#/components/schemas/getDepartmentResponse"
+        }
+      }
+    },
+    "responses" : {
+      "getDepartmentResponse" : {
+        "description" : "single departments template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/getDepartmentResponse"
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "photoURL" : null,
+                  "name" : "API Requirements",
+                  "description" : null,
+                  "id" : "12878000001570123",
+                  "nameInCustomerPortal" : "API Requirements"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "listAllDepartments" : {
+        "description" : "listAllDepartments template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Department.json#/components/schemas/data"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "photoURL" : null,
+                    "name" : "API Requirements",
+                    "description" : null,
+                    "id" : "12878000001570123",
+                    "nameInCustomerPortal" : "API Requirements"
+                  }, {
+                    "photoURL" : null,
+                    "name" : "API REVIEW",
+                    "description" : null,
+                    "id" : "12878000001568041",
+                    "nameInCustomerPortal" : "API REVIEW"
+                  }, {
+                    "photoURL" : "https://desk.zoho.com/portal/api/departments/12878000000247891/logo",
+                    "name" : "MaheshReactTeam",
+                    "description" : "",
+                    "id" : "12878000000247891",
+                    "nameInCustomerPortal" : "MaheshReactTeam"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Department"
+}

@@ -1,0 +1,1122 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Extension",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/installedExtensions/{installationId}/storage" : {
+      "get" : {
+        "tags" : [ "Extension" ],
+        "operationId" : "getExtensionStorageById",
+        "parameters" : [ {
+          "name" : "queriableValue",
+          "in" : "query",
+          "description" : "Multiple queriableValues are supported. it should be semi colon separated.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "Multiple queriableValues are supported. it should be semi colon separated.",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : {
+              "split" : ";"
+            }
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Number of storage to be fetch",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "Number of storage to be fetch",
+            "maximum" : 99,
+            "minimum" : 1,
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "From index",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "description" : "From index",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "name" : "key",
+          "in" : "query",
+          "description" : "Multiple keys are supported. it should be semi colon separated.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "Multiple keys are supported. it should be semi colon separated.",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : {
+              "split" : ";"
+            }
+          }
+        }, {
+          "$ref" : "#/components/parameters/installationId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getExtensionStorageByIdResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.MarketPlaceService.getExtensionStorage"
+        }
+      },
+      "post" : {
+        "tags" : [ "Extension" ],
+        "operationId" : "addExtensionStorage",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/installationId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/addExtensionStorage"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/addExtensionStorage"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.MarketPlaceService.addExtensionStorage"
+        }
+      },
+      "delete" : {
+        "tags" : [ "Extension" ],
+        "operationId" : "deleteExtensionStorage",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/installationId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.MarketPlaceService.deleteExtensionStorage"
+        }
+      }
+    },
+    "/portal/api/installedExtensionsByIds" : {
+      "get" : {
+        "tags" : [ "Extension" ],
+        "operationId" : "getExtensionWidgetDetailsById",
+        "parameters" : [ {
+          "name" : "widgetIds",
+          "in" : "query",
+          "description" : "Comma-separated array of widget ids. Maximum number of IDs allowed is 50.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "Comma-separated array of widget ids. Maximum number of IDs allowed is 50.",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : {
+              "split" : ","
+            }
+          }
+        }, {
+          "$ref" : "#/components/parameters/featureFlags"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          },
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getExtensionWidgetDetailsById"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.MarketPlaceService.getInstalledExtensionsByWidgetsId"
+        }
+      }
+    },
+    "/portal/api/installedExtensions/{installationId}/configParams" : {
+      "post" : {
+        "tags" : [ "Extension" ],
+        "operationId" : "addConfigParam",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/installationId"
+        }, {
+          "$ref" : "#/components/parameters/featureFlags"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/addConfigParamRb"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/addConfigParam"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/multipleUnprocessEntityResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 30,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.MarketPlaceService.addConfigurationParams"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "valueJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "description" : "db value to be stored",
+        "properties" : {
+          "buginfo" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "buginfo" ]
+      },
+      "connectorsValJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "revokeUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65535,
+            "minLength" : 0
+          },
+          "service" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "userAccess" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "connectionLinkName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isAuthorised" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "connectionName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "authoriseUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65535,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "authoriseUrl", "connectionLinkName", "connectionName", "isAuthorised", "revokeUrl", "service", "userAccess" ]
+      },
+      "connectorsVal" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Extension.json#/components/schemas/connectorsValJson"
+        }
+      },
+      "configJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "displayName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "defaultValue" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "userDefined" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "options" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "secure" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "authType" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "org", "personal", "portaluser" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "mandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "value" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "varId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "authType", "defaultValue", "description", "displayName", "mandatory", "name", "options", "secure", "type", "userDefined", "value", "varId" ]
+      },
+      "configNewFieldJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "displayName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "defaultValue" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "userDefined" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "options" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "secure" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "authType" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "org", "personal", "portaluser" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "mandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "value" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "varId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "authType", "defaultValue", "description", "displayName", "mandatory", "name", "options", "secure", "type", "userDefined", "value", "varId" ]
+      },
+      "configList" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "oneOf" : [ {
+            "$ref" : "./Extension.json#/components/schemas/configJson"
+          }, {
+            "$ref" : "./Extension.json#/components/schemas/configNewFieldJson"
+          } ]
+        }
+      },
+      "widgetsJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isCollapsed" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "widgetId" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "sanitisedName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "icon" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "logo" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "location" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "desk.ticket.detail.rightpanel", "desk.ticket.detail.subtab", "desk.bottomband", "desk.background", "desk.topband", "helpcenter.ticket.detail", "desk.task.detail.rightpanel", "desk.extension.preference", "desk.ticket.detail.lefttab", "desk.ticket.detail.moreaction", "desk.ticket.thread.moreaction", "desk.ticket.form.rightpanel", "desk.extension.telephony", "desk.kb.article.detail.subtab" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "position" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "title" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "url" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65535,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "icon", "isCollapsed", "location", "logo", "name", "position", "sanitisedName", "title", "url", "widgetId" ]
+      },
+      "widgetsList" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Extension.json#/components/schemas/widgetsJson"
+        }
+      },
+      "modules" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "widgets" : {
+            "$ref" : "./Extension.json#/components/schemas/widgetsList"
+          }
+        },
+        "required" : [ "widgets" ]
+      },
+      "manifest" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "connectors" : {
+            "$ref" : "./Extension.json#/components/schemas/connectorsVal"
+          },
+          "whiteListedDomains" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "locale" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "config" : {
+            "$ref" : "./Extension.json#/components/schemas/configList"
+          },
+          "modules" : {
+            "$ref" : "./Extension.json#/components/schemas/modules"
+          }
+        },
+        "required" : [ "config", "connectors", "locale", "modules", "whiteListedDomains" ]
+      },
+      "listViewJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isAdminConfigurationNeeded" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "extensionName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "hashkey" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "^[a-zA-Z0-9]+$"
+          },
+          "isAdminAuthorisationNeeded" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "manifest" : {
+            "$ref" : "./Extension.json#/components/schemas/manifest"
+          },
+          "storage" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isPrivate" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "uuId" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "version" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "logo" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "installationId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "isUserConfigurationNeeded" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "isUserAuthorisationNeeded" : {
+            "type" : [ "boolean", "null" ]
+          }
+        },
+        "required" : [ "extensionName", "hashkey", "installationId", "isAdminAuthorisationNeeded", "isAdminConfigurationNeeded", "isPrivate", "isUserAuthorisationNeeded", "isUserConfigurationNeeded", "logo", "manifest", "storage", "storage", "uuId", "version" ]
+      },
+      "installedExtensionData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Extension.json#/components/schemas/listViewJson"
+        }
+      },
+      "storageValueJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "buginfo" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "buginfo" ]
+      },
+      "getExtensionStorageByIdJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "queriableValue" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "value" : {
+            "$ref" : "./Extension.json#/components/schemas/storageValueJson"
+          },
+          "key" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "key", "queriableValue", "value" ]
+      },
+      "getExtensionStorageByIdData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Extension.json#/components/schemas/getExtensionStorageByIdJson"
+        }
+      },
+      "addConfigParamJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "defaultValue" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "displayName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "userDefined" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "options" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "secure" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "authType" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "org", "personal", "portaluser" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "mandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "value" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "varId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "authType", "defaultValue", "description", "displayName", "mandatory", "name", "options", "secure", "type", "userDefined", "value", "varId" ]
+      },
+      "addConfigParamNewFieldJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "defaultValue" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "displayName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "userDefined" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "options" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "secure" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "authType" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "org", "personal", "portaluser" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "mandatory" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "value" : {
+            "type" : [ "null", "array" ],
+            "items" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "uniqueItems" : false
+          },
+          "varId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "authType", "defaultValue", "description", "displayName", "mandatory", "name", "options", "secure", "type", "userDefined", "value", "varId" ]
+      },
+      "addConfigParamData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "oneOf" : [ {
+            "$ref" : "./Extension.json#/components/schemas/addConfigParamJson"
+          }, {
+            "$ref" : "./Extension.json#/components/schemas/addConfigParamNewFieldJson"
+          } ]
+        }
+      },
+      "variablesJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "value" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "name", "value" ]
+      },
+      "variablesData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Extension.json#/components/schemas/variablesJson"
+        }
+      }
+    },
+    "responses" : {
+      "addExtensionStorage" : {
+        "description" : "addExtensionStorage template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "queriableValue" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                },
+                "value" : {
+                  "$ref" : "./Extension.json#/components/schemas/valueJson"
+                },
+                "key" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0
+                }
+              },
+              "required" : [ "key", "queriableValue", "value" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "getExtensionWidgetDetailsById" : {
+        "description" : "getExtensionWidgetDetailsById template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Extension.json#/components/schemas/installedExtensionData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "getExtensionStorageByIdResponse" : {
+        "description" : "getExtensionStorageByIdResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Extension.json#/components/schemas/getExtensionStorageByIdData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "addConfigParam" : {
+        "description" : "addConfigParam template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Extension.json#/components/schemas/addConfigParamData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : {
+      "installationId" : {
+        "name" : "installationId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int64",
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "featureFlags" : {
+        "name" : "featureFlags",
+        "in" : "header",
+        "required" : false,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "enum" : [ "newFieldConfigParams" ],
+          "maxLength" : 100,
+          "minLength" : 0
+        }
+      }
+    },
+    "requestBodies" : {
+      "addExtensionStorage" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "queriableValue" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "name of the db varibles",
+                  "maxLength" : 100,
+                  "minLength" : 0
+                },
+                "value" : {
+                  "$ref" : "./Extension.json#/components/schemas/valueJson"
+                },
+                "key" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "name of the db varibles",
+                  "maxLength" : 100,
+                  "minLength" : 0
+                }
+              },
+              "required" : [ "key", "queriableValue", "value" ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      },
+      "addConfigParamRb" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "variables" : {
+                  "$ref" : "./Extension.json#/components/schemas/variablesData"
+                }
+              },
+              "required" : [ "variables" ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : null
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Extension"
+}

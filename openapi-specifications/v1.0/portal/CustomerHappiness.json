@@ -1,0 +1,163 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "CustomerHappiness",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/customerHappinessRating/stats" : {
+      "get" : {
+        "tags" : [ "CustomerHappiness" ],
+        "summary" : "Get Customer Happiness Rating",
+        "description" : "To get customer happiness Rating Statistics",
+        "operationId" : "getCustomerHappinessRatingStats",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getCustomerHappinessRatingStats"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 20,
+                  "hip" : false
+                }, {
+                  "duration" : 18000000,
+                  "lock-period" : 3600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.CustomerHappinessService.getStats"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "happinessRatingStats" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 255,
+            "minLength" : 0
+          },
+          "displayName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isEnabled" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "count" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "count", "displayName", "isEnabled", "name", "photoUrl" ]
+      },
+      "happinessRatingStatsArray" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./CustomerHappiness.json#/components/schemas/happinessRatingStats"
+        }
+      }
+    },
+    "responses" : {
+      "getCustomerHappinessRatingStats" : {
+        "description" : "getCustomerHappinessRatingStats template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./CustomerHappiness.json#/components/schemas/happinessRatingStatsArray"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "photoUrl" : "https://www.zoho.com/portal/api/images/123",
+                    "displayName" : "Good",
+                    "isEnabled" : "true",
+                    "name" : "Good",
+                    "count" : "15"
+                  }, {
+                    "photoUrl" : "https://www.zoho.com/portal/api/images/124",
+                    "displayName" : "Bad",
+                    "isEnabled" : "false",
+                    "name" : "Bad",
+                    "count" : "25"
+                  }, {
+                    "photoUrl" : "https://www.zoho.com/portal/api/images/125",
+                    "displayName" : "Ok",
+                    "isEnabled" : "true",
+                    "name" : "Ok",
+                    "count" : "10"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : { },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "CustomerHappiness"
+}

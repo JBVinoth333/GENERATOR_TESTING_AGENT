@@ -1,0 +1,2678 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Ticket",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/tickets/{requestId}/attachments" : {
+      "get" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Get Ticket Attachments",
+        "description" : "Get Ticket Attachments",
+        "operationId" : "getTicketAttachments",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/requestId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/getTicketAttachmentsResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 60000,
+                  "threshold" : 90,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.getTicketAttachments"
+        }
+      }
+    },
+    "/portal/api/composetickets" : {
+      "post" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Create Ticket UnAuthenticated with Human Interactive Proof CAPTCHA",
+        "description" : "Create a New Ticket in Portal ( UnAuthenticated URL ) with Human Interactive Proof ( HIP ) CAPTCHA",
+        "operationId" : "createTicketUnAuthenticatedWithHIPCaptcha",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/createTicketsJson"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/createTicketUnAuthenticatedResponse"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "SERVICE",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : -1,
+                  "threshold" : 1,
+                  "hip" : false
+                }, {
+                  "duration" : 3600000,
+                  "lock-period" : -1,
+                  "threshold" : 5,
+                  "hip" : false
+                }, {
+                  "duration" : 86400000,
+                  "lock-period" : -1,
+                  "threshold" : 7,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.createRequest"
+        }
+      }
+    },
+    "/portal/api/tickets/search" : {
+      "get" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Search Tickets",
+        "description" : "To search in tickets",
+        "operationId" : "searchTickets",
+        "parameters" : [ {
+          "name" : "viewId",
+          "in" : "query",
+          "description" : "ID of the view to apply while fetching the tickets",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "ID of the view to apply while fetching the tickets",
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        }, {
+          "name" : "searchStr",
+          "in" : "query",
+          "description" : "The String to be searched",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "The String to be searched",
+            "maxLength" : 255,
+            "minLength" : 0,
+            "pattern" : "(^([a-zA-Z0-9\\s\\.\\?\\_\\-\\,])*$|null|undefined)"
+          }
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "SortBy can be: @relevance@, @modifiedTime@, @createdTime@",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "SortBy can be: @relevance@, @modifiedTime@, @createdTime@",
+            "enum" : [ "relevance", "modifiedTime", "createdTime" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        }, {
+          "$ref" : "#/components/parameters/priority"
+        }, {
+          "name" : "category",
+          "in" : "query",
+          "description" : "Category of the ticket",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "Category of the ticket",
+            "x-dynamic-enum" : true,
+            "x-custom-parameters-attributes" : {
+              "split" : ","
+            }
+          }
+        }, {
+          "$ref" : "#/components/parameters/status"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/searchTickets"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.portal.restapi.SearchService.ticketSearchByField"
+        }
+      }
+    },
+    "/portal/api/tickets/{requestId}" : {
+      "get" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Retrieve a ticket",
+        "description" : "To get a Portal Ticket",
+        "operationId" : "retrieveATicket",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Whether to include products or not",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "Whether to include products or not",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "enum" : [ "products" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : [ ]
+            },
+            "uniqueItems" : true
+          }
+        },
+        {
+          "name": "featureFlags",
+          "in": "header",
+          "description": "Feature flag header value",
+          "required": false,
+          "schema": {
+            "type": ["string"],
+            "maxLength": 100,
+            "minLength": 0,
+            "enum": ["lookUp"]
+          }
+        }, {
+          "$ref" : "#/components/parameters/requestId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/addAuthenticatedTicketResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "policy" : "GetEntityById_Policy"
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.getRequest"
+        }
+      },
+      "put" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Update tickets",
+        "description" : "To update a ticket in Portal Only status(can only used to close ticket) and priority fields of ticket can be updated",
+        "operationId" : "updateTickets",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/requestId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/updateTicketsJson"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/updateTicketsResponse"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "policy" : "EntityUpdateAndDelete_Policy"
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.updateRequest"
+        }
+      }
+    },
+    "/portal/api/tickets" : {
+      "get" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "List all tickets",
+        "description" : "To get a list of Tickets from portal(type=Mytickets|Alltickets,include=products,status=open|onhold|closed)",
+        "operationId" : "listAllTickets",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "allowed values : products,assignee.To use both,split them with a comma",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "allowed values : products,assignee.To use both,split them with a comma",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "enum" : [ "products", "assignee" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : [ ]
+            },
+            "uniqueItems" : true
+          }
+        }, {
+          "name" : "customStatus",
+          "in" : "query",
+          "description" : "Filter by resolution status of the ticket. You can include multiple values by separating them with a comma",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "Filter by resolution status of the ticket. You can include multiple values by separating them with a comma",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : {
+              "split" : ","
+            }
+          }
+        }, {
+          "name" : "viewId",
+          "in" : "query",
+          "description" : "View Id that is accessed now",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "name" : "departmentId",
+          "in" : "query",
+          "description" : "The departmentId of the tickets",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "The departmentId of the tickets",
+            "pattern" : "([0-9]+)"
+          }
+        }, {
+          "$ref" : "#/components/parameters/limit"
+        }, {
+          "$ref" : "#/components/parameters/from"
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "To filter the tickets as group tickets or My tickets",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "description" : "To filter the tickets as group tickets or My tickets",
+            "enum" : [ "Mytickets", "Alltickets" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "string", "null" ],
+            "enum" : [  "createdTime", "recentThread" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+         {
+          "$ref" : "#/components/parameters/priority"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/listAllTickets"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 600000,
+                  "threshold" : 50,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.remoteip"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.getRequests"
+        }
+      },
+      "post" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Create Ticket Authenticated",
+        "description" : "Create a New Ticket in Portal",
+        "operationId" : "createTicketAuthenticated",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/addAuthTicketJson"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/addAuthenticatedTicketResponse"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "policy" : "Authenticated_MainEntity_Creation_Policy"
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.addRequest"
+        }
+      }
+    },
+    "/portal/api/createTickets" : {
+      "post" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Create Ticket UnAuthenticated",
+        "description" : "Create a New Ticket in Portal(UnAuthenticated URL)",
+        "operationId" : "createTicketUnAuthenticated",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/createTicketUnAuthenticated_createTicketsJson"
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/createTicketUnAuthenticatedResponse"
+          },
+          "422" : {
+            "$ref" : "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "policy" : "UnAuthenticated_MainEntity_Creation_Policy"
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.createRequest"
+        }
+      }
+    },
+    "/portal/api/tickets/{requestId}/resolution" : {
+      "get" : {
+        "tags" : [ "Ticket" ],
+        "summary" : "Retrieve ticket resolution",
+        "description" : "To get resolution of a Ticket",
+        "operationId" : "getTicketResolution",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/requestId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getTicketResolution"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "jwt-oauth" ]
+        } ],
+        "x-audience" : [ "external-public" ],
+        "x-custom-url-attribute" : {
+          "security" : {
+            "throttle" : {
+              "inline" : [ {
+                "scope" : "APPSERVER",
+                "rules" : [ {
+                  "duration" : 60000,
+                  "lock-period" : 300000,
+                  "threshold" : 20,
+                  "hip" : false
+                }, {
+                  "duration" : 3600000,
+                  "lock-period" : 900000,
+                  "threshold" : 100,
+                  "hip" : false
+                } ],
+                "window" : "ROLLING",
+                "key" : "url.path+user.zuid"
+              } ]
+            },
+            "extraparams" : {
+              "disable" : true,
+              "ignore" : false
+            },
+            "authentication" : { }
+          },
+          "apimethod" : "com.zoho.desk.helpcenter.ticket.RequestService.getResolution"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "getTicketAttachmentsData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Upload.json#/components/schemas/createAttachments"
+        }
+      },
+      "ticketJson" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "subCategory" : {
+            "type" : [ "string", "null" ],
+            "description" : "subCategory",
+            "x-dynamic-enum" : true
+          },
+          "cf" : {
+            "type" : [ "null", "object" ],
+            "additionalProperties" : false,
+            "patternProperties" : {
+              "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 100,
+                "minLength" : 0,
+                "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+              }
+            }
+          },
+          "productId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "the id of the product",
+            "pattern" : "([0-9]+)"
+          },
+          "phone" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 120,
+            "minLength" : 0,
+            "pattern" : "[0-9a-zA-Z_\\+\\-\\.\\(\\)\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+",
+            "x-custom-parameters-attributes" : {
+              "replacementString" : "",
+              "filterMatchedContent" : true
+            }
+          },
+          "subject" : {
+            "type" : [ "string", "null" ],
+            "description" : "The subject for the ticket",
+            "maxLength" : 1000,
+            "minLength" : 0
+          },
+          "customFields" : {
+            "type" : [ "null", "object" ],
+            "additionalProperties" : false,
+            "patternProperties" : {
+              "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+" : {
+                "type" : [ "string", "null" ],
+                "maxLength" : 100,
+                "minLength" : 0,
+                "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+              }
+            }
+          },
+          "departmentId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "description" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 65535,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : {
+              "xss" : "antisamyfilter_custom"
+            }
+          },
+          "language" : {
+            "type" : [ "string", "null" ],
+            "description" : "Language preference to set for the ticket",
+            "x-dynamic-enum" : true
+          },
+          "classification" : {
+            "type" : [ "string", "null" ],
+            "description" : "the classification for the tickets",
+            "x-dynamic-enum" : true
+          },
+          "priority" : {
+            "type" : [ "string", "null" ],
+            "description" : "the priority of tickets",
+            "x-dynamic-enum" : true
+          },
+          "category" : {
+            "type" : [ "string", "null" ],
+            "description" : "category",
+            "x-dynamic-enum" : true
+          }
+        }
+      },
+      "lastThread" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "channel" : {
+            "type" : [ "string", "null" ],
+            "x-dynamic-enum" : true,
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "Channel through which the ticket was submitted ",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "split" : ",",
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          },
+          "isDraft" : {
+            "type" : [ "boolean", "null" ]
+          },
+          "direction" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "in", "out" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "isForward" : {
+            "type" : [ "boolean", "null" ]
+          }
+        },
+        "required" : [ "channel", "direction", "isDraft", "isForward" ]
+      },
+      "account" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "accountName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "mappingType" : {
+            "type" : [ "string", "null" ],
+            "enum" : [ "PRIMARY", null ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "accountName", "id", "mappingType" ]
+      },
+      "contact" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "firstName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 40,
+            "minLength" : 0
+          },
+          "lastName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 200,
+            "minLength" : 0
+          },
+          "accountId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "photoURL" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)"
+          },
+          "phone" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0,
+            "pattern" : "[0-9a-zA-Z_\\+\\-\\.\\(\\)\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+"
+          },
+          "module" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "ownerId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "account" : {
+            "$ref" : "./Ticket.json#/components/schemas/account"
+          },
+          "email" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$|^$|null)"
+          }
+        },
+        "required" : [ "account", "accountId", "email", "firstName", "id", "lastName", "module", "ownerId", "phone", "photoURL" ]
+      },
+      "commonKeys" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "ticketNumber" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "subject" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 1000,
+            "minLength" : 0
+          },
+          "dueDate" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+          },
+          "departmentId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "Department id",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          },
+          "channel" : {
+            "type" : [ "string", "null" ],
+            "x-dynamic-enum" : true,
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "Channel through which the ticket was submitted ",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "split" : ",",
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          },
+          "threadCount" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "priority" : {
+            "type" : [ "string", "null" ],
+            "x-dynamic-enum" : true,
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "Priority of the ticket",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "split" : ",",
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          },
+          "assigneeId" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "closedTime" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+          },
+          "commentCount" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int32",
+            "pattern" : "([0-9]+)"
+          },
+          "createdTime" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "status" : {
+            "type" : [ "string", "null" ],
+            "x-dynamic-enum" : true,
+            "x-custom-parameters-attributes" : {
+              "removeExif" : false,
+              "replacementString" : "",
+              "filterMatchedContent" : false,
+              "antivirus" : false,
+              "allowInvalid" : false,
+              "descrption" : "Status of the ticket.",
+              "secret" : false,
+              "preserveCharsLimit" : 10,
+              "split" : ",",
+              "trim" : false,
+              "internalParam" : false,
+              "preserveChars" : "0,5",
+              "importUrl" : false,
+              "decrypt" : false
+            }
+          }
+        },
+        "required" : [ "assigneeId", "channel", "closedTime", "commentCount", "createdTime", "departmentId", "dueDate", "id", "priority", "status", "subject", "threadCount", "ticketNumber" ]
+      },
+      "searchResponse" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Ticket.json#/components/schemas/commonKeys"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "customerResponseTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "productId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "contactId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "phone" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 120,
+              "minLength" : 0,
+              "pattern" : "[0-9a-zA-Z_\\+\\-\\.\\(\\)\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+"
+            },
+            "module" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0
+            },
+            "contact" : {
+              "$ref" : "./Ticket.json#/components/schemas/contact"
+            },
+            "lastThread" : {
+              "$ref" : "./Ticket.json#/components/schemas/lastThread"
+            },
+            "onholdTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "email" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 150,
+              "minLength" : 0,
+              "pattern" : "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+            }
+          },
+          "required" : [ "contact", "contactId", "customerResponseTime", "email", "lastThread", "module", "onholdTime", "phone", "productId" ]
+        } ]
+      },
+      "data" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Ticket.json#/components/schemas/searchResponse"
+        }
+      },
+      "product" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "productName" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "id", "productName" ]
+      },
+      "modifiedBy" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoURL" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "id", "name", "photoURL", "photoUrl" ]
+      },
+      "assignee" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "photoURL" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          },
+          "assignee" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          }
+        },
+        "required" : [ "assignee", "id", "name", "photoURL", "photoUrl" ]
+      },
+      "creator" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "photoURL" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "creator" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "creator", "id", "name", "photoURL", "photoUrl" ]
+      },
+      "ticketCommonJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Ticket.json#/components/schemas/commonKeys"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "modifiedTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "creator" : {
+              "$ref" : "./Ticket.json#/components/schemas/creator"
+            }
+          },
+          "required" : [ "creator", "modifiedTime" ]
+        } ]
+      },
+      "ticketResponse" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Ticket.json#/components/schemas/ticketCommonJson"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "cf" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "patternProperties" : {
+                "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                  "x-custom-parameters-attributes" : {
+                    "subCategory" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "subCategory",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "cf" : { },
+                    "productId" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "the id of the product",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "phone" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : true,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    },
+                    "customFields" : { },
+                    "secondaryContacts" : [ { } ],
+                    "language" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "Language preference to set for the ticket",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "priority" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    },
+                    "classification" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "the classification for the tickets",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "category" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "category",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "status" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    }
+                  }
+                }
+              }
+            },
+            "followUpTicket": {
+              "type": [ "object", "null" ],
+              "properties": {
+                "subject": {
+                  "type" : [ "string" ],
+                  "description" : "The subject of the source ticket",
+                  "maxLength" : 1000,
+                  "minLength" : 0
+                },
+                "id": {
+                  "type" : [ "string", "integer" ],
+                  "format" : "int64",
+                  "pattern" : "([0-9]+)"
+                }
+              },
+              "required": ["subject", "id"],
+              "additionalProperties": false
+            },
+            "productId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)",
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : false,
+                "antivirus" : false,
+                "allowInvalid" : false,
+                "descrption" : "the id of the product",
+                "secret" : false,
+                "preserveCharsLimit" : 10,
+                "trim" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "importUrl" : false,
+                "decrypt" : false
+              }
+            },
+            "customFields" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "patternProperties" : {
+                "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                  "x-custom-parameters-attributes" : {
+                    "subCategory" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "subCategory",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "cf" : { },
+                    "productId" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "the id of the product",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "phone" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : true,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    },
+                    "customFields" : { },
+                    "secondaryContacts" : [ { } ],
+                    "language" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "Language preference to set for the ticket",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "priority" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    },
+                    "classification" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "the classification for the tickets",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "category" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "category",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    },
+                    "status" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    }
+                  }
+                }
+              }
+            },
+            "dueDate" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "description" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 65535,
+              "minLength" : 0
+            },
+            "onholdTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "secondaryContacts" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null", "integer" ],
+                "format" : "int64",
+                "pattern" : "([0-9]+)",
+                "x-custom-parameters-attributes" : [ { } ]
+              },
+              "uniqueItems" : false
+            },
+            "classification" : {
+              "type" : [ "string", "null" ],
+              "x-dynamic-enum" : true,
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : false,
+                "antivirus" : false,
+                "allowInvalid" : false,
+                "descrption" : "the classification for the tickets",
+                "secret" : false,
+                "preserveCharsLimit" : 10,
+                "trim" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "importUrl" : false,
+                "decrypt" : false
+              }
+            },
+            "resolution" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 65535,
+              "minLength" : 0
+            },
+            "responseDueDate" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "teamId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "modifiedBy" : {
+              "$ref" : "./Ticket.json#/components/schemas/modifiedBy"
+            },
+            "assignee" : {
+              "$ref" : "./Ticket.json#/components/schemas/assignee"
+            },
+            "email" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 150,
+              "minLength" : 0,
+              "pattern" : "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+            },
+            "hasBlueprint" : {
+              "type" : [ "boolean", "null" ]
+            },
+            "lockedTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            }
+          },
+          "required" : [ "assignee", "cf", "classification", "customFields", "description", "dueDate", "email", "hasBlueprint", "modifiedBy", "onholdTime", "productId", "resolution", "responseDueDate", "secondaryContacts", "teamId", "lockedTime" ]
+        } ]
+      },
+      "addAuthenticatedTicketResponse" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Ticket.json#/components/schemas/ticketResponse"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "subCategory" : {
+              "type" : [ "string", "null" ],
+              "x-dynamic-enum" : true,
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : false,
+                "antivirus" : false,
+                "allowInvalid" : false,
+                "descrption" : "subCategory",
+                "secret" : false,
+                "preserveCharsLimit" : 10,
+                "trim" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "importUrl" : false,
+                "decrypt" : false
+              }
+            },
+            "phone" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 120,
+              "minLength" : 0,
+              "pattern" : "[0-9a-zA-Z_\\+\\-\\.\\(\\)\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+",
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "trim" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : true,
+                "antivirus" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "allowInvalid" : false,
+                "secret" : false,
+                "importUrl" : false,
+                "decrypt" : false,
+                "preserveCharsLimit" : 10
+              }
+            },
+            "secondaryContacts" : {
+              "type" : [ "null", "array" ],
+              "items" : {
+                "type" : [ "string", "null", "integer" ],
+                "format" : "int64",
+                "pattern" : "([0-9]+)",
+                "x-custom-parameters-attributes" : [ { } ]
+              },
+              "uniqueItems" : false
+            },
+            "language" : {
+              "type" : [ "string", "null" ],
+              "x-dynamic-enum" : true,
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : false,
+                "antivirus" : false,
+                "allowInvalid" : false,
+                "descrption" : "Language preference to set for the ticket",
+                "secret" : false,
+                "preserveCharsLimit" : 10,
+                "trim" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "importUrl" : false,
+                "decrypt" : false
+              }
+            },
+            "category" : {
+              "type" : [ "string", "null" ],
+              "x-dynamic-enum" : true,
+              "x-custom-parameters-attributes" : {
+                "removeExif" : false,
+                "replacementString" : "",
+                "filterMatchedContent" : false,
+                "antivirus" : false,
+                "allowInvalid" : false,
+                "descrption" : "category",
+                "secret" : false,
+                "preserveCharsLimit" : 10,
+                "trim" : false,
+                "internalParam" : false,
+                "preserveChars" : "0,5",
+                "importUrl" : false,
+                "decrypt" : false
+              }
+            },
+            "layoutId" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "pattern" : "([0-9]+)"
+            },
+            "account" : {
+              "$ref" : "./Ticket.json#/components/schemas/account"
+            },
+            "layoutDetails" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "maxProperties" : 2,
+              "minProperties" : 2,
+              "properties" : {
+                "id" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int64",
+                  "pattern" : "([0-9]+)"
+                },
+                "layoutName" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 120,
+                  "minLength" : 0,
+                  "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                }
+              },
+              "required" : [ "id", "layoutName" ]
+            }
+          },
+          "required" : [ "account", "category", "language", "layoutDetails", "layoutId", "phone", "secondaryContacts", "subCategory" ]
+        } ]
+      },
+      "creatorResponse" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "id", "name", "photoUrl" ]
+      },
+      "listAllTicketsJson" : {
+        "additionalProperties" : false,
+        "allOf" : [ {
+          "$ref" : "./Ticket.json#/components/schemas/commonKeys"
+        }, {
+          "type" : [ "object", "null" ],
+          "properties" : {
+            "modifiedTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "creator" : {
+              "$ref" : "./Ticket.json#/components/schemas/creatorResponse"
+            },
+            "onholdTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "lockedTime" : {
+              "type" : [ "string", "null" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+            },
+            "account" : {
+              "$ref" : "./Ticket.json#/components/schemas/account"
+            }
+          },
+          "required" : [ "account", "creator", "modifiedTime", "onholdTime", "lockedTime" ]
+        } ]
+      },
+      "ticketData" : {
+        "type" : [ "array", "null" ],
+        "items" : {
+          "$ref" : "./Ticket.json#/components/schemas/listAllTicketsJson"
+        }
+      },
+      "resolutionModifiedBy" : {
+        "type" : [ "object", "null" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "photoUrl" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "maxLength" : 50,
+            "minLength" : 0
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "pattern" : "([0-9]+)"
+          }
+        },
+        "required" : [ "id", "name", "photoUrl" ]
+      }
+    },
+    "responses" : {
+      "getTicketAttachmentsResponse" : {
+        "description" : "getTicketAttachmentsResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Ticket.json#/components/schemas/getTicketAttachmentsData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "blockId" : "51179000000036003",
+                    "view" : "/api/v1/Attachments/12878000001138015/Content?portalname=reactimpl&inline=true",
+                    "download" : "/api/v1/Attachments/12878000001138015/Content?portalname=reactimpl",
+                    "size" : "2278923",
+                    "createdBy" : {
+                      "name" : "bala18",
+                      "id" : "12878000001031071",
+                      "zuid" : "1000793801"
+                    },
+                    "showToCustomer" : true,
+                    "name" : "_MG_5493.JPG",
+                    "createdTime" : "2017-03-29T06:46:27.000Z",
+                    "id" : "12878000001138015"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "createTicketUnAuthenticatedResponse" : {
+        "description" : "createTicketUnAuthenticatedResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "ticketNumber" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "pattern" : "([0-9]+)"
+                }
+              },
+              "required" : [ "ticketNumber" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "ticketNumber" : "123"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "searchTickets" : {
+        "description" : "searchTickets template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Ticket.json#/components/schemas/data"
+                },
+                "numberOfRecords" : {
+                  "type" : [ "string", "null", "integer" ],
+                  "format" : "int32",
+                  "pattern" : "([0-9]+)"
+                }
+              },
+              "required" : [ "data", "numberOfRecords" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "ticketNumber" : "130",
+                    "customerResponseTime" : "2018-03-06T01:21:21.000Z",
+                    "productId" : null,
+                    "subject" : "Problem while reset password",
+                    "dueDate" : "2018-03-06T06:30:00.000Z",
+                    "departmentId" : "22372000000006907",
+                    "module" : "tickets",
+                    "channel" : "Web",
+                    "threadCount" : "1",
+                    "lastThread" : null,
+                    "onholdTime" : null,
+                    "priority" : null,
+                    "closedTime" : null,
+                    "commentCount" : "0",
+                    "phone" : "09876545678",
+                    "contact" : {
+                      "firstName" : "Muhammed",
+                      "lastName" : "Yahya",
+                      "accountId" : null,
+                      "photoURL" : null,
+                      "phone" : null,
+                      "module" : "contacts",
+                      "id" : "22372000000652001",
+                      "ownerId" : null,
+                      "email" : "carol@zylker.com",
+                      "account" : null
+                    },
+                    "createdTime" : "2018-03-06T01:21:21.000Z",
+                    "id" : "22372000000652005",
+                    "email" : "carol@zylker.com",
+                    "status" : "Escalated"
+                  } ],
+                  "numberOfRecords" : 1
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "updateTicketsResponse" : {
+        "description" : "updateTicketsResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "./Ticket.json#/components/schemas/addAuthenticatedTicketResponse"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "product" : {
+                    "$ref" : "./Ticket.json#/components/schemas/product"
+                  }
+                },
+                "required" : [ "product" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "product" : {
+                    "id" : "89093847892",
+                    "productName" : "new product"
+                  },
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "productId" : "89093847892",
+                  "subject" : "New Ticket API",
+                  "departmentId" : "6972698729",
+                  "channel" : "web",
+                  "description" : "New Ticket API for handling all the problems arised during some few cases",
+                  "language" : "English",
+                  "priority" : "High",
+                  "classification" : "New Classification",
+                  "phone" : "12367891234",
+                  "caseNumber" : "123",
+                  "id" : "1234567890",
+                  "email" : "newcontact@zylker.com",
+                  "account" : {
+                    "accountName" : "Zoho Desk - Security",
+                    "id" : "32754000094332774"
+                  },
+                  "status" : "closed"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "addAuthenticatedTicketResponse" : {
+        "description" : "addAuthenticatedTicketResponse template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "./Ticket.json#/components/schemas/ticketResponse"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "subCategory" : {
+                    "type" : [ "string", "null" ],
+                    "x-dynamic-enum" : true,
+                    "x-custom-parameters-attributes" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "subCategory",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    }
+                  },
+                  "phone" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 120,
+                    "minLength" : 0,
+                    "pattern" : "[0-9a-zA-Z_\\+\\-\\.\\(\\)\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s]+",
+                    "x-custom-parameters-attributes" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : true,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    }
+                  },
+                  "secondaryContacts" : {
+                    "type" : [ "null", "array" ],
+                    "items" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)",
+                      "x-custom-parameters-attributes" : [ { } ]
+                    },
+                    "uniqueItems" : false
+                  },
+                  "language" : {
+                    "type" : [ "string", "null" ],
+                    "x-dynamic-enum" : true,
+                    "x-custom-parameters-attributes" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "Language preference to set for the ticket",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    }
+                  },
+                  "category" : {
+                    "type" : [ "string", "null" ],
+                    "x-dynamic-enum" : true,
+                    "x-custom-parameters-attributes" : {
+                      "removeExif" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "allowInvalid" : false,
+                      "descrption" : "category",
+                      "secret" : false,
+                      "preserveCharsLimit" : 10,
+                      "trim" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "importUrl" : false,
+                      "decrypt" : false
+                    }
+                  },
+                  "layoutId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : {
+                      "removeExif" : false,
+                      "trim" : false,
+                      "replacementString" : "",
+                      "filterMatchedContent" : false,
+                      "antivirus" : false,
+                      "internalParam" : false,
+                      "preserveChars" : "0,5",
+                      "allowInvalid" : false,
+                      "secret" : false,
+                      "importUrl" : false,
+                      "decrypt" : false,
+                      "preserveCharsLimit" : 10
+                    }
+                  },
+                  "account" : {
+                    "$ref" : "./Ticket.json#/components/schemas/account"
+                  },
+                  "layoutDetails" : {
+                    "type" : [ "null", "object" ],
+                    "additionalProperties" : false,
+                    "maxProperties" : 2,
+                    "minProperties" : 2,
+                    "properties" : {
+                      "id" : {
+                        "type" : [ "string", "null", "integer" ],
+                        "format" : "int64",
+                        "pattern" : "([0-9]+)"
+                      },
+                      "layoutName" : {
+                        "type" : [ "string", "null" ],
+                        "maxLength" : 120,
+                        "minLength" : 0,
+                        "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                      }
+                    },
+                    "required" : [ "id", "layoutName" ]
+                  }
+                },
+                "required" : [ "account", "category", "language", "layoutDetails", "layoutId", "phone", "secondaryContacts", "subCategory" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "ticketNumber" : "123",
+                  "product" : {
+                    "id" : "89093847892",
+                    "productName" : "new product"
+                  },
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "productId" : "89093847892",
+                  "subject" : "New Ticket API",
+                  "departmentId" : "6972698729",
+                  "channel" : "web",
+                  "description" : "New Ticket API for handling all the problems arised during some few cases",
+                  "language" : "English",
+                  "priority" : "High",
+                  "classification" : "New Classification",
+                  "phone" : "12367891234",
+                  "attachmentIds" : [ "4893023848749" ],
+                  "id" : "1234567890",
+                  "email" : "newcontact@zylker.com",
+                  "account" : {
+                    "accountName" : "Zoho Desk - Security",
+                    "id" : "32754000094332774"
+                  },
+                  "status" : "open"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "listAllTickets" : {
+        "description" : "listAllTickets template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "product" : {
+                          "type" : [ "null", "object" ],
+                          "additionalProperties" : false,
+                          "maxProperties" : 2,
+                          "minProperties" : 2,
+                          "properties" : {
+                            "id" : {
+                              "type" : [ "string", "null", "integer" ],
+                              "format" : "int64",
+                              "pattern" : "([0-9]+)"
+                            },
+                            "productName" : {
+                              "type" : [ "string", "null" ],
+                              "maxLength" : 100,
+                              "minLength" : 0
+                            }
+                          },
+                          "required" : [ "id", "productName" ]
+                        },
+                        "assignee" : {
+                          "type" : [ "null", "object" ],
+                          "additionalProperties" : false,
+                          "maxProperties" : 5,
+                          "minProperties" : 5,
+                          "properties" : {
+                            "photoUrl" : {
+                              "type" : [ "string", "null" ],
+                              "maxLength" : 100,
+                              "minLength" : 0,
+                              "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                            },
+                            "photoURL" : {
+                              "type" : [ "string", "null" ],
+                              "maxLength" : 100,
+                              "minLength" : 0,
+                              "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+"
+                            },
+                            "name" : {
+                              "type" : [ "string", "null" ],
+                              "maxLength" : 50,
+                              "minLength" : 0
+                            },
+                            "id" : {
+                              "type" : [ "string", "null", "integer" ],
+                              "format" : "int64",
+                              "pattern" : "([0-9]+)"
+                            },
+                            "assignee" : {
+                              "type" : [ "string", "null" ],
+                              "maxLength" : 50,
+                              "minLength" : 0
+                            }
+                          },
+                          "required" : [ "assignee", "id", "name", "photoURL", "photoUrl" ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }, {
+                "type" : [ "object", "null" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "data" : {
+                    "$ref" : "./Ticket.json#/components/schemas/ticketData"
+                  }
+                },
+                "required" : [ "data" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "data" : [ {
+                    "ticketNumber" : "12991",
+                    "creator" : {
+                      "photoUrl" : null,
+                      "name" : "bala18",
+                      "id" : "12878000001031071"
+                    },
+                    "subject" : "aspdgijoaps kgopkasp[gooq[]agop[]wqe",
+                    "dueDate" : null,
+                    "departmentId" : "12878000000556041",
+                    "channel" : "Web",
+                    "threadCount" : "104",
+                    "onholdTime" : null,
+                    "priority" : "Medium",
+                    "closedTime" : "2017-04-17T10:17:58.000Z",
+                    "commentCount" : "68",
+                    "createdTime" : "2017-03-03T06:51:19.000Z",
+                    "assignee" : {
+                      "photoUrl" : null,
+                      "name" : "bala19",
+                      "id" : "12878000"
+                    },
+                    "id" : "12878000001015003",
+                    "account" : {
+                      "accountName" : "Zoho Desk - Security",
+                      "id" : "32754000094332774"
+                    },
+                    "status" : "Open"
+                  }, {
+                    "ticketNumber" : "18438",
+                    "creator" : {
+                      "photoUrl" : null,
+                      "name" : "bala18",
+                      "id" : "12878000001031071"
+                    },
+                    "subject" : "a",
+                    "dueDate" : "null",
+                    "departmentId" : "12878000000171045",
+                    "channel" : "Web",
+                    "threadCount" : "2",
+                    "onholdTime" : "2017-04-17T10:17:58.000Z",
+                    "priority" : "Medium",
+                    "closedTime" : null,
+                    "commentCount" : "0",
+                    "createdTime" : "2017-04-20T07:04:46.000Z",
+                    "assignee" : {
+                      "photoUrl" : null,
+                      "name" : "bala19",
+                      "id" : "12878000"
+                    },
+                    "id" : "12878000001477003",
+                    "account" : {
+                      "accountName" : "Zoho Desk - Security",
+                      "id" : "32754000094332774"
+                    },
+                    "status" : "On Hold"
+                  }, {
+                    "ticketNumber" : "13009",
+                    "creator" : {
+                      "photoUrl" : null,
+                      "name" : "bala18",
+                      "id" : "12878000001031071"
+                    },
+                    "subject" : "sfdffdgdfjffhdsa",
+                    "dueDate" : null,
+                    "departmentId" : "12878000000250003",
+                    "channel" : "Web",
+                    "threadCount" : "2",
+                    "onholdTime" : null,
+                    "priority" : "Low",
+                    "closedTime" : "2017-04-12T12:26:58.000Z",
+                    "commentCount" : "1",
+                    "createdTime" : "2017-03-07T05:28:01.000Z",
+                    "assignee" : {
+                      "photoUrl" : null,
+                      "name" : "bala19",
+                      "id" : "12878000"
+                    },
+                    "id" : "12878000001031075",
+                    "account" : {
+                      "accountName" : "Zoho Desk - Security",
+                      "id" : "32754000094332774"
+                    },
+                    "status" : "Open"
+                  } ]
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      },
+      "getTicketResolution" : {
+        "description" : "getTicketResolution template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "modifiedTime" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "(((19|20)\\d\\d)[-/.]{1}(0?[1-9]|1[012])[-/.]{1}(0?[1-9]|[12][0-9]|3[01])(T)([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]([/.][\\d]{0,3})?(Z))"
+                },
+                "modifiedBy" : {
+                  "$ref" : "./Ticket.json#/components/schemas/resolutionModifiedBy"
+                },
+                "content" : {
+                  "type" : [ "string", "null" ],
+                  "maxLength" : 1000,
+                  "minLength" : 0
+                }
+              },
+              "required" : [ "content", "modifiedBy", "modifiedTime" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : {
+                  "modifiedTime" : "2017-04-28T15:17:51.000Z",
+                  "modifiedBy" : {
+                    "photoUrl" : "https://desk.zoho.com/portal/api/portalUser/1287811000001031071/photo?orgId=12345",
+                    "name" : "sankar subramanian",
+                    "id" : "1287811000001031071"
+                  },
+                  "content" : "Go to Settings -> General -> format Iphone"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : {
+          "disable-safe-headers" : "[]"
+        }
+      }
+    },
+    "parameters" : {
+      "requestId" : {
+        "name" : "requestId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int64",
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "limit" : {
+        "name" : "limit",
+        "in" : "query",
+        "description" : "the Number of records to be fetched",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int32",
+          "description" : "the Number of records to be fetched",
+          "maximum" : 100,
+          "minimum" : 1,
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "channel" : {
+        "name" : "channel",
+        "in" : "query",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "x-dynamic-enum" : true,
+          "x-custom-parameters-attributes" : {
+            "removeExif" : false,
+            "replacementString" : "",
+            "filterMatchedContent" : false,
+            "antivirus" : false,
+            "allowInvalid" : false,
+            "descrption" : "Channel through which the ticket was submitted ",
+            "secret" : false,
+            "preserveCharsLimit" : 10,
+            "split" : ",",
+            "trim" : false,
+            "internalParam" : false,
+            "preserveChars" : "0,5",
+            "importUrl" : false,
+            "decrypt" : false
+          }
+        }
+      },
+      "from" : {
+        "name" : "from",
+        "in" : "query",
+        "description" : "the from limit for listing agents. from starts with 1, not 0",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int32",
+          "description" : "the from limit for listing agents. from starts with 1, not 0",
+          "minimum" : 0,
+          "pattern" : "([0-9]+)"
+        }
+      },
+      "priority" : {
+        "name" : "priority",
+        "in" : "query",
+        "description" : "Priority of the ticket",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "description" : "Priority of the ticket",
+          "x-dynamic-enum" : true,
+          "x-custom-parameters-attributes" : {
+            "split" : ","
+          }
+        }
+      },
+      "status" : {
+        "name" : "status",
+        "in" : "query",
+        "description" : "Status of the ticket.",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : [ "string", "null" ],
+          "description" : "Status of the ticket.",
+          "x-dynamic-enum" : true,
+          "x-custom-parameters-attributes" : {
+            "split" : ","
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "createTicketsJson" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "./Ticket.json#/components/schemas/ticketJson"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "contactName" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[A-Za-z0-9~@$%_\\!\\^\\[\\]\\{\\},#*:`.'\" & \\+\\ ? \\-\\/\\|\\P{InBasicLatin}\\s]+"
+                  },
+                  "email" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 150,
+                    "minLength" : 0,
+                    "pattern" : "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+                  }
+                }
+              }, {
+                "type" : "object",
+                "required" : [ "departmentId", "email", "subject" ]
+              } ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "productId" : "89093847892",
+                  "phone" : "12367891234",
+                  "contactName" : "New Contact",
+                  "subject" : "New Ticket API",
+                  "departmentId" : "6972698729",
+                  "description" : "New Ticket API for handling all the problems arised during some few cases ( UnAuthenticated URL )",
+                  "priority" : "High",
+                  "classification" : "New classification",
+                  "email" : "newcontact@zylker.com"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      },
+      "updateTicketsJson" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "object", "null" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "secondaryContacts" : {
+                  "type" : [ "null", "array" ],
+                  "items" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : [ { } ]
+                  },
+                  "uniqueItems" : false
+                },
+                "priority" : {
+                  "type" : [ "string", "null" ],
+                  "x-dynamic-enum" : true
+                },
+                "status" : {
+                  "type" : [ "string", "null" ],
+                  "x-dynamic-enum" : true
+                }
+              }
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "status" : "closed"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      },
+      "createTicketUnAuthenticated_createTicketsJson" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "./Ticket.json#/components/schemas/ticketJson"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "contactName" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[A-Za-z0-9~@$%_\\!\\^\\[\\]\\{\\},#*:`.'\" & \\+\\ ? \\-\\/\\|\\P{InBasicLatin}\\s]+"
+                  },
+                  "email" : {
+                    "type" : [ "string", "null" ],
+                    "maxLength" : 150,
+                    "minLength" : 0,
+                    "pattern" : "^[a-zA-Z0-9\\_]([a-zA-Z0-9\\_\\+\\-\\.\\'&]*)@(?=.{4,256}$)(([a-zA-Z0-9]+)(([\\-\\_]*[a-zA-Z0-9])*)[\\.])+[a-zA-Z]{2,22}$"
+                  }
+                }
+              }, {
+                "type" : "object",
+                "required" : [ "departmentId", "email", "subject" ]
+              } ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "productId" : "89093847892",
+                  "phone" : "12367891234",
+                  "contactName" : "New Contact",
+                  "subject" : "New Ticket API",
+                  "departmentId" : "6972698729",
+                  "description" : "New Ticket API for handling all the problems arised during some few cases(UnAuthenticated URL)",
+                  "priority" : "High",
+                  "classification" : "New classification",
+                  "email" : "newcontact@zylker.com"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      },
+      "addAuthTicketJson" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "additionalProperties" : false,
+              "allOf" : [ {
+                "$ref" : "./Ticket.json#/components/schemas/ticketJson"
+              }, {
+                "type" : [ "object", "null" ],
+                "properties" : {
+                  "secondaryContacts" : {
+                    "type" : [ "null", "array" ],
+                    "items" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "pattern" : "([0-9]+)",
+                      "x-custom-parameters-attributes" : [ { } ]
+                    },
+                    "uniqueItems" : false
+                  }
+                }
+              }, {
+                "type" : "object",
+                "required" : [ "departmentId", "subject" ]
+              } ]
+            },
+            "examples" : {
+              "Valid requestBody Definitions" : {
+                "value" : {
+                  "cf" : {
+                    "data" : "cf_new_data"
+                  },
+                  "productId" : "89093847892",
+                  "phone" : "12367891234",
+                  "subject" : "New Ticket API",
+                  "departmentId" : "6972698729",
+                  "description" : "New Ticket API for handling all the problems arised during some few cases",
+                  "priority" : "High",
+                  "classification" : "NEw classification"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes" : {
+          "non-empty" : false,
+          "allow-invalid" : false
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity" : "Ticket"
+}

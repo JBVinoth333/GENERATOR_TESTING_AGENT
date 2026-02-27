@@ -1,0 +1,412 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HelpCenter_Static_Admin",
+    "version": "1.0.0",
+    "x-clan-group": "helpCenter",
+    "x-module-group": "helpCenter"
+  },
+  "paths": {
+    "/api/v1/helpcenterStaticConfigs": {
+      "get": {
+        "tags": ["HelpCenter_Static_Admin"],
+        "summary": "Get Static Configs",
+        "description": "To read the static version in Helpcenter",
+        "operationId": "getStaticConfigsOfHelpcenter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/serverName"
+          },
+          {
+            "$ref": "#/components/parameters/serverType"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/staticConfigsResponse"
+          },
+          "500": {
+            "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+          },
+          "204": {
+            "$ref": "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "403": {
+            "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": ["Desk.accessAll.ALL"]
+          },
+          {
+            "iam-oauth2-schema": ["Desk.settings.READ"]
+          }
+        ],
+        "x-audience": ["company-internal"],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "policy": "ReadAPI_Lenient_UserPolicy",
+              "duration": "1M",
+              "lock-period": "5M",
+              "threshold": 10
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {}
+          },
+          "clan-group": "helpCenter",
+          "module-group": "helpCenter",
+          "allow-access-for": "devops",
+          "is-admin-api": true,
+          "apimethod": "com.zoho.desk.helpcenter.admin.HelpcenterStaticVersionService.getStaticConfigsOfHelpcenter"
+        }
+      },
+      "post": {
+        "tags": ["HelpCenter_Static_Admin"],
+        "summary": "Update Static Configs",
+        "description": "To update the static version in Helpcenter",
+        "operationId": "updateStaticConfigsOfHelpcenter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/serverName"
+          },
+          {
+            "$ref": "#/components/parameters/serverType"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/staticConfigsJson"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/staticConfigsResponse"
+          },
+          "422": {
+            "$ref": "../common/Common.json#/components/responses/invalidDataErrorResponse"
+          },
+          "500": {
+            "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+          },
+          "204": {
+            "$ref": "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "403": {
+            "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": ["Desk.accessAll.ALL"]
+          },
+          {
+            "iam-oauth2-schema": ["Desk.settings.UPDATE"]
+          }
+        ],
+        "x-audience": ["company-internal"],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "policy": "WriteAPI_Standard_UserPolicy",
+              "duration": "1M",
+              "lock-period": "5M",
+              "threshold": 10
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {}
+          },
+          "clan-group": "helpCenter",
+          "module-group": "helpCenter",
+          "allow-access-for": "devops",
+          "is-admin-api": true,
+          "apimethod": "com.zoho.desk.helpcenter.admin.HelpcenterStaticVersionService.updateStaticConfigsOfHelpcenter"
+        }
+      }
+    },
+    "/api/v1/helpcenterStaticConfigs/refresh": {
+      "get": {
+        "tags": ["HelpCenter_Static_Admin"],
+        "summary": "Refresh Static Version",
+        "description": "To refresh the static version in Helpcenter",
+        "operationId": "refreshStaticVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/serverName"
+          },
+          {
+            "$ref": "#/components/parameters/serverType"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/refreshResponse"
+          },
+          "500": {
+            "$ref": "../common/Common.json#/components/responses/internalErrorResponse"
+          },
+          "204": {
+            "$ref": "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "403": {
+            "$ref": "../common/Common.json#/components/responses/forbiddenErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "org-oauth": ["Desk.accessAll.ALL"]
+          },
+          {
+            "iam-oauth2-schema": ["Desk.settings.READ"]
+          }
+        ],
+        "x-audience": ["company-internal"],
+        "x-custom-url-attribute": {
+          "security": {
+            "throttle": {
+              "policy": "ReadAPI_Lenient_UserPolicy",
+              "duration": "1M",
+              "lock-period": "5M",
+              "threshold": 10
+            },
+            "extraparams": {
+              "disable": true,
+              "ignore": false
+            },
+            "authentication": {}
+          },
+          "clan-group": "helpCenter",
+          "module-group": "helpCenter",
+          "allow-access-for": "devops",
+          "is-admin-api": true,
+          "apimethod": "com.zoho.desk.helpcenter.admin.HelpcenterStaticVersionService.refreshStaticVersion"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "staticConfigsJson": {
+        "type": ["null", "object"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": ["string", "null"],
+            "description": "Name of the static resource",
+            "maxLength": 50,
+            "minLength": 1,
+            "x-custom-parameters-attributes": {
+              "removeExif": false,
+              "replacementString": "",
+              "filterMatchedContent": false,
+              "antivirus": false,
+              "allowInvalid": false,
+              "descrption": "Name of the static resource",
+              "secret": false,
+              "preserveCharsLimit": 10,
+              "trim": false,
+              "internalParam": false,
+              "preserveChars": "0,5",
+              "importUrl": false,
+              "decrypt": false
+            }
+          },
+          "version": {
+            "type": ["string", "null"],
+            "description": "Version of the static resource",
+            "maxLength": 50,
+            "minLength": 1,
+            "x-custom-parameters-attributes": {
+              "removeExif": false,
+              "replacementString": "",
+              "filterMatchedContent": false,
+              "antivirus": false,
+              "allowInvalid": false,
+              "descrption": "Version of the static resource",
+              "secret": false,
+              "preserveCharsLimit": 10,
+              "trim": false,
+              "internalParam": false,
+              "preserveChars": "0,5",
+              "importUrl": false,
+              "decrypt": false
+            }
+          },
+          "content": {
+            "type": ["string", "null"],
+            "description": "Content of the static resource",
+            "maxLength": 50000,
+            "minLength": 1,
+            "x-custom-parameters-attributes": {
+              "removeExif": false,
+              "replacementString": "",
+              "filterMatchedContent": false,
+              "antivirus": false,
+              "allowInvalid": false,
+              "descrption": "Content of the static resource",
+              "secret": false,
+              "preserveCharsLimit": 10,
+              "trim": false,
+              "internalParam": false,
+              "preserveChars": "0,5",
+              "importUrl": false,
+              "decrypt": false
+            }
+          }
+        }
+      },
+      "staticConfigsResponseJson": {
+        "type": ["null", "object"],
+        "additionalProperties": true,
+        "properties": {
+          "classic": {
+            "type": ["string", "null"],
+            "description": "Version for classic theme"
+          },
+          "materialize": {
+            "type": ["string", "null"],
+            "description": "Version for materialize theme"
+          },
+          "flat": {
+            "type": ["string", "null"],
+            "description": "Version for flat theme"
+          },
+          "elegant": {
+            "type": ["string", "null"],
+            "description": "Version for elegant theme"
+          }
+        }
+      },
+      "refreshResponseJson": {
+        "type": ["null", "object"],
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": ["string", "null"],
+            "description": "Status of the refresh operation"
+          }
+        },
+        "required": ["status"]
+      }
+    },
+    "responses": {
+      "staticConfigsResponse": {
+        "description": "staticConfigsResponse template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "./HelpCenterStaticAdmin.json#/components/schemas/staticConfigsResponseJson"
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {
+                  "classic": "v1176614484327",
+                  "materialize": "v1176614484327",
+                  "flat": "v1176614484327",
+                  "elegant": "v1176907271786"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {
+          "disable-safe-headers": "[]"
+        }
+      },
+      "refreshResponse": {
+        "description": "refreshResponse template definitions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "./HelpCenterStaticAdmin.json#/components/schemas/refreshResponseJson"
+            },
+            "examples": {
+              "Valid responses Definitions": {
+                "value": {
+                  "status": "true"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes": {
+          "disable-safe-headers": "[]"
+        }
+      }
+    },
+    "parameters": {
+      "serverName": {
+        "name": "serverName",
+        "in": "query",
+        "description": "Name of the local server",
+        "required": false,
+        "style": "form",
+        "explode": false,
+        "schema": {
+          "type": ["string", "null"],
+          "maxLength": 50
+        }
+      },
+      "serverType": {
+        "name": "serverType",
+        "in": "query",
+        "description": "Name of the local server type",
+        "required": false,
+        "style": "form",
+        "explode": false,
+        "schema": {
+          "type": ["string", "null"],
+          "maxLength": 50,
+          "pattern": "desk|helpcenter"
+        }
+      }
+    },
+    "requestBodies": {
+      "staticConfigsJson": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "./HelpCenterStaticAdmin.json#/components/schemas/staticConfigsResponseJson"
+            },
+            "examples": {
+              "Valid requestBody Definitions": {
+                "value": {
+                  "classic": "v1176614484327",
+                  "materialize": "v1176614484327",
+                  "flat": "v1176614484327",
+                  "elegant": "v1176907271786"
+                }
+              }
+            }
+          }
+        },
+        "x-custom-request-body-attributes": {
+          "non-empty": true,
+          "allow-invalid": false,
+          "max-len": 40000,
+          "template": "staticConfigs"
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookie-auth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "org-oauth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/org-oauth"
+      },
+      "jwt-oauth": {
+        "$ref": "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      },
+      "iam-oauth2-schema": {
+        "$ref": "../common/Common.json#/components/securitySchemes/iam-oauth2-schema"
+      }
+    }
+  },
+  "x-entity": "HelpCenter_Static_Admin"
+}

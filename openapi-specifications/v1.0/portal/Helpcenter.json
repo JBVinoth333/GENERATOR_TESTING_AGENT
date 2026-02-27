@@ -1,0 +1,920 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "Helpcenter",
+    "version" : "1.0.0"
+  },
+  "paths" : {
+    "/portal/api/helpCenters/{helpCenterId}/chatConfiguration" : {
+      "get" : {
+        "tags" : [ "Helpcenter" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getChatConfiguration",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/helpCenterId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "500" : {
+            "$ref" : "../common/Common.json#/components/responses/internalErrorResponse"
+          },
+          "204" : {
+            "$ref" : "../common/Common.json#/components/responses/emptyResponse"
+          },
+          "200" : {
+            "$ref" : "#/components/responses/getChatConfiguration"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/helpCenters" : {
+      "get" : {
+        "tags" : [ "Helpcenter" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getAllHelpCenters",
+        "parameters" : [ {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/getAllHelpCenters"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/helpCenters/{helpCenterId}" : {
+      "get" : {
+        "tags" : [ "Helpcenter" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "getHelpCentersDetails",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Secondary information related to the help center. Values supported are PREFERENCES and CONFIGURATIONS.",
+          "required" : false,
+          "style" : "simple",
+          "explode" : true,
+          "schema" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null" ],
+              "description" : "",
+              "enum" : [ "PREFERENCES", "CONFIGURATIONS" ],
+              "maxLength" : 100,
+              "minLength" : 0,
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : true,
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/helpCenterId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/getHelpCenterDetails"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/helpCenters/{helpCenterId}/favIcon/{favIconId}" : {
+      "get" : {
+        "tags" : [ "Helpcenter" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "helpCenterFavicon",
+        "parameters" : [ {
+          "name" : "favIconId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "#/components/parameters/helpCenterId"
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/fileResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    },
+    "/portal/api/helpCenters/{helpCenterId}/logo/{logoId}" : {
+      "get" : {
+        "tags" : [ "Helpcenter" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "helpCenterLogo",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/helpCenterId"
+        }, {
+          "name" : "logoId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          }
+        }, {
+          "$ref" : "../common/Common.json#/components/parameters/portalId"
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "../common/Common.json#/components/responses/fileResponse"
+          }
+        },
+        "security" : [ {
+          "jwt-oauth" : [ "basic" ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "getHelpCenter" : {
+        "type" : [ "null", "object" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "isDefault" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "",
+            "x-custom-parameters-attributes" : { }
+          },
+          "portalId" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "[a-zA-Z0-9\\-\\:]+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+            "x-custom-parameters-attributes" : { }
+          },
+          "id" : {
+            "type" : [ "string", "null", "integer" ],
+            "format" : "int64",
+            "description" : "",
+            "pattern" : "([0-9]+)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "departmentIds" : {
+            "type" : [ "null", "array" ],
+            "description" : "",
+            "items" : {
+              "type" : [ "string", "null", "integer" ],
+              "format" : "int64",
+              "description" : "",
+              "pattern" : "([0-9]+)",
+              "x-custom-parameters-attributes" : { }
+            },
+            "uniqueItems" : false,
+            "x-custom-parameters-attributes" : { }
+          },
+          "isActive" : {
+            "type" : [ "boolean", "null" ],
+            "description" : "",
+            "x-custom-parameters-attributes" : { }
+          },
+          "url" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 500,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "logoUrl" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 500,
+            "minLength" : 0,
+            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "departmentIds", "id", "isActive", "isDefault", "logoUrl", "name", "portalId", "url" ]
+      },
+      "helpCenterData" : {
+        "type" : [ "null", "array" ],
+        "items" : {
+          "$ref" : "./Helpcenter.json#/components/schemas/getHelpCenter"
+        }
+      },
+      "helpcenterLocaleObj" : {
+        "type" : [ "null", "object" ],
+        "additionalProperties" : false,
+        "properties" : {
+          "i18nLocaleName" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "name" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "^[0-9a-zA-Z\\!\\$\\|\\%&amp;\\#\\-\\*\\+\\,\\^\\_\\`\\~\\s\\.\\P{InBasicLatin}]+$",
+            "x-custom-parameters-attributes" : { }
+          },
+          "locale" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "en", "ja", "zh", "es", "de", "fr", "tr", "ru", "pt", "it", "nl", "da", "sv", "pl", "ar", "he", "af", "cs", "fr-ca", "bg", "fi", "el", "hu", "id", "nb", "ro", "th", "uk", "vi", "ur", "hi", "te", "kn", "ta", "mr", "ko", "fa", "bn", "gu", "ms", "ml", "en-gb", "sk", "hr", "sl", "zh_TW", "zh-tw", "ca", "ka", "kk", "my", "km", "pt-br" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "pattern" : "([a-zA-Z]{2,4}([-_][a-zA-Z]{2})?)",
+            "x-custom-parameters-attributes" : { }
+          },
+          "type" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "DEFAULT", "OTHER" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          },
+          "status" : {
+            "type" : [ "string", "null" ],
+            "description" : "",
+            "enum" : [ "ACCESIBLE_IN_HELPCENTER", "DISABLED_IN_HELPCENTER", "DISABLED" ],
+            "maxLength" : 100,
+            "minLength" : 0,
+            "x-custom-parameters-attributes" : { }
+          }
+        },
+        "required" : [ "i18nLocaleName", "locale", "name", "status", "type" ]
+      },
+      "helpcenterLocaleList" : {
+        "type" : [ "null", "array" ],
+        "items" : {
+          "$ref" : "./Helpcenter.json#/components/schemas/helpcenterLocaleObj"
+        }
+      }
+    },
+    "responses" : {
+      "getChatConfiguration" : {
+        "description" : "getChatConfiguration template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "visibility" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "REGISTEREDUSERS", "EVERYONE" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "widgetCode" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "chatDepartmentIds" : {
+                  "type" : [ "null", "array" ],
+                  "description" : "",
+                  "items" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "uniqueItems" : false,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "version" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "v1.0", "v2.0" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                },
+                "url" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                  "x-custom-parameters-attributes" : { }
+                },
+                "chatType" : {
+                  "type" : [ "string", "null" ],
+                  "description" : "",
+                  "enum" : [ "SALESIQ", "LiveChat" ],
+                  "maxLength" : 100,
+                  "minLength" : 0,
+                  "x-custom-parameters-attributes" : { }
+                }
+              },
+              "required" : [ "chatDepartmentIds", "chatType", "url", "version", "visibility", "widgetCode" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      },
+      "getAllHelpCenters" : {
+        "description" : "getAllHelpCenters template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : [ "null", "object" ],
+              "additionalProperties" : false,
+              "properties" : {
+                "data" : {
+                  "$ref" : "./Helpcenter.json#/components/schemas/helpCenterData"
+                }
+              },
+              "required" : [ "data" ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      },
+      "getHelpCenterDetails" : {
+        "description" : "getHelpCenterDetails template definitions",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "allOf" : [ {
+                "type" : "object",
+                "properties" : {
+                  "preferences" : {
+                    "type" : [ "null", "object" ],
+                    "additionalProperties" : false,
+                    "description" : "",
+                    "properties" : {
+                      "isPayloadEncryptionEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : ""
+                      },
+                      "isKBWatchListEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isAccountTicketViewable" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isArticleUpdatedTimeVisible" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isMultiLayoutGridViewEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "articleFeedbackFormOnDislike" : {
+                        "type" : [ "string", "null" ],
+                        "description" : "",
+                        "enum" : [ "show", "hide", "anonymous" ],
+                        "maxLength" : 100,
+                        "minLength" : 0,
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isSEONoIndexNoFollowSetAcrossAllPages" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isSignUpFormCustomized" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "tocPosition" : {
+                        "type" : [ "string", "null" ],
+                        "description" : "",
+                        "enum" : [ "top", "side" ],
+                        "maxLength" : 100,
+                        "minLength" : 0,
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "showFeedbackFormOnDislike" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isTicketViewsEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isCustomStatusFilterEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isArticleAuthorInfoVisible" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isSelfSignUp" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isImageWaitEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isKBEndUsersCommentEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isKBModerationEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isCommunityEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isTocEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isClientDebuggingEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "guestUserAccessRestriction" : {
+                        "type" : [ "null", "object" ],
+                        "additionalProperties" : false,
+                        "description" : "",
+                        "properties" : {
+                          "submitTicket" : {
+                            "type" : [ "boolean", "null" ],
+                            "description" : "",
+                            "x-custom-parameters-attributes" : { }
+                          }
+                        },
+                        "required" : [ "submitTicket" ],
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "signupFormLayout" : {
+                        "type" : [ "string", "null" ],
+                        "description" : "",
+                        "enum" : [ "STATIC_FORM" ],
+                        "maxLength" : 100,
+                        "minLength" : 0,
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isUserDeletionEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isSEOSetAcrossAllPages" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isHelpCenterPublic" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "searchScope" : {
+                        "type" : [ "string", "null" ],
+                        "description" : "",
+                        "enum" : [ "category", "global", "section" ],
+                        "maxLength" : 100,
+                        "minLength" : 0,
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isKBCommentAttachmentsEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isCommunityAtMentionEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "imageWaitingTime" : {
+                        "type" : [ "string", "null", "integer" ],
+                        "format" : "int32",
+                        "description" : "",
+                        "pattern" : "([0-9]+)",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isMultilingualEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "communityLandingPage" : {
+                        "type" : "string"
+                      },
+                      "isKBEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isSecondaryContactsEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isKBCommentsRecycleBinEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isOnHoldEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isContactAccountMultiMappingEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isOTPBasedAuthenticationEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isGamificationEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "isTagsEnabled" : {
+                        "type" : [ "boolean", "null" ],
+                        "description" : "",
+                        "x-custom-parameters-attributes" : { }
+                      }
+                    },
+                    "required" : [ "articleFeedbackFormOnDislike", "communityLandingPage", "guestUserAccessRestriction", "imageWaitingTime", "isAccountTicketViewable", "isArticleAuthorInfoVisible", "isArticleUpdatedTimeVisible", "isClientDebuggingEnabled", "isCommunityAtMentionEnabled", "isCommunityEnabled", "isContactAccountMultiMappingEnabled", "isCustomStatusFilterEnabled", "isGamificationEnabled", "isHelpCenterPublic", "isImageWaitEnabled", "isKBCommentAttachmentsEnabled", "isKBCommentsRecycleBinEnabled", "isKBEnabled", "isKBEndUsersCommentEnabled", "isKBModerationEnabled", "isKBWatchListEnabled", "isMultiLayoutGridViewEnabled", "isMultilingualEnabled", "isOTPBasedAuthenticationEnabled", "isOnHoldEnabled", "isSEONoIndexNoFollowSetAcrossAllPages", "isSEOSetAcrossAllPages", "isSecondaryContactsEnabled", "isSelfSignUp", "isSignUpFormCustomized", "isTagsEnabled", "isTicketViewsEnabled", "isTocEnabled", "isUserDeletionEnabled", "searchScope", "showFeedbackFormOnDislike", "signupFormLayout", "tocPosition" ],
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "configurations" : {
+                    "type" : [ "null", "object" ],
+                    "additionalProperties" : false,
+                    "description" : "",
+                    "properties" : {
+                      "googleAnalytics" : {
+                        "type" : [ "null", "object" ],
+                        "additionalProperties" : false,
+                        "description" : "",
+                        "properties" : {
+                          "trackerId" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 18,
+                            "minLength" : 0,
+                            "pattern" : "^UA-[0-9]{4,10}-[0-9]{1,4}$",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "domainName" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "pattern" : "^([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\.)+([a-zA-Z]{2,22})|([a-zA-Z]{2,22}:([0-9]{3,6})?)$",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "isEnabled" : {
+                            "type" : [ "boolean", "null" ],
+                            "description" : "",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "AnalyticsType" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "enum" : [ "UNIVERSALANALYTICS", "CLASSICANALYTICS" ],
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          }
+                        },
+                        "required" : [ "AnalyticsType", "domainName", "isEnabled", "trackerId" ],
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "chat" : {
+                        "type" : [ "null", "object" ],
+                        "additionalProperties" : false,
+                        "description" : "",
+                        "properties" : {
+                          "visibility" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "enum" : [ "REGISTEREDUSERS", "EVERYONE" ],
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "url" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 500,
+                            "minLength" : 0,
+                            "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "chatType" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "enum" : [ "SALESIQ", "LiveChat" ],
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          }
+                        },
+                        "required" : [ "chatType", "url", "visibility" ],
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "googleAnalytics4" : {
+                        "type" : [ "null", "object" ],
+                        "additionalProperties" : false,
+                        "description" : "",
+                        "properties" : {
+                          "isEnabled" : {
+                            "type" : [ "boolean", "null" ],
+                            "description" : "",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "measurementId" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 300,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "domainUrl" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 500,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          }
+                        },
+                        "required" : [ "domainUrl", "isEnabled", "measurementId" ],
+                        "x-custom-parameters-attributes" : { }
+                      },
+                      "seo" : {
+                        "type" : [ "null", "object" ],
+                        "additionalProperties" : false,
+                        "description" : "",
+                        "properties" : {
+                          "isEnabled" : {
+                            "type" : [ "boolean", "null" ],
+                            "description" : "",
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "metaKeyWord" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "title" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 100,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          },
+                          "metaDescription" : {
+                            "type" : [ "string", "null" ],
+                            "description" : "",
+                            "maxLength" : 65535,
+                            "minLength" : 0,
+                            "x-custom-parameters-attributes" : { }
+                          }
+                        },
+                        "required" : [ "isEnabled", "metaDescription", "metaKeyWord", "title" ],
+                        "x-custom-parameters-attributes" : { }
+                      }
+                    },
+                    "required" : [ "googleAnalytics", "googleAnalytics4", "seo" ],
+                    "x-custom-parameters-attributes" : { }
+                  }
+                }
+              }, {
+                "type" : [ "null", "object" ],
+                "additionalProperties" : false,
+                "properties" : {
+                  "logoLinkBackUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 500,
+                    "minLength" : 0,
+                    "pattern" : "((^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)|[*]|^$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "departmentIds" : {
+                    "type" : [ "null", "array" ],
+                    "description" : "",
+                    "items" : {
+                      "type" : [ "string", "null", "integer" ],
+                      "format" : "int64",
+                      "description" : "",
+                      "pattern" : "([0-9]+)",
+                      "x-custom-parameters-attributes" : { }
+                    },
+                    "uniqueItems" : false,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "locale" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-zA-Z_]*",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "activeLocales" : {
+                    "$ref" : "./Helpcenter.json#/components/schemas/helpcenterLocaleList"
+                  },
+                  "logoUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 500,
+                    "minLength" : 0,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "url" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 500,
+                    "minLength" : 0,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "accountId" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "locales" : {
+                    "type" : [ "null", "array" ],
+                    "description" : "",
+                    "items" : {
+                      "type" : [ "string", "null" ],
+                      "description" : "",
+                      "maxLength" : 100,
+                      "minLength" : 0,
+                      "pattern" : "[a-zA-Z_]*",
+                      "x-custom-parameters-attributes" : { }
+                    },
+                    "uniqueItems" : false,
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "portalId" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-zA-Z0-9\\-\\:]+",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "name" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "([0-9a-zA-Z_\\-\\.\\$@\\?\\,\\:\\'\\/\\!\\P{InBasicLatin}\\s])+",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "favIconUrl" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 500,
+                    "minLength" : 0,
+                    "pattern" : "(^(ht|f)tp(s?)\\://[-.\\w]*(/?)([a-zA-Z0-9\\-\\.\\?\\,\\:\\'/\\\\+=&amp;%\\$#_@]*)?$)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "id" : {
+                    "type" : [ "string", "null", "integer" ],
+                    "format" : "int64",
+                    "description" : "",
+                    "pattern" : "([0-9]+)",
+                    "x-custom-parameters-attributes" : { }
+                  },
+                  "primaryLocale" : {
+                    "type" : [ "string", "null" ],
+                    "description" : "",
+                    "maxLength" : 100,
+                    "minLength" : 0,
+                    "pattern" : "[a-zA-Z_]*",
+                    "x-custom-parameters-attributes" : { }
+                  }
+                },
+                "required" : [ "accountId", "activeLocales", "departmentIds", "favIconUrl", "id", "locale", "locales", "logoLinkBackUrl", "logoUrl", "name", "portalId", "primaryLocale", "url" ]
+              } ]
+            },
+            "examples" : {
+              "Valid responses Definitions" : {
+                "value" : { }
+              }
+            }
+          }
+        },
+        "x-custom-response-attributes" : { }
+      }
+    },
+    "parameters" : {
+      "helpCenterId" : {
+        "name" : "helpCenterId",
+        "in" : "path",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : [ "string", "null", "integer" ],
+          "format" : "int64",
+          "description" : "",
+          "pattern" : "([0-9]+)",
+          "x-custom-parameters-attributes" : { }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookie-auth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/cookie-auth"
+      },
+      "jwt-oauth" : {
+        "$ref" : "../common/Common.json#/components/securitySchemes/jwt-oauth"
+      }
+    }
+  },
+  "x-entity" : "Helpcenter"
+}
