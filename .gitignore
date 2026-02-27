@@ -3,3 +3,4 @@
 run_testing_api.js
 package.json
 .gitignore
+/openapi-specifications
