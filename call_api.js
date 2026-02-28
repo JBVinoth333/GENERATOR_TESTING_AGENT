@@ -1,161 +1,64 @@
 const fs = require("fs");
-const path = require("path");
 
-const REQUEST_TIMEOUT_MS = 90000;
-const REQUIRED_KEYS = [
-    "API_URL",
-    "SCENARIO_NAME",
-    "ORG_ID",
-    "IAM_URL",
-    "HOST",
-    "REFRESH_TOKEN",
-    "CLIENT_ID",
-    "CLIENT_SECRET",
-    "ORG_CLIENT_ID",
-    "ORG_CLIENT_SECRET",
-    "ORG_REFRESH_TOKEN",
-    "EMAIL",
-    "PASSWORD",
-    "GENERATOR_FILE"
-];
-
-function resolveConfigFile() {
-    if (process.env.SECRET_PROPERTIES_FILE) {
-        return path.resolve(__dirname, process.env.SECRET_PROPERTIES_FILE);
-    }
-
-    const candidates = [
-        path.resolve(__dirname, "source/secret.properties"),
-        path.resolve(__dirname, "TestingAPI/secret.properties")
-    ];
-
-    for (const candidate of candidates) {
-        if (fs.existsSync(candidate)) {
-            return candidate;
-        }
-    }
-
-    throw new Error("secret.properties not found. Expected source/secret.properties or TestingAPI/secret.properties");
-}
-
-function parseProperties(rawText) {
-    const parsed = {};
-    for (const line of rawText.split(/\r?\n/)) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith(";")) {
-            continue;
-        }
-
-        const separatorIndex = trimmed.indexOf("=");
-        if (separatorIndex === -1) {
-            continue;
-        }
-
-        parsed[trimmed.slice(0, separatorIndex).trim()] = trimmed.slice(separatorIndex + 1).trim();
-    }
-
-    return parsed;
-}
-
-function loadGeneratorTemplates(generatorFilePath, generatorKey) {
-    const generatorPath = path.resolve(__dirname, generatorFilePath);
-    const generatorConfig = JSON.parse(fs.readFileSync(generatorPath, "utf8"));
-
-    const generators = generatorConfig?.generators;
-    if (!generators || typeof generators !== "object") {
-        throw new Error("Invalid generator file: missing generators object");
-    }
-
-    const selectedKey = generatorKey || Object.keys(generators)[0];
-    const templates = generators[selectedKey];
-    if (!selectedKey || !Array.isArray(templates)) {
-        throw new Error(`Invalid generator file: missing generators.${selectedKey || "<key>"} array`);
-    }
-
-    return templates;
-}
-
-function buildPayload(config) {
-    return {
-        scenario_name: config.SCENARIO_NAME,
-        data_generation_templates: config.DATA_GENERATOR,
-        account: {
-            storeVariables: { orgId: config.ORG_ID },
-            authentications: ["org-oauth"],
-            oauth2: {
-                refreshToken: config.REFRESH_TOKEN,
-                clientId: config.CLIENT_ID,
-                clientSecret: config.CLIENT_SECRET
-            },
-            org_oauth: {
-                clientId: config.ORG_CLIENT_ID,
-                clientSecret: config.ORG_CLIENT_SECRET,
-                refreshToken: config.ORG_REFRESH_TOKEN
-            },
-            email: config.EMAIL,
-            password: config.PASSWORD
-        },
-        environmentDetails: {
-            iam_url: config.IAM_URL,
-            host: config.HOST
-        }
-    };
-}
-
-function loadConfig() {
-    const configFile = resolveConfigFile();
-    const config = parseProperties(fs.readFileSync(configFile, "utf8"));
-    for (const key of REQUIRED_KEYS) {
-        if (!config[key]) {
-            throw new Error(`Missing required key in ${configFile}: ${key}`);
-        }
-    }
-
-    config.DATA_GENERATOR = loadGeneratorTemplates(config.GENERATOR_FILE, config.GENERATOR_KEY);
-    return config;
-}
-
-async function callApi(apiUrl, payload) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
+async function main() {
     try {
-        const response = await fetch(apiUrl, {
+        const generatorFile = process.argv[2] || "Generators/create_skill/test_data_generation_configurations.json";
+        const generatorConfig = JSON.parse(fs.readFileSync(generatorFile, "utf8"));
+        const generatorKey = process.argv[3] || Object.keys(generatorConfig?.generators || {})[0];
+        const dataGenerationTemplates = generatorConfig?.generators?.[generatorKey];
+
+        if (!Array.isArray(dataGenerationTemplates)) {
+            throw new Error(`Invalid generator configuration: generators.${generatorKey} is missing or not an array`);
+        }
+
+        const payload = {
+            scenario_name: "Disassociate department for product",
+            data_generation_templates: dataGenerationTemplates,
+            account: {
+                storeVariables: { orgId: "20408511" },
+                authentications: ["org-oauth"],
+                oauth2: {
+                    refreshToken: "1000.24f1d228f80c048828052b6580d3506d.8836c41a3e4c8eaad496d61f9478e963",
+                    clientId: "1000.N7LVXZ2CGH1I15VU1G5FI1SAYTHLLT",
+                    clientSecret: "7c0547468a63882dc031adc40168b8b1e1621a7d0b"
+                },
+                org_oauth: {
+                    clientId: "1005.DU2NG56TMGTGERTB0V5W1EJ9FMULXZ",
+                    clientSecret: "0d201da58c370d0b7b5668b389cb4115a209a7d40b",
+                    refreshToken: "1005.ab4f960dfb0b3e40ddbda1b610235151.befab27e15db2241c4ca713c37cfc8e2"
+                },
+                email: "anitha.m+uat@zohotest.com",
+                password: "Desk@4321"
+            },
+            environmentDetails: {
+                iam_url: "https://accounts.csez.zohocorpin.com",
+                host: "https://zdesk-devops25.csez.zohocorpin.com:31037"
+            }
+        };
+
+        const response = await fetch("https://uat-data-generator.zdesk.csez.zohocorpin.com/api/v1/data-generator/generate-data?for=template", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(payload),
-            signal: controller.signal
+            body: JSON.stringify(payload)
         });
 
         const text = await response.text();
         console.log("Status:", response.status);
 
         try {
-            const data = JSON.parse(text);
             console.log("POST Response:");
-            console.log(JSON.stringify(data, null, 2));
+            console.log(JSON.stringify(JSON.parse(text), null, 2));
         } catch {
             console.log("POST Response (raw):", text);
         }
 
         return response.ok ? 0 : 2;
-    } finally {
-        clearTimeout(timeoutId);
-    }
-}
-
-async function main() {
-    try {
-        const config = loadConfig();
-        const payload = buildPayload(config);
-        const exitCode = await callApi(config.API_URL, payload);
-        process.exit(exitCode);
     } catch (error) {
         console.error("Error:", error.message);
-        process.exit(1);
+        return 1;
     }
 }
 
-main();
+main().then((exitCode) => process.exit(exitCode));
