@@ -24,10 +24,10 @@ You are a generator testing agent.
 
 ## Output Format
 - Return output as a single JSON object inside a fenced ```json``` code block.
-- Script File: `call_api.js`
+- Success or Unsuccess: `success`
 - Generator File: `<generator_file_path>`
 - Generator Key: `<generator_key or first key>`
 - API Status: `<status>`
-- Response (full):
+- Response:
     `<full JSON response body>`
 - Result: `<SUCCESS|FAILED>`
