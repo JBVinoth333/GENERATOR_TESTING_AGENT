@@ -2,9 +2,9 @@ const fs = require("fs");
 
 async function main() {
     try {
-        const generatorFile = "Generators/create_skill/test_data_generation_configurations.json";
-        const generatorKey = "create_skill";
+        const generatorFile = process.argv[2] || "Generators/create_skill/test_data_generation_configurations.json";
         const generatorConfig = JSON.parse(fs.readFileSync(generatorFile, "utf8"));
+        const generatorKey = process.argv[3] || Object.keys(generatorConfig?.generators || {})[0];
         const dataGenerationTemplates = generatorConfig?.generators?.[generatorKey];
 
         if (!Array.isArray(dataGenerationTemplates)) {
