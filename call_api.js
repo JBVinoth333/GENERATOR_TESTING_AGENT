@@ -1,41 +1,19 @@
+const fs = require("fs");
+
 async function main() {
     try {
+        const generatorFile = "Generators/create_skill/test_data_generation_configurations.json";
+        const generatorKey = "create_skill";
+        const generatorConfig = JSON.parse(fs.readFileSync(generatorFile, "utf8"));
+        const dataGenerationTemplates = generatorConfig?.generators?.[generatorKey];
+
+        if (!Array.isArray(dataGenerationTemplates)) {
+            throw new Error(`Invalid generator configuration: generators.${generatorKey} is missing or not an array`);
+        }
+
         const payload = {
             scenario_name: "Disassociate department for product",
-            data_generation_templates: [
-                {
-                    type: "dynamic",
-                    generatorOperationId: "support.SkillType.getSkillTypes",
-                    dataPath: "$.response.body:$.data[*].id",
-                    name: "skill_types"
-                },
-                {
-                    type: "static",
-                    value: [
-                        {
-                            fieldConditions: [
-                                {
-                                    condition: "is",
-                                    fieldName: "Subject",
-                                    fieldModule: "tickets",
-                                    value: ["General"]
-                                }
-                            ],
-                            pattern: "1"
-                        }
-                    ]
-                },
-                {
-                    type: "dynamic",
-                    generatorOperationId: "support.Skill.createSkill",
-                    dataPath: "$.response.body:$.id",
-                    name: "skill",
-                    params: {
-                        skillTypeId: "$skill_types.value",
-                        criteria: "$skill_criteria.value"
-                    }
-                }
-            ],
+            data_generation_templates: dataGenerationTemplates,
             account: {
                 storeVariables: { orgId: "20408511" },
                 authentications: ["org-oauth"],
