@@ -14,21 +14,41 @@ const ORG_ID = "20408511";
 const SCENARIO_NAME = "Create Ticket with Description as Current Date Time ";
 const DATA_GENERATORS = [
     {
-        "type": "remote",
-        "generatorMethod": "applicationDriver.rpc.desk.DynamicDataProvider.getDateTime",
-        "name": "description_value",
-        "inputs": {
-            "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-            "timeLine": "current"
+        "type": "dynamic",
+        "generatorOperationId": "support.Department.getDepartments",
+        "dataPath": "$.response.body:$.data[0].id",
+        "name": "source_department",
+        "params": {
+            "isEnabled": "true"
+        }
+    },
+    {
+        "type": "dynamic",
+        "generatorOperationId": "support.Department.getDepartments",
+        "dataPath": "$.response.body:$.data[1].id",
+        "name": "target_department",
+        "params": {
+            "isEnabled": "true"
         }
     },
     {
         "type": "dynamic",
         "generatorOperationId": "support.Ticket.createTicket",
-        "dataPath": "$.response.body:$",
-        "name": "tickets",
+        "dataPath": "$.response.body:$.id",
+        "name": "ticket",
         "params": {
-            "description": "$description_value.value"
+            "departmentId": "$source_department.value"
+        }
+    },
+    {
+        "type": "dynamic",
+        "generatorOperationId": "support.Ticket.updateTicket",
+        "dataPath": "$.response.body:$.id",
+        "name": "shared_ticket",
+        "params": {
+            "ticketId": "$ticket.value",
+            "sharedDepartments[*].id": "$target_department.value",
+            "sharedDepartments[*].type": "RESTRICTED_ACCESS"
         }
     }
 ];
